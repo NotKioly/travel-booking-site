@@ -1,14 +1,14 @@
 /* =========================================
    1. GLOBAL STYLES & VARIABLES
-   Màu chủ đạo: Xanh biển (#0099FF) & Cam (#FF9153)
+   Dựa trên Prototype: Màu chủ đạo #0099FF, Font Roboto [cite: 108, 109]
    ========================================= */
 :root {
-    --primary-color: #0099FF;   /* Màu chính */
+    --primary-color: #0099FF;   /* Xanh biển chủ đạo */
     --secondary-color: #f8f9fa; /* Màu nền nhẹ */
     --text-color: #333333;
-    --cta-color: #FF9153;       /* Màu nút kêu gọi hành động */
-    --card-radius: 8px;         /* Bo góc */
-    --font-main: 'Roboto', sans-serif;
+    --cta-color: #FF9153;       /* Màu cam cho nút CTA [cite: 111] */
+    --card-radius: 8px;         /* Bo góc card [cite: 110] */
+    --font-main: 'Roboto', sans-serif; /* Font Roboto  */
 }
 
 body {
@@ -16,11 +16,6 @@ body {
     color: var(--text-color);
     line-height: 1.6;
     background-color: #f4f7f6;
-}
-
-a {
-    text-decoration: none;
-    transition: all 0.3s;
 }
 
 /* =========================================
@@ -41,6 +36,7 @@ a {
     font-weight: 500;
     color: #555;
     margin: 0 10px;
+    transition: color 0.3s;
 }
 
 .nav-link:hover, .nav-link.active {
@@ -48,7 +44,7 @@ a {
 }
 
 /* =========================================
-   3. BANNER SECTION
+   3. BANNER SECTION [cite: 15]
    ========================================= */
 .hero-banner {
     position: relative;
@@ -59,6 +55,7 @@ a {
     align-items: center;
     justify-content: center;
     color: #fff;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
 }
 
 .hero-overlay {
@@ -75,15 +72,16 @@ a {
 
 /* =========================================
    4. TOUR CARDS (GRID LAYOUT)
+   Card: radius 8px, shadow nhẹ [cite: 110]
    ========================================= */
 .tour-card {
     border: none;
     border-radius: var(--card-radius);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08); /* Shadow nhẹ */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     background: #fff;
     overflow: hidden;
-    height: 100%;
+    height: 100%; /* Đảm bảo các card bằng nhau trong grid */
 }
 
 .tour-card:hover {
@@ -125,18 +123,20 @@ a {
 }
 
 /* =========================================
-   5. BUTTONS & UTILS
+   5. BUTTONS (CTA)
+   Nút CTA: Cam #FF9153 [cite: 111]
    ========================================= */
 .btn-primary-custom {
     background-color: var(--cta-color);
     border-color: var(--cta-color);
     color: #fff;
     padding: 10px 25px;
+    border-radius: 5px;
     font-weight: 600;
 }
 
 .btn-primary-custom:hover {
-    background-color: #e07e40;
+    background-color: #e07e40; /* Màu đậm hơn khi hover */
     color: #fff;
 }
 
@@ -151,10 +151,18 @@ a {
     color: #fff;
 }
 
-/* Footer */
+/* =========================================
+   6. FOOTER
+   [cite: 75]
+   ========================================= */
 footer {
     background-color: #2c3e50;
     color: #ecf0f1;
     padding: 40px 0;
     margin-top: 50px;
+}
+
+footer h5 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
 }
