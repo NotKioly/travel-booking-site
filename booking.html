@@ -1,1 +1,68 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Đặt Tour - TravelSite</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="bg-light">
+    
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-white">
+                        <h3 class="mb-0 text-center text-primary">Đơn Đặt Tour</h3>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="alert alert-info">
+                            Bạn đang đặt tour: <strong>Nha Trang 3N2Đ</strong>
+                        </div>
+                        
+                        <form id="bookingForm">
+                            <div class="mb-3">
+                                <label class="form-label">Họ và tên <span class="text-danger">*</span></label>
+                                <input type="text" id="customerName" class="form-control" required>
+                            </div>
 
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Số điện thoại <span class="text-danger">*</span></label>
+                                    <input type="tel" id="customerPhone" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Email <span class="text-danger">*</span></label>
+                                    <input type="email" id="customerEmail" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Người lớn</label>
+                                    <input type="number" class="form-control" value="1" min="1">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Trẻ em (5-11 tuổi)</label>
+                                    <input type="number" class="form-control" value="0" min="0">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Ghi chú thêm</label>
+                                <textarea class="form-control" rows="3" placeholder="Yêu cầu đặc biệt (ăn chay, phòng đơn...)"></textarea>
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary-custom btn-lg">Gửi Yêu Cầu Đặt Tour</button>
+                                <a href="tour-detail.html" class="btn btn-light">Quay lại</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/main.js"></script> </body>
+</html>
