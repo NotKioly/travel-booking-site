@@ -4,25 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TravelSite - Trang chủ</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="index.html"><i class="fas fa-globe-asia"></i> TravelSite</a>
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-globe-asia"></i> TravelSite
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link active" href="index.html">Trang chủ</a></li>
                     <li class="nav-item"><a class="nav-link" href="tour.html">Danh sách Tour</a></li>
                     <li class="nav-item"><a class="nav-link" href="#offers">Ưu đãi</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Liên hệ</a></li>
-                    <li class="nav-item"><a class="btn btn-outline-primary ms-2" href="login.html">Đăng nhập</a></li>
+                    <li class="nav-item ms-2">
+                        <a class="btn btn-outline-primary btn-sm" href="login.html">Đăng nhập</a>
+                        <a class="btn btn-primary-custom btn-sm ms-1" href="register.html">Đăng ký</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -30,115 +37,157 @@
 
     <header id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
-            <div class="carousel-item active hero-banner" style="background-image: url('assets/img/banner.jpg');">
+            <div class="carousel-item active hero-banner" style="background-image: url('assets/img/banner.jpg'); background-color: #333;"> 
                 <div class="hero-overlay"></div>
-                <div class="hero-content">
+                <div class="hero-content text-white">
                     <h1 class="display-4 fw-bold">Khám phá thế giới cùng TravelSite</h1>
-                    <p class="lead">Tour biển - Tour núi - Tour quốc tế. Đặt ngay hôm nay!</p>
-                    <a href="tour.html" class="btn btn-primary-custom btn-lg mt-3">Xem Tour Nổi Bật</a>
+                    <p class="lead mb-4">Tour biển - Tour núi - Tour quốc tế. Trải nghiệm ngay hôm nay!</p>
+                    <a href="tour.html" class="btn btn-primary-custom btn-lg">Xem Tour Nổi Bật</a>
                 </div>
             </div>
+            
+            <div class="carousel-item hero-banner" style="background-image: url('assets/img/banner2.jpg'); background-color: #555;">
+                <div class="hero-overlay"></div>
+                <div class="hero-content text-white">
+                    <h1 class="display-4 fw-bold">Mùa hè rực rỡ tại Nha Trang</h1>
+                    <p class="lead mb-4">Ưu đãi giảm giá lên đến 20% cho nhóm 5 người.</p>
+                    <a href="tour.html" class="btn btn-primary-custom btn-lg">Đặt Ngay</a>
+                </div>
             </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
     </header>
 
     <section class="container py-5">
-        <h2 class="text-center mb-4 fw-bold">Tour Nổi Bật</h2>
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Tour Nổi Bật</h2>
+            <p class="text-muted">Những điểm đến được yêu thích nhất tháng này</p>
+        </div>
+
         <div class="row g-4">
             <div class="col-md-4">
                 <div class="card tour-card h-100">
                     <div class="tour-img-container">
-                        <img src="assets/img/tour1.jpg" alt="Nha Trang">
+                        <img src="assets/img/tour1.jpg" onerror="this.src='https://via.placeholder.com/400x250'" alt="Nha Trang">
                     </div>
                     <div class="card-body d-flex flex-column">
-                        <h5 class="tour-title">Tour Nha Trang 3N2Đ</h5>
-                        <p class="text-muted small"><i class="fas fa-map-marker-alt"></i> Khánh Hòa</p>
-                        <p class="card-text">Khám phá biển xanh cát trắng, Vinwonders...</p>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="badge bg-info text-dark">Tour Biển</span>
+                            <span class="small text-muted"><i class="far fa-clock"></i> 3N2Đ</span>
+                        </div>
+                        <h5 class="tour-title">Nha Trang - Hòn Ngọc Viễn Đông</h5>
+                        <p class="card-text text-muted small">Khám phá Vinwonders, lặn ngắm san hô Hòn Mun, tắm bùn khoáng...</p>
                         <div class="mt-auto d-flex justify-content-between align-items-center">
                             <span class="tour-price">2,300,000đ</span>
-                            <a href="tour-detail.html" class="btn btn-outline-custom btn-sm">Chi tiết</a>
+                            <a href="tour-detail.html" class="btn btn-outline-custom btn-sm">Xem chi tiết</a>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="col-md-4">
                 <div class="card tour-card h-100">
                     <div class="tour-img-container">
-                        <img src="assets/img/tour2.jpg" alt="Đà Lạt">
+                        <img src="assets/img/tour2.jpg" onerror="this.src='https://via.placeholder.com/400x250'" alt="Đà Lạt">
                     </div>
                     <div class="card-body d-flex flex-column">
-                        <h5 class="tour-title">Tour Đà Lạt Ngàn Hoa</h5>
-                        <p class="text-muted small"><i class="fas fa-map-marker-alt"></i> Lâm Đồng</p>
-                        <p class="card-text">Săn mây Cầu Đất, check-in vườn hoa...</p>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="badge bg-success">Tour Núi</span>
+                            <span class="small text-muted"><i class="far fa-clock"></i> 2N1Đ</span>
+                        </div>
+                        <h5 class="tour-title">Đà Lạt - Thành Phố Ngàn Hoa</h5>
+                        <p class="card-text text-muted small">Săn mây Cầu Đất, check-in vườn hoa Cẩm Tú Cầu, quảng trường Lâm Viên...</p>
                         <div class="mt-auto d-flex justify-content-between align-items-center">
                             <span class="tour-price">1,200,000đ</span>
-                            <a href="tour-detail.html" class="btn btn-outline-custom btn-sm">Chi tiết</a>
+                            <a href="tour-detail.html" class="btn btn-outline-custom btn-sm">Xem chi tiết</a>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="col-md-4">
                 <div class="card tour-card h-100">
                     <div class="tour-img-container">
-                        <img src="https://source.unsplash.com/random/400x300/?island" alt="Phú Quốc">
+                        <img src="assets/img/tour3.jpg" onerror="this.src='https://via.placeholder.com/400x250'" alt="Phú Quốc">
                     </div>
                     <div class="card-body d-flex flex-column">
-                        <h5 class="tour-title">Tour Phú Quốc 4N3Đ</h5>
-                        <p class="text-muted small"><i class="fas fa-map-marker-alt"></i> Kiên Giang</p>
-                        <p class="card-text">Nghỉ dưỡng resort 5 sao, ngắm hoàng hôn...</p>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="badge bg-warning text-dark">Cao cấp</span>
+                            <span class="small text-muted"><i class="far fa-clock"></i> 4N3Đ</span>
+                        </div>
+                        <h5 class="tour-title">Phú Quốc - Đảo Ngọc</h5>
+                        <p class="card-text text-muted small">Nghỉ dưỡng Resort 5 sao, ngắm hoàng hôn Sunset Sanato, Grand World...</p>
                         <div class="mt-auto d-flex justify-content-between align-items-center">
                             <span class="tour-price">3,800,000đ</span>
-                            <a href="tour-detail.html" class="btn btn-outline-custom btn-sm">Chi tiết</a>
+                            <a href="tour-detail.html" class="btn btn-outline-custom btn-sm">Xem chi tiết</a>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="tour.html" class="btn btn-primary-custom">Xem tất cả Tour</a>
         </div>
     </section>
 
     <section id="offers" class="bg-light py-5">
         <div class="container text-center">
-            <h2 class="mb-5 fw-bold">Tại sao chọn chúng tôi?</h2>
+            <h2 class="mb-5 fw-bold">Tại sao chọn TravelSite?</h2>
             <div class="row">
-                <div class="col-md-4">
-                    <i class="fas fa-headset fa-3x text-primary mb-3"></i>
-                    <h4>Hỗ trợ 24/7</h4>
-                    <p class="text-muted">Luôn sẵn sàng giải đáp mọi thắc mắc của bạn.</p>
+                <div class="col-md-4 mb-4">
+                    <div class="p-4 bg-white shadow-sm rounded h-100">
+                        <i class="fas fa-headset fa-3x text-primary mb-3"></i>
+                        <h4>Hỗ trợ 24/7</h4>
+                        <p class="text-muted">Đội ngũ hỗ trợ luôn sẵn sàng giải đáp mọi thắc mắc của bạn bất cứ lúc nào.</p>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <i class="fas fa-tag fa-3x text-primary mb-3"></i>
-                    <h4>Giá tốt nhất</h4>
-                    <p class="text-muted">Cam kết giá cả cạnh tranh và nhiều ưu đãi.</p>
+                <div class="col-md-4 mb-4">
+                    <div class="p-4 bg-white shadow-sm rounded h-100">
+                        <i class="fas fa-tag fa-3x text-primary mb-3"></i>
+                        <h4>Giá tốt nhất</h4>
+                        <p class="text-muted">Cam kết giá cả cạnh tranh, không phát sinh chi phí ẩn trong quá trình đi tour.</p>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <i class="fas fa-user-tie fa-3x text-primary mb-3"></i>
-                    <h4>Hướng dẫn viên chuyên nghiệp</h4>
-                    <p class="text-muted">Đội ngũ HDV nhiệt tình, am hiểu địa phương.</p>
+                <div class="col-md-4 mb-4">
+                    <div class="p-4 bg-white shadow-sm rounded h-100">
+                        <i class="fas fa-user-tie fa-3x text-primary mb-3"></i>
+                        <h4>HDV Chuyên Nghiệp</h4>
+                        <p class="text-muted">Hướng dẫn viên am hiểu địa phương, nhiệt tình và chu đáo.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer id="contact" class="text-light pt-5 pb-4" style="background-color: #2c3e50;">
+    <footer id="contact">
         <div class="container">
             <div class="row">
-                <div class="col-md-4">
-                    <h5>TravelSite</h5>
-                    <p>Website đặt tour du lịch hàng đầu.</p>
+                <div class="col-md-4 mb-3">
+                    <h5 class="fw-bold">TravelSite</h5>
+                    <p class="small text-muted">Website đặt tour du lịch hàng đầu Việt Nam. Mang đến cho bạn những trải nghiệm tuyệt vời nhất.</p>
                 </div>
-                <div class="col-md-4">
-                    <h5>Liên hệ</h5>
-                    <p><i class="fas fa-phone"></i> 1900 1234</p>
-                    <p><i class="fas fa-envelope"></i> support@travelsite.com</p>
+                <div class="col-md-4 mb-3">
+                    <h5 class="fw-bold">Liên hệ</h5>
+                    <p class="mb-1"><i class="fas fa-phone me-2"></i> 1900 1234</p>
+                    <p class="mb-1"><i class="fas fa-envelope me-2"></i> support@travelsite.com</p>
+                    <p><i class="fas fa-map-marker-alt me-2"></i> TP. Hồ Chí Minh, Việt Nam</p>
                 </div>
-                <div class="col-md-4">
-                    <h5>Theo dõi chúng tôi</h5>
-                    <a href="#" class="text-light me-2"><i class="fab fa-facebook fa-lg"></i></a>
-                    <a href="#" class="text-light me-2"><i class="fab fa-instagram fa-lg"></i></a>
+                <div class="col-md-4 mb-3">
+                    <h5 class="fw-bold">Kết nối</h5>
+                    <a href="#" class="text-light me-3"><i class="fab fa-facebook fa-lg"></i></a>
+                    <a href="#" class="text-light me-3"><i class="fab fa-instagram fa-lg"></i></a>
+                    <a href="#" class="text-light"><i class="fab fa-youtube fa-lg"></i></a>
                 </div>
             </div>
-            <hr>
-            <div class="text-center">
-                <p>&copy; 2025 TravelSite. All rights reserved.</p>
+            <hr style="border-color: rgba(255,255,255,0.1);">
+            <div class="text-center small text-muted">
+                &copy; 2025 TravelSite. All rights reserved.
             </div>
         </div>
     </footer>
