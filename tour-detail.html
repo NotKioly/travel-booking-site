@@ -1,1 +1,79 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết Tour - TravelSite</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div class="container py-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a href="tour.html">Tour</a></li>
+                <li class="breadcrumb-item active">Nha Trang 3N2Đ</li>
+            </ol>
+        </nav>
 
+        <div class="row">
+            <div class="col-lg-8">
+                <img src="assets/img/tour1.jpg" class="img-fluid rounded shadow-sm w-100 mb-4" alt="Tour Detail">
+                
+                <h2 class="mb-3">Khám phá Nha Trang - Hòn ngọc viễn đông (3 Ngày 2 Đêm)</h2>
+                
+                <h4 class="mb-3 text-primary">Lịch trình tour</h4>
+                <div class="accordion mb-4" id="accordionItinerary">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#day1">
+                                Ngày 1: Đón sân bay - Vinwonders
+                            </button>
+                        </h2>
+                        <div id="day1" class="accordion-collapse collapse show" data-bs-parent="#accordionItinerary">
+                            <div class="accordion-body">
+                                Xe đón quý khách tại sân bay Cam Ranh, tham quan Vinwonders...
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#day2">
+                                Ngày 2: Tour 3 Đảo - Tắm bùn
+                            </button>
+                        </h2>
+                        <div id="day2" class="accordion-collapse collapse" data-bs-parent="#accordionItinerary">
+                            <div class="accordion-body">
+                                Khởi hành đi cảng Cầu Đá, tham quan Hòn Mun, Hòn Một...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card bg-light border-0">
+                    <div class="card-body">
+                        <h5>Đánh giá từ khách hàng</h5>
+                        <p class="mb-1"><strong>Nguyễn Văn A:</strong> Tour rất vui, hướng dẫn viên nhiệt tình.</p>
+                        <small class="text-muted">Đăng ngày 20/05/2025</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card shadow border-0 sticky-top" style="top: 100px;">
+                    <div class="card-body">
+                        <h3 class="text-primary fw-bold">2,300,000đ <small class="text-muted fs-6">/khách</small></h3>
+                        <p><i class="far fa-calendar-alt"></i> Khởi hành: <strong>Hàng tuần</strong></p>
+                        <p><i class="far fa-clock"></i> Thời gian: <strong>3 Ngày 2 Đêm</strong></p>
+                        <hr>
+                        <a href="booking.html" class="btn btn-primary-custom w-100 btn-lg">ĐẶT NGAY</a>
+                        <p class="text-center mt-2 small text-muted">Giữ chỗ ngay, thanh toán sau</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
