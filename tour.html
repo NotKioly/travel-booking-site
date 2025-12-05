@@ -1,1 +1,93 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách Tour - TravelSite</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand text-primary fw-bold" href="index.html">TravelSite</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="tour.html">Danh sách Tour</a></li>
+                    <li class="nav-item"><a class="btn btn-outline-primary ms-2" href="login.html">Đăng nhập</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
+    <div class="container py-5">
+        <div class="row">
+            <aside class="col-md-3">
+                <div class="card p-3 mb-4 shadow-sm">
+                    <h5 class="mb-3">Tìm kiếm & Lọc</h5>
+                    <div class="mb-3">
+                        <label class="form-label">Tìm tên tour</label>
+                        <input type="text" id="searchTourInput" class="form-control" placeholder="Nhập tên tour...">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Loại Tour</label>
+                        <select class="form-select">
+                            <option>Tất cả</option>
+                            <option>Tour Biển</option>
+                            <option>Tour Núi</option>
+                            <option>Tour Quốc tế</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Mức giá</label>
+                        <input type="range" class="form-range" min="0" max="10000000">
+                        <div class="d-flex justify-content-between text-muted small">
+                            <span>0đ</span>
+                            <span>10tr+</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary-custom w-100">Áp dụng</button>
+                </div>
+            </aside>
+
+            <main class="col-md-9">
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="card tour-card h-100">
+                            <div class="tour-img-container"><img src="assets/img/tour1.jpg" alt="Tour"></div>
+                            <div class="card-body">
+                                <h5 class="tour-title">Nha Trang 3N2Đ</h5>
+                                <span class="tour-price">2,300,000đ</span>
+                                <a href="tour-detail.html" class="btn btn-outline-custom btn-sm w-100 mt-2">Xem chi tiết</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card tour-card h-100">
+                            <div class="tour-img-container"><img src="assets/img/tour2.jpg" alt="Tour"></div>
+                            <div class="card-body">
+                                <h5 class="tour-title">Đà Lạt 3N2Đ</h5>
+                                <span class="tour-price">1,500,000đ</span>
+                                <a href="tour-detail.html" class="btn btn-outline-custom btn-sm w-100 mt-2">Xem chi tiết</a>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                
+                <nav class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled"><a class="page-link" href="#">Trước</a></li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Sau</a></li>
+                    </ul>
+                </nav>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
