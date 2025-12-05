@@ -99,4 +99,46 @@ document.addEventListener("DOMContentLoaded", function () {
             menuItem[i].classList.add("active");
         }
     }
+
 });
+const loginForm = document.getElementById("loginForm");
+    if (loginForm) {
+        loginForm.addEventListener("submit", function (e) {
+            e.preventDefault(); // Ngăn load lại trang
+            
+            const email = loginForm.querySelector('input[type="email"]').value;
+            const password = loginForm.querySelector('input[type="password"]').value;
+
+            // Kiểm tra đơn giản
+            if (email === "" || password === "") {
+                alert("Vui lòng nhập đầy đủ email và mật khẩu!");
+                return;
+            }
+
+            // Giả lập đăng nhập thành công
+            // (Trong thực tế sẽ gọi API server ở đây)
+            alert("Đăng nhập thành công! Chào mừng bạn quay lại.");
+            window.location.href = "index.html"; // Chuyển về trang chủ
+        });
+    }
+
+    // 6. XỬ LÝ ĐĂNG KÝ (Mô phỏng)
+    const registerForm = document.getElementById("registerForm");
+    if (registerForm) {
+        registerForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const name = registerForm.querySelector('input[type="text"]').value;
+            const email = registerForm.querySelector('input[type="email"]').value;
+            const password = registerForm.querySelector('input[type="password"]').value;
+
+            if (name === "" || email === "" || password === "") {
+                alert("Vui lòng điền đầy đủ thông tin!");
+                return;
+            }
+
+            // Giả lập đăng ký
+            alert("Đăng ký tài khoản thành công! Vui lòng đăng nhập.");
+            window.location.href = "login.html"; // Chuyển sang trang đăng nhập
+        });
+    }
