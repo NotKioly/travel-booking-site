@@ -3,716 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TravelSite - Đặt Tour Du Lịch</title>
-    
-    <!-- Google Fonts: Roboto -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome -->
+    <title>TravelSite - Trang chủ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Tailwind CSS (Framework CSS hiện đại thay thế Bootstrap để xử lý trong 1 file tốt hơn) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Cấu hình màu sắc theo yêu cầu -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#0099FF', // Xanh biển
-                        cta: '#FF9153',     // Cam
-                        dark: '#333333',
-                        light: '#f4f4f4'
-                    },
-                    fontFamily: {
-                        sans: ['Roboto', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-
-    <style>
-        body { font-family: 'Roboto', sans-serif; }
-        .hidden-section { display: none; }
-        .active-section { display: block; animation: fadeIn 0.5s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
-        /* Custom scrollbar for admin tables */
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-    </style>
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen">
+<body>
 
-    <!-- HEADER / NAVIGATION -->
-    <header class="bg-white shadow-md sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <!-- Logo -->
-            <div class="text-2xl font-bold text-primary cursor-pointer" onclick="router('home')">
-                <i class="fa-solid fa-plane-departure mr-2"></i>TravelSite
-            </div>
-
-            <!-- Desktop Menu -->
-            <nav class="hidden md:flex space-x-6 font-medium">
-                <a href="#" onclick="router('home')" class="hover:text-primary transition">Trang chủ</a>
-                <a href="#" onclick="router('tours')" class="hover:text-primary transition">Danh sách Tour</a>
-                <a href="#" onclick="router('offers')" class="hover:text-primary transition">Ưu đãi</a>
-                <a href="#" onclick="router('contact')" class="hover:text-primary transition">Liên hệ</a>
-            </nav>
-
-            <!-- Auth Buttons & Admin Toggle -->
-            <div class="flex items-center space-x-3">
-                <button onclick="router('admin')" class="hidden md:block text-gray-500 hover:text-dark text-sm border px-3 py-1 rounded">Admin Demo</button>
-                <button onclick="openModal('loginModal')" class="hidden md:block text-primary hover:underline">Đăng nhập</button>
-                <button onclick="openModal('registerModal')" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">Đăng ký</button>
-                
-                <!-- Mobile Menu Button -->
-                <button class="md:hidden text-2xl" onclick="toggleMobileMenu()">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><i class="fas fa-globe-asia"></i> TravelSite</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="tour.html">Danh sách Tour</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#offers">Ưu đãi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Liên hệ</a></li>
+                    <li class="nav-item"><a class="btn btn-outline-primary ms-2" href="login.html">Đăng nhập</a></li>
+                </ul>
             </div>
         </div>
-        
-        <!-- Mobile Menu (Hidden by default) -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t p-4 flex flex-col space-y-3">
-            <a href="#" onclick="router('home')" class="block py-2">Trang chủ</a>
-            <a href="#" onclick="router('tours')" class="block py-2">Danh sách Tour</a>
-            <a href="#" onclick="router('admin')" class="block py-2 text-red-500">Admin Dashboard</a>
-            <a href="#" onclick="openModal('loginModal')" class="block py-2">Đăng nhập</a>
-        </div>
+    </nav>
+
+    <header id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active hero-banner" style="background-image: url('assets/img/banner.jpg');">
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <h1 class="display-4 fw-bold">Khám phá thế giới cùng TravelSite</h1>
+                    <p class="lead">Tour biển - Tour núi - Tour quốc tế. Đặt ngay hôm nay!</p>
+                    <a href="tour.html" class="btn btn-primary-custom btn-lg mt-3">Xem Tour Nổi Bật</a>
+                </div>
+            </div>
+            </div>
     </header>
 
-    <!-- MAIN CONTENT AREA -->
-    <main id="app" class="flex-grow">
-        <!-- Content injected by JS -->
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="bg-dark text-white py-10 mt-auto">
-        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
-                <h3 class="text-xl font-bold mb-4">TravelSite</h3>
-                <p class="text-gray-400 text-sm">Khám phá thế giới cùng chúng tôi. Đặt tour dễ dàng, trải nghiệm tuyệt vời.</p>
-                <div class="flex space-x-4 mt-4">
-                    <i class="fa-brands fa-facebook cursor-pointer hover:text-primary"></i>
-                    <i class="fa-brands fa-instagram cursor-pointer hover:text-primary"></i>
-                    <i class="fa-brands fa-twitter cursor-pointer hover:text-primary"></i>
+    <section class="container py-5">
+        <h2 class="text-center mb-4 fw-bold">Tour Nổi Bật</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card tour-card h-100">
+                    <div class="tour-img-container">
+                        <img src="assets/img/tour1.jpg" alt="Nha Trang">
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="tour-title">Tour Nha Trang 3N2Đ</h5>
+                        <p class="text-muted small"><i class="fas fa-map-marker-alt"></i> Khánh Hòa</p>
+                        <p class="card-text">Khám phá biển xanh cát trắng, Vinwonders...</p>
+                        <div class="mt-auto d-flex justify-content-between align-items-center">
+                            <span class="tour-price">2,300,000đ</span>
+                            <a href="tour-detail.html" class="btn btn-outline-custom btn-sm">Chi tiết</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div>
-                <h3 class="text-xl font-bold mb-4">Liên hệ</h3>
-                <p class="text-gray-400 text-sm mb-2"><i class="fa-solid fa-location-dot mr-2"></i> 123 Đường ABC, TP.HCM</p>
-                <p class="text-gray-400 text-sm mb-2"><i class="fa-solid fa-phone mr-2"></i> 1900 1234</p>
-                <p class="text-gray-400 text-sm"><i class="fa-solid fa-envelope mr-2"></i> support@travelsite.com</p>
+            <div class="col-md-4">
+                <div class="card tour-card h-100">
+                    <div class="tour-img-container">
+                        <img src="assets/img/tour2.jpg" alt="Đà Lạt">
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="tour-title">Tour Đà Lạt Ngàn Hoa</h5>
+                        <p class="text-muted small"><i class="fas fa-map-marker-alt"></i> Lâm Đồng</p>
+                        <p class="card-text">Săn mây Cầu Đất, check-in vườn hoa...</p>
+                        <div class="mt-auto d-flex justify-content-between align-items-center">
+                            <span class="tour-price">1,200,000đ</span>
+                            <a href="tour-detail.html" class="btn btn-outline-custom btn-sm">Chi tiết</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div>
-                <h3 class="text-xl font-bold mb-4">Thanh toán</h3>
-                <div class="flex space-x-2 text-3xl text-gray-400">
-                    <i class="fa-brands fa-cc-visa hover:text-white"></i>
-                    <i class="fa-brands fa-cc-mastercard hover:text-white"></i>
-                    <i class="fa-brands fa-cc-paypal hover:text-white"></i>
+            <div class="col-md-4">
+                <div class="card tour-card h-100">
+                    <div class="tour-img-container">
+                        <img src="https://source.unsplash.com/random/400x300/?island" alt="Phú Quốc">
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="tour-title">Tour Phú Quốc 4N3Đ</h5>
+                        <p class="text-muted small"><i class="fas fa-map-marker-alt"></i> Kiên Giang</p>
+                        <p class="card-text">Nghỉ dưỡng resort 5 sao, ngắm hoàng hôn...</p>
+                        <div class="mt-auto d-flex justify-content-between align-items-center">
+                            <span class="tour-price">3,800,000đ</span>
+                            <a href="tour-detail.html" class="btn btn-outline-custom btn-sm">Chi tiết</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="text-center text-gray-600 text-sm mt-8 border-t border-gray-700 pt-4">
-            &copy; 2023 TravelSite. All rights reserved.
+    </section>
+
+    <section id="offers" class="bg-light py-5">
+        <div class="container text-center">
+            <h2 class="mb-5 fw-bold">Tại sao chọn chúng tôi?</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <i class="fas fa-headset fa-3x text-primary mb-3"></i>
+                    <h4>Hỗ trợ 24/7</h4>
+                    <p class="text-muted">Luôn sẵn sàng giải đáp mọi thắc mắc của bạn.</p>
+                </div>
+                <div class="col-md-4">
+                    <i class="fas fa-tag fa-3x text-primary mb-3"></i>
+                    <h4>Giá tốt nhất</h4>
+                    <p class="text-muted">Cam kết giá cả cạnh tranh và nhiều ưu đãi.</p>
+                </div>
+                <div class="col-md-4">
+                    <i class="fas fa-user-tie fa-3x text-primary mb-3"></i>
+                    <h4>Hướng dẫn viên chuyên nghiệp</h4>
+                    <p class="text-muted">Đội ngũ HDV nhiệt tình, am hiểu địa phương.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="text-light pt-5 pb-4" style="background-color: #2c3e50;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>TravelSite</h5>
+                    <p>Website đặt tour du lịch hàng đầu.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Liên hệ</h5>
+                    <p><i class="fas fa-phone"></i> 1900 1234</p>
+                    <p><i class="fas fa-envelope"></i> support@travelsite.com</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Theo dõi chúng tôi</h5>
+                    <a href="#" class="text-light me-2"><i class="fab fa-facebook fa-lg"></i></a>
+                    <a href="#" class="text-light me-2"><i class="fab fa-instagram fa-lg"></i></a>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center">
+                <p>&copy; 2025 TravelSite. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
-    <!-- MODALS (Login/Register/Success) -->
-    <!-- Login Modal -->
-    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-        <div class="bg-white p-8 rounded-lg w-96 relative shadow-xl">
-            <button onclick="closeModal('loginModal')" class="absolute top-3 right-3 text-gray-500 hover:text-red-500"><i class="fa-solid fa-times"></i></button>
-            <h2 class="text-2xl font-bold mb-6 text-center text-primary">Đăng nhập</h2>
-            <input type="email" placeholder="Email" class="w-full mb-4 p-3 border rounded focus:outline-none focus:border-primary">
-            <input type="password" placeholder="Mật khẩu" class="w-full mb-6 p-3 border rounded focus:outline-none focus:border-primary">
-            <button class="w-full bg-primary text-white py-3 rounded hover:bg-blue-600 font-bold">ĐĂNG NHẬP</button>
-        </div>
-    </div>
-
-    <!-- Booking Success Modal -->
-    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-        <div class="bg-white p-8 rounded-lg w-96 text-center shadow-xl">
-            <div class="text-green-500 text-5xl mb-4"><i class="fa-solid fa-check-circle"></i></div>
-            <h2 class="text-2xl font-bold mb-2">Đặt Tour Thành Công!</h2>
-            <p class="text-gray-600 mb-6">Chúng tôi sẽ liên hệ lại với bạn sớm nhất để xác nhận.</p>
-            <button onclick="closeModal('successModal'); router('home')" class="bg-cta text-white px-6 py-2 rounded hover:bg-orange-600">Về trang chủ</button>
-        </div>
-    </div>
-
-    <!-- JAVASCRIPT LOGIC -->
-    <script>
-        // --- DATA MOCKUP (Dữ liệu giả lập) ---
-        const tours = [
-            {
-                id: 1,
-                name: "Tour Nha Trang 3N2Đ - Biển xanh vẫy gọi",
-                price: 2300000,
-                image: "https://images.unsplash.com/photo-1590059393144-6725206774a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                category: "beach",
-                duration: "3 ngày 2 đêm",
-                start: "Hàng ngày",
-                desc: "Khám phá vịnh Nha Trang, lặn ngắm san hô, tắm bùn khoáng.",
-                schedule: [
-                    "Ngày 1: Đón sân bay - VinWonders",
-                    "Ngày 2: Tour 3 đảo - Tắm bùn",
-                    "Ngày 3: City Tour - Tiễn sân bay"
-                ],
-                rating: 4.8
-            },
-            {
-                id: 2,
-                name: "Tour Đà Lạt 2N1Đ - Thành phố ngàn hoa",
-                price: 1200000,
-                image: "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                category: "mountain",
-                duration: "2 ngày 1 đêm",
-                start: "Thứ 7 hàng tuần",
-                desc: "Săn mây cầu gỗ, tham quan vườn hoa, check-in các quán cafe view đẹp.",
-                schedule: [
-                    "Ngày 1: Quảng trường Lâm Viên - Vườn hoa",
-                    "Ngày 2: Săn mây - Chợ Đà Lạt - Về TP.HCM"
-                ],
-                rating: 4.5
-            },
-            {
-                id: 3,
-                name: "Tour Phú Quốc 4N3Đ - Đảo Ngọc",
-                price: 3800000,
-                image: "https://images.unsplash.com/photo-1540202404-a6f74cc2098e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                category: "beach",
-                duration: "4 ngày 3 đêm",
-                start: "Thứ 5 hàng tuần",
-                desc: "Nghỉ dưỡng resort 5 sao, tham quan Grand World, Safari.",
-                schedule: [
-                    "Ngày 1: Đón sân bay - Sunset Sanato",
-                    "Ngày 2: Câu cá lặn san hô - Bãi Sao",
-                    "Ngày 3: Safari - Grand World",
-                    "Ngày 4: Mua sắm đặc sản - Tiễn bay"
-                ],
-                rating: 4.9
-            },
-            {
-                id: 4,
-                name: "Tour Sapa 3N2Đ - Chinh phục Fansipan",
-                price: 2800000,
-                image: "https://images.unsplash.com/photo-1565259960965-4f517457d544?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                category: "mountain",
-                duration: "3 ngày 2 đêm",
-                start: "Hàng ngày",
-                desc: "Trekking bản Cát Cát, chinh phục nóc nhà Đông Dương.",
-                schedule: ["Ngày 1: Hà Nội - Sapa", "Ngày 2: Fansipan", "Ngày 3: Bản Cát Cát - Hà Nội"],
-                rating: 4.7
-            },
-            {
-                id: 5,
-                name: "Tour Thái Lan 5N4Đ - Bangkok Pattaya",
-                price: 6500000,
-                image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                category: "international",
-                duration: "5 ngày 4 đêm",
-                start: "Thứ 4 hàng tuần",
-                desc: "Chùa Vàng, Đảo Coral, Alcazar Show, Buffet 86 tầng.",
-                schedule: ["Ngày 1: TP.HCM - Bangkok", "Ngày 2: Pattaya", "Ngày 3: Đảo Coral", "Ngày 4: Bangkok", "Ngày 5: Shopping - Về TP.HCM"],
-                rating: 4.6
-            },
-            {
-                id: 6,
-                name: "Tour Singapore 4N3Đ - Đảo quốc Sư Tử",
-                price: 9900000,
-                image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                category: "international",
-                duration: "4 ngày 3 đêm",
-                start: "Thứ 5 hàng tuần",
-                desc: "Gardens by the Bay, Marina Bay Sands, Sentosa.",
-                schedule: ["Ngày 1: TP.HCM - Singapore", "Ngày 2: Sentosa", "Ngày 3: City Tour", "Ngày 4: Jewel Changi - Về VN"],
-                rating: 4.8
-            }
-        ];
-
-        // Mock Bookings Data (Admin)
-        let bookings = [
-            { id: 101, customer: "Nguyễn Văn A", tour: "Tour Nha Trang 3N2Đ", date: "2023-11-20", status: "Đã xác nhận", price: 2300000 },
-            { id: 102, customer: "Trần Thị B", tour: "Tour Đà Lạt 2N1Đ", date: "2023-11-22", status: "Chờ duyệt", price: 1200000 },
-            { id: 103, customer: "Lê Văn C", tour: "Tour Thái Lan 5N4Đ", date: "2023-12-01", status: "Hủy", price: 6500000 }
-        ];
-
-        // --- UTILS ---
-        const formatCurrency = (amount) => {
-            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
-        };
-
-        const toggleMobileMenu = () => {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
-        };
-
-        const openModal = (id) => {
-            document.getElementById(id).classList.remove('hidden');
-        };
-
-        const closeModal = (id) => {
-            document.getElementById(id).classList.add('hidden');
-        };
-
-        // --- ROUTING / RENDERING ---
-        const app = document.getElementById('app');
-
-        const router = (page, param = null) => {
-            window.scrollTo(0, 0);
-            if(document.getElementById('mobile-menu')) document.getElementById('mobile-menu').classList.add('hidden');
-
-            switch(page) {
-                case 'home': renderHome(); break;
-                case 'tours': renderTours(param); break;
-                case 'detail': renderDetail(param); break;
-                case 'booking': renderBooking(param); break;
-                case 'admin': renderAdmin(); break;
-                default: renderHome();
-            }
-        };
-
-        // 1. HOME PAGE
-        const renderHome = () => {
-            const featuredTours = tours.slice(0, 3); // Lấy 3 tour đầu
-            
-            let toursHtml = featuredTours.map(t => `
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300">
-                    <div class="relative h-48">
-                        <img src="${t.image}" alt="${t.name}" class="w-full h-full object-cover">
-                        <span class="absolute top-2 right-2 bg-cta text-white text-xs font-bold px-2 py-1 rounded">${t.category.toUpperCase()}</span>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-bold text-lg mb-2 truncate">${t.name}</h3>
-                        <div class="flex justify-between items-center mb-3 text-sm text-gray-500">
-                            <span><i class="fa-regular fa-clock"></i> ${t.duration}</span>
-                            <span><i class="fa-solid fa-star text-yellow-400"></i> ${t.rating}</span>
-                        </div>
-                        <p class="text-primary font-bold text-xl mb-4">${formatCurrency(t.price)}</p>
-                        <button onclick="router('detail', ${t.id})" class="w-full border border-primary text-primary hover:bg-primary hover:text-white py-2 rounded transition">Xem Chi Tiết</button>
-                    </div>
-                </div>
-            `).join('');
-
-            app.innerHTML = `
-                <!-- Banner Section -->
-                <section class="relative h-[500px] flex items-center justify-center text-white" style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;">
-                    <div class="text-center px-4">
-                        <h1 class="text-4xl md:text-6xl font-bold mb-4">Khám Phá Thế Giới Cùng TravelSite</h1>
-                        <p class="text-xl md:text-2xl mb-8">Tour Biển - Tour Núi - Tour Quốc Tế</p>
-                        
-                        <!-- Search Box -->
-                        <div class="bg-white p-4 rounded-lg shadow-lg max-w-4xl mx-auto flex flex-col md:flex-row gap-4 text-gray-800">
-                            <div class="flex-1 flex items-center border rounded px-3 bg-gray-50">
-                                <i class="fa-solid fa-location-dot text-gray-400 mr-2"></i>
-                                <input type="text" placeholder="Bạn muốn đi đâu?" class="w-full bg-transparent py-2 focus:outline-none">
-                            </div>
-                            <div class="flex-1 flex items-center border rounded px-3 bg-gray-50">
-                                <i class="fa-solid fa-calendar text-gray-400 mr-2"></i>
-                                <input type="date" class="w-full bg-transparent py-2 focus:outline-none">
-                            </div>
-                            <button onclick="router('tours')" class="bg-cta hover:bg-orange-600 text-white font-bold py-3 px-8 rounded transition">TÌM KIẾM</button>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Featured Tours -->
-                <section class="container mx-auto px-4 py-16">
-                    <h2 class="text-3xl font-bold text-center mb-2 text-dark">Tour Nổi Bật</h2>
-                    <p class="text-center text-gray-500 mb-10">Những điểm đến được yêu thích nhất tháng này</p>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        ${toursHtml}
-                    </div>
-                    <div class="text-center mt-10">
-                        <button onclick="router('tours')" class="bg-primary text-white px-8 py-3 rounded-full hover:bg-blue-600 font-bold shadow-lg transition transform hover:-translate-y-1">Xem Tất Cả Tour</button>
-                    </div>
-                </section>
-
-                <!-- Why Choose Us / Offers -->
-                <section class="bg-blue-50 py-16">
-                    <div class="container mx-auto px-4">
-                        <h2 class="text-3xl font-bold text-center mb-10">Tại Sao Chọn Chúng Tôi?</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                            <div class="bg-white p-8 rounded-lg shadow hover:shadow-lg transition">
-                                <div class="text-cta text-4xl mb-4"><i class="fa-solid fa-headset"></i></div>
-                                <h3 class="font-bold text-xl mb-2">Hỗ Trợ 24/7</h3>
-                                <p class="text-gray-500">Luôn sẵn sàng giải đáp mọi thắc mắc của bạn bất cứ lúc nào.</p>
-                            </div>
-                            <div class="bg-white p-8 rounded-lg shadow hover:shadow-lg transition">
-                                <div class="text-cta text-4xl mb-4"><i class="fa-solid fa-tag"></i></div>
-                                <h3 class="font-bold text-xl mb-2">Giá Tốt Nhất</h3>
-                                <p class="text-gray-500">Cam kết giá cả cạnh tranh và nhiều ưu đãi hấp dẫn.</p>
-                            </div>
-                            <div class="bg-white p-8 rounded-lg shadow hover:shadow-lg transition">
-                                <div class="text-cta text-4xl mb-4"><i class="fa-solid fa-user-shield"></i></div>
-                                <h3 class="font-bold text-xl mb-2">Hướng Dẫn Chuyên Nghiệp</h3>
-                                <p class="text-gray-500">Đội ngũ hướng dẫn viên giàu kinh nghiệm, nhiệt tình.</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            `;
-        };
-
-        // 2. TOUR LIST PAGE
-        const renderTours = (filterType = 'all') => {
-            let filteredTours = tours;
-            if (filterType && filterType !== 'all') {
-                filteredTours = tours.filter(t => t.category === filterType);
-            }
-
-            const toursHtml = filteredTours.map(t => `
-                 <div class="bg-white rounded-lg shadow border hover:shadow-lg transition flex flex-col">
-                    <div class="relative h-56">
-                        <img src="${t.image}" alt="${t.name}" class="w-full h-full object-cover rounded-t-lg">
-                        <span class="absolute top-2 left-2 bg-dark bg-opacity-70 text-white text-xs px-2 py-1 rounded"><i class="fa-solid fa-clock mr-1"></i>${t.duration}</span>
-                    </div>
-                    <div class="p-5 flex flex-col flex-grow">
-                        <h3 class="font-bold text-xl mb-2 text-dark hover:text-primary cursor-pointer" onclick="router('detail', ${t.id})">${t.name}</h3>
-                        <p class="text-sm text-gray-500 mb-4 line-clamp-2">${t.desc}</p>
-                        <div class="mt-auto flex items-center justify-between">
-                            <div>
-                                <p class="text-xs text-gray-400">Giá từ</p>
-                                <p class="text-primary font-bold text-xl">${formatCurrency(t.price)}</p>
-                            </div>
-                            <button onclick="router('detail', ${t.id})" class="bg-white border border-cta text-cta hover:bg-cta hover:text-white px-4 py-2 rounded transition">Chi tiết</button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-
-            app.innerHTML = `
-                <div class="bg-gray-100 py-8 border-b">
-                    <div class="container mx-auto px-4">
-                        <h1 class="text-3xl font-bold text-primary">Danh Sách Tour</h1>
-                        <div class="text-sm breadcrumbs text-gray-500 mt-2">Trang chủ / Tour</div>
-                    </div>
-                </div>
-
-                <div class="container mx-auto px-4 py-8 flex flex-col md:flex-row gap-8">
-                    <!-- Sidebar Filter -->
-                    <aside class="w-full md:w-1/4">
-                        <div class="bg-white p-6 rounded-lg shadow sticky top-24">
-                            <h3 class="font-bold text-lg mb-4 border-b pb-2">Bộ Lọc</h3>
-                            <div class="space-y-3">
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input type="radio" name="filter" checked onclick="router('tours', 'all')" class="text-primary focus:ring-primary">
-                                    <span>Tất cả</span>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input type="radio" name="filter" ${filterType==='beach'?'checked':''} onclick="router('tours', 'beach')" class="text-primary focus:ring-primary">
-                                    <span>Du lịch Biển</span>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input type="radio" name="filter" ${filterType==='mountain'?'checked':''} onclick="router('tours', 'mountain')" class="text-primary focus:ring-primary">
-                                    <span>Du lịch Núi</span>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input type="radio" name="filter" ${filterType==='international'?'checked':''} onclick="router('tours', 'international')" class="text-primary focus:ring-primary">
-                                    <span>Du lịch Quốc tế</span>
-                                </label>
-                            </div>
-                        </div>
-                    </aside>
-
-                    <!-- Tour Grid -->
-                    <div class="w-full md:w-3/4">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            ${toursHtml}
-                        </div>
-                    </div>
-                </div>
-            `;
-        };
-
-        // 3. TOUR DETAIL PAGE
-        const renderDetail = (id) => {
-            const tour = tours.find(t => t.id === id);
-            if (!tour) return router('tours');
-
-            const scheduleHtml = tour.schedule.map((day, index) => `
-                <div class="flex gap-4 mb-4">
-                    <div class="flex-shrink-0 w-12 h-12 bg-blue-100 text-primary font-bold rounded-full flex items-center justify-center border-2 border-white shadow">
-                        N${index + 1}
-                    </div>
-                    <div class="bg-white p-4 rounded-lg shadow-sm border flex-grow">
-                        <h4 class="font-bold text-dark">${day}</h4>
-                        <p class="text-sm text-gray-500 mt-1">Ăn uống: Sáng, Trưa, Tối. Tham quan theo lịch trình chi tiết...</p>
-                    </div>
-                </div>
-            `).join('');
-
-            app.innerHTML = `
-                <!-- Detail Header -->
-                <div class="relative h-[400px]">
-                    <img src="${tour.image}" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-end">
-                        <div class="container mx-auto px-4 pb-8 text-white">
-                            <span class="bg-cta px-3 py-1 rounded text-sm font-bold uppercase mb-2 inline-block">${tour.category}</span>
-                            <h1 class="text-4xl font-bold mb-2">${tour.name}</h1>
-                            <div class="flex items-center space-x-4">
-                                <span><i class="fa-regular fa-clock"></i> ${tour.duration}</span>
-                                <span><i class="fa-solid fa-star text-yellow-400"></i> ${tour.rating} (120 đánh giá)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="container mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- Main Content -->
-                    <div class="md:col-span-2 space-y-8">
-                        <section>
-                            <h2 class="text-2xl font-bold mb-4 text-primary">Giới thiệu</h2>
-                            <p class="text-gray-600 leading-relaxed">${tour.desc} Trải nghiệm dịch vụ đẳng cấp, hướng dẫn viên tận tình và những điểm đến không thể bỏ qua.</p>
-                        </section>
-                        
-                        <section>
-                            <h2 class="text-2xl font-bold mb-4 text-primary">Lịch trình</h2>
-                            <div class="relative pl-4 border-l-2 border-gray-200 space-y-2">
-                                ${scheduleHtml}
-                            </div>
-                        </section>
-
-                        <section>
-                            <h2 class="text-2xl font-bold mb-4 text-primary">Đánh giá khách hàng</h2>
-                            <div class="bg-white p-4 rounded border">
-                                <div class="flex items-center mb-2">
-                                    <img src="https://ui-avatars.com/api/?name=User+One" class="w-10 h-10 rounded-full mr-3">
-                                    <div>
-                                        <h5 class="font-bold text-sm">Trần Minh Tâm</h5>
-                                        <div class="text-yellow-400 text-xs"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                                    </div>
-                                </div>
-                                <p class="text-sm text-gray-600">Tour rất tuyệt vời, HDV nhiệt tình. Đồ ăn ngon.</p>
-                            </div>
-                        </section>
-                    </div>
-
-                    <!-- Sidebar Booking -->
-                    <div class="md:col-span-1">
-                        <div class="bg-white p-6 rounded-lg shadow-lg border sticky top-24">
-                            <div class="text-center mb-6 border-b pb-4">
-                                <p class="text-gray-500 text-sm">Giá tour trọn gói</p>
-                                <p class="text-3xl font-bold text-cta">${formatCurrency(tour.price)}</p>
-                            </div>
-                            <ul class="space-y-3 mb-6 text-sm text-gray-600">
-                                <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Khởi hành: ${tour.start}</li>
-                                <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Khách sạn: 3 - 4 sao</li>
-                                <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Xe đưa đón đời mới</li>
-                            </ul>
-                            <button onclick="router('booking', ${tour.id})" class="w-full bg-cta text-white font-bold py-3 rounded hover:bg-orange-600 transition shadow-lg pulse-anim">ĐẶT TOUR NGAY</button>
-                            <button onclick="router('tours')" class="w-full mt-3 text-gray-500 hover:text-primary text-sm underline">Xem tour khác</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        };
-
-        // 4. BOOKING PAGE
-        const renderBooking = (id) => {
-            const tour = tours.find(t => t.id === id);
-            if (!tour) return router('tours');
-
-            app.innerHTML = `
-                <div class="bg-gray-100 py-10 min-h-screen">
-                    <div class="container mx-auto px-4 max-w-4xl">
-                        <button onclick="router('detail', ${tour.id})" class="mb-4 text-gray-500 hover:text-primary"><i class="fa-solid fa-arrow-left mr-1"></i> Quay lại chi tiết tour</button>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <!-- Info Tour (Left) -->
-                            <div class="md:col-span-1">
-                                <div class="bg-white rounded-lg shadow overflow-hidden">
-                                    <img src="${tour.image}" class="w-full h-40 object-cover">
-                                    <div class="p-4">
-                                        <h3 class="font-bold text-lg mb-2">${tour.name}</h3>
-                                        <p class="text-cta font-bold text-xl mb-2">${formatCurrency(tour.price)}</p>
-                                        <div class="text-sm text-gray-500 space-y-1">
-                                            <p><i class="fa-regular fa-clock"></i> ${tour.duration}</p>
-                                            <p><i class="fa-regular fa-calendar"></i> Khởi hành: ${tour.start}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Booking Form (Right) -->
-                            <div class="md:col-span-2">
-                                <div class="bg-white p-6 rounded-lg shadow-lg">
-                                    <h2 class="text-2xl font-bold text-primary mb-6 border-b pb-2">Thông Tin Đặt Tour</h2>
-                                    <form onsubmit="handleBookingSubmit(event, ${tour.id})">
-                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                            <div>
-                                                <label class="block text-gray-700 text-sm font-bold mb-2">Họ và tên *</label>
-                                                <input type="text" required class="w-full p-3 border rounded focus:outline-none focus:border-primary bg-gray-50" placeholder="Nhập họ tên">
-                                            </div>
-                                            <div>
-                                                <label class="block text-gray-700 text-sm font-bold mb-2">Số điện thoại *</label>
-                                                <input type="tel" required class="w-full p-3 border rounded focus:outline-none focus:border-primary bg-gray-50" placeholder="09xxxxxxxxx">
-                                            </div>
-                                        </div>
-                                        <div class="mb-4">
-                                            <label class="block text-gray-700 text-sm font-bold mb-2">Email</label>
-                                            <input type="email" class="w-full p-3 border rounded focus:outline-none focus:border-primary bg-gray-50" placeholder="email@example.com">
-                                        </div>
-                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                            <div>
-                                                <label class="block text-gray-700 text-sm font-bold mb-2">Người lớn (>12t)</label>
-                                                <input type="number" min="1" value="1" class="w-full p-3 border rounded focus:outline-none focus:border-primary bg-gray-50">
-                                            </div>
-                                            <div>
-                                                <label class="block text-gray-700 text-sm font-bold mb-2">Trẻ em (5-11t)</label>
-                                                <input type="number" min="0" value="0" class="w-full p-3 border rounded focus:outline-none focus:border-primary bg-gray-50">
-                                            </div>
-                                        </div>
-                                        <div class="mb-6">
-                                            <label class="block text-gray-700 text-sm font-bold mb-2">Ghi chú thêm</label>
-                                            <textarea class="w-full p-3 border rounded focus:outline-none focus:border-primary bg-gray-50" rows="3" placeholder="Yêu cầu ăn chay, phòng đơn..."></textarea>
-                                        </div>
-                                        <button type="submit" class="w-full bg-cta text-white font-bold py-3 rounded-lg hover:bg-orange-600 transition shadow-md">GỬI YÊU CẦU ĐẶT TOUR</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        };
-
-        const handleBookingSubmit = (e, tourId) => {
-            e.preventDefault();
-            // Logic lưu booking vào mảng mock (trong thực tế sẽ gọi API)
-            const tour = tours.find(t => t.id === tourId);
-            const newBooking = {
-                id: Math.floor(Math.random() * 1000),
-                customer: e.target.querySelector('input[type="text"]').value,
-                tour: tour.name,
-                date: new Date().toISOString().split('T')[0],
-                status: "Chờ duyệt",
-                price: tour.price
-            };
-            bookings.unshift(newBooking); // Thêm vào đầu danh sách admin
-            openModal('successModal');
-        };
-
-        // 5. ADMIN DASHBOARD
-        const renderAdmin = () => {
-            const totalRevenue = bookings.reduce((sum, b) => sum + b.price, 0);
-            
-            const bookingRows = bookings.map(b => `
-                <tr class="border-b hover:bg-gray-50">
-                    <td class="p-3 text-sm">#${b.id}</td>
-                    <td class="p-3 text-sm font-bold">${b.customer}</td>
-                    <td class="p-3 text-sm">${b.tour}</td>
-                    <td class="p-3 text-sm text-gray-500">${b.date}</td>
-                    <td class="p-3 text-sm"><span class="px-2 py-1 rounded text-xs font-bold ${b.status==='Đã xác nhận'?'bg-green-100 text-green-600': (b.status==='Hủy'?'bg-red-100 text-red-600':'bg-yellow-100 text-yellow-600')}">${b.status}</span></td>
-                    <td class="p-3 text-sm text-right font-bold">${formatCurrency(b.price)}</td>
-                    <td class="p-3 text-sm text-right">
-                        <button class="text-blue-500 hover:text-blue-700"><i class="fa-solid fa-pen-to-square"></i></button>
-                    </td>
-                </tr>
-            `).join('');
-
-            const tourRows = tours.map(t => `
-                <tr class="border-b hover:bg-gray-50">
-                    <td class="p-3"><img src="${t.image}" class="w-10 h-10 rounded object-cover"></td>
-                    <td class="p-3 text-sm font-bold">${t.name}</td>
-                    <td class="p-3 text-sm">${formatCurrency(t.price)}</td>
-                    <td class="p-3 text-right">
-                        <button class="text-red-500 text-sm hover:underline">Xóa</button>
-                    </td>
-                </tr>
-            `).join('');
-
-            app.innerHTML = `
-                <div class="flex h-screen bg-gray-100">
-                    <!-- Sidebar Admin -->
-                    <aside class="w-64 bg-dark text-white hidden md:flex flex-col">
-                        <div class="p-6 text-2xl font-bold text-center border-b border-gray-700">Admin Panel</div>
-                        <nav class="flex-grow p-4 space-y-2">
-                            <a href="#" class="block py-2 px-4 bg-primary rounded">Dashboard</a>
-                            <a href="#" class="block py-2 px-4 hover:bg-gray-700 rounded">Quản lý Tour</a>
-                            <a href="#" class="block py-2 px-4 hover:bg-gray-700 rounded">Quản lý Đơn đặt</a>
-                            <a href="#" class="block py-2 px-4 hover:bg-gray-700 rounded">Khách hàng</a>
-                        </nav>
-                        <div class="p-4 border-t border-gray-700">
-                            <button onclick="router('home')" class="w-full py-2 bg-gray-700 hover:bg-gray-600 rounded text-sm">Thoát về Trang chủ</button>
-                        </div>
-                    </aside>
-
-                    <!-- Main Admin Content -->
-                    <div class="flex-1 overflow-y-auto p-8">
-                        <div class="flex justify-between items-center mb-8">
-                            <h2 class="text-2xl font-bold text-gray-800">Tổng quan</h2>
-                            <button class="md:hidden bg-dark text-white px-3 py-1 rounded" onclick="router('home')">Thoát</button>
-                        </div>
-
-                        <!-- Stats Cards -->
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                            <div class="bg-white p-6 rounded shadow border-l-4 border-primary">
-                                <div class="text-gray-500 text-sm">Tổng đơn đặt</div>
-                                <div class="text-2xl font-bold">${bookings.length}</div>
-                            </div>
-                            <div class="bg-white p-6 rounded shadow border-l-4 border-green-500">
-                                <div class="text-gray-500 text-sm">Doanh thu</div>
-                                <div class="text-2xl font-bold text-green-600">${formatCurrency(totalRevenue)}</div>
-                            </div>
-                            <div class="bg-white p-6 rounded shadow border-l-4 border-yellow-500">
-                                <div class="text-gray-500 text-sm">Tour hiện có</div>
-                                <div class="text-2xl font-bold">${tours.length}</div>
-                            </div>
-                             <div class="bg-white p-6 rounded shadow border-l-4 border-red-500">
-                                <div class="text-gray-500 text-sm">Phản hồi mới</div>
-                                <div class="text-2xl font-bold">5</div>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                            <!-- Recent Bookings Table -->
-                            <div class="bg-white rounded shadow p-6">
-                                <h3 class="font-bold text-lg mb-4 text-gray-700">Đơn đặt gần đây</h3>
-                                <div class="overflow-x-auto">
-                                    <table class="w-full text-left border-collapse">
-                                        <thead>
-                                            <tr class="bg-gray-50 text-xs text-gray-500 uppercase">
-                                                <th class="p-3">ID</th>
-                                                <th class="p-3">Khách hàng</th>
-                                                <th class="p-3">Tour</th>
-                                                <th class="p-3">Ngày</th>
-                                                <th class="p-3">Trạng thái</th>
-                                                <th class="p-3 text-right">Giá</th>
-                                                <th class="p-3"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            ${bookingRows}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <!-- Tours Management Quick View -->
-                            <div class="bg-white rounded shadow p-6">
-                                <div class="flex justify-between items-center mb-4">
-                                    <h3 class="font-bold text-lg text-gray-700">Danh sách Tour</h3>
-                                    <button class="bg-green-500 text-white text-xs px-3 py-1 rounded hover:bg-green-600">+ Thêm mới</button>
-                                </div>
-                                <div class="overflow-x-auto">
-                                    <table class="w-full text-left border-collapse">
-                                        <tbody>
-                                            ${tourRows}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        };
-
-        // Init App
-        router('home');
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/main.js"></script>
 </body>
 </html>
