@@ -24,6 +24,9 @@
                     <li class="nav-item"><a class="nav-link active" href="manage-tour.html"><i class="fas fa-plane me-2"></i> Quản lý Tour</a></li>
                     <li class="nav-item"><a class="nav-link" href="manage-booking.html"><i class="fas fa-file-invoice me-2"></i> Quản lý Đơn đặt</a></li>
                     <li class="nav-item"><a class="nav-link" href="manage-user.html"><i class="fas fa-users me-2"></i> Quản lý Người dùng</a></li>
+                    <li class="nav-item mt-4">
+                        <a class="nav-link text-danger" href="../index.html"><i class="fas fa-sign-out-alt me-2"></i> Đăng xuất</a>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -48,27 +51,27 @@
                             <th>Hành động</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="tourTableBody">
                         <tr>
                             <td>#T001</td>
-                            <td><img src="../assets/img/tour1.jpg" alt="Tour" width="60" class="rounded"></td>
+                            <td><img src="../assets/img/tour1.jpg" onerror="this.src='https://via.placeholder.com/60'" alt="Tour" width="60" class="rounded"></td>
                             <td>Nha Trang 3N2Đ</td>
                             <td>2,300,000đ</td>
                             <td>Biển</td>
                             <td>
                                 <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
-                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                <button class="btn btn-sm btn-danger delete-btn"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                         <tr>
                             <td>#T002</td>
-                            <td><img src="../assets/img/tour2.jpg" alt="Tour" width="60" class="rounded"></td>
+                            <td><img src="../assets/img/tour2.jpg" onerror="this.src='https://via.placeholder.com/60'" alt="Tour" width="60" class="rounded"></td>
                             <td>Đà Lạt Ngàn Hoa</td>
                             <td>1,200,000đ</td>
                             <td>Núi</td>
                             <td>
                                 <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
-                                <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                <button class="btn btn-sm btn-danger delete-btn"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     </tbody>
@@ -87,19 +90,33 @@
             </div>
             <div class="modal-body">
                 <form>
-                    <div class="mb-3"><label>Tên Tour</label><input type="text" class="form-control"></div>
-                    <div class="mb-3"><label>Giá</label><input type="number" class="form-control"></div>
-                    <div class="mb-3"><label>Loại</label><select class="form-select"><option>Biển</option><option>Núi</option></select></div>
+                    <div class="mb-3">
+                        <label>Tên Tour</label>
+                        <input type="text" id="tourNameInput" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Giá (VNĐ)</label>
+                        <input type="number" id="tourPriceInput" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Loại</label>
+                        <select id="tourTypeSelect" class="form-select">
+                            <option>Biển</option>
+                            <option>Núi</option>
+                            <option>Quốc tế</option>
+                        </select>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-primary">Lưu</button>
+                <button type="button" class="btn btn-primary" id="saveTourBtn">Lưu</button>
             </div>
         </div>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/admin.js"></script>
 </body>
 </html>
