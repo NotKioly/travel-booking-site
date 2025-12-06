@@ -1,158 +1,217 @@
 /* =========================================
-   ADMIN JAVASCRIPT FILE
-   Chức năng: Xử lý logic cho trang quản trị (Thêm/Sửa/Xóa Tour, Duyệt đơn, Quản lý User)
+   ADMIN JAVASCRIPT FILE - TRAVELSITE
+   Chức năng: Quản lý Tour, Booking, User & Bảo mật
    ========================================= */
 
 document.addEventListener("DOMContentLoaded", function () {
-
+    
     // ==========================================
-    // 1. QUẢN LÝ TOUR (manage-tour.html)
+    // 1. KIỂM TRA QUYỀN ADMIN (BẢO MẬT)
     // ==========================================
-    const tourTableBody = document.querySelector("#tourTableBody"); // Cần thêm ID này vào tbody trong HTML
-    const saveTourBtn = document.querySelector("#saveTourBtn");     // Cần thêm ID này vào nút Lưu trong Modal
-
-    // A. Chức năng Thêm Tour mới (Mô phỏng)
-    if (saveTourBtn && tourTableBody) {
-        saveTourBtn.addEventListener("click", function () {
-            // Lấy dữ liệu từ form (giả sử input có ID tương ứng)
-            const tourName = document.querySelector("#tourNameInput").value;
-            const tourPrice = document.querySelector("#tourPriceInput").value;
-            const tourType = document.querySelector("#tourTypeSelect").value;
-
-            if (tourName === "" || tourPrice === "") {
-                alert("Vui lòng nhập đủ thông tin!");
-                return;
-            }
-
-            // Tạo dòng mới
-            const newRow = document.createElement("tr");
-            newRow.innerHTML = `
-                <td>#T${Math.floor(Math.random() * 1000)}</td>
-                <td><img src="../assets/img/tour1.jpg" alt="Tour" width="60" class="rounded"></td>
-                <td>${tourName}</td>
-                <td>${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(tourPrice)}</td>
-                <td>${tourType}</td>
-                <td>
-                    <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
-                    <button class="btn btn-sm btn-danger delete-btn"><i class="fas fa-trash"></i></button>
-                </td>
-            `;
-
-            // Thêm vào bảng
-            tourTableBody.appendChild(newRow);
-            
-            // Đóng modal và reset form (Dùng Bootstrap API)
-            const modalEl = document.querySelector('#addTourModal');
-            const modal = bootstrap.Modal.getInstance(modalEl);
-            modal.hide();
-            document.querySelector("form").reset();
-            
-            alert("Đã thêm tour mới thành công!");
-        });
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    
+    // Nếu chưa đăng nhập hoặc không phải admin -> Đá về trang login
+    if (!currentUser || currentUser.role !== "admin") {
+        alert("Bạn không có quyền truy cập trang này!");
+        window.location.href = "../login.html";
+        return; // Dừng code
     }
 
-    // B. Chức năng Xóa Tour (Sử dụng Event Delegation)
-    if (tourTableBody) {
-        tourTableBody.addEventListener("click", function (e) {
-            if (e.target.closest(".delete-btn")) {
-                if (confirm("Bạn có chắc chắn muốn xóa tour này không?")) {
-                    e.target.closest("tr").remove();
-                }
-            }
-        });
-    }
+    // Hiển thị tên Admin trên Sidebar (nếu có element)
+    const adminNameEl = document.querySelector(".admin-name");
+    if(adminNameEl) adminNameEl.innerText = currentUser.name;
 
 
     // ==========================================
-    // 2. QUẢN LÝ ĐƠN ĐẶT (manage-booking.html)
+    // 2. XỬ LÝ ĐĂNG XUẤT
     // ==========================================
-    // Tìm tất cả các nút Duyệt và Hủy
-    const approveBtns = document.querySelectorAll(".btn-approve");
-    const rejectBtns = document.querySelectorAll(".btn-reject");
-
-    // Xử lý nút Duyệt (Check)
-    approveBtns.forEach(btn => {
-        btn.addEventListener("click", function () {
-            const row = this.closest("tr");
-            const badge = row.querySelector(".badge");
-            
-            badge.className = "badge bg-success";
-            badge.innerText = "Đã xác nhận";
-            
-            alert("Đã xác nhận đơn hàng!");
-            this.parentElement.innerHTML = '<button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button>'; // Ẩn nút xử lý đi
-        });
-    });
-
-    // Xử lý nút Hủy (X)
-    rejectBtns.forEach(btn => {
-        btn.addEventListener("click", function () {
-            if(confirm("Bạn muốn hủy đơn này?")) {
-                const row = this.closest("tr");
-                const badge = row.querySelector(".badge");
-                
-                badge.className = "badge bg-danger";
-                badge.innerText = "Đã hủy";
-                
-                this.parentElement.innerHTML = '<button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button>';
-            }
-        });
-    });
-
-
-    // ==========================================
-    // 3. QUẢN LÝ NGƯỜI DÙNG (manage-user.html)
-    // ==========================================
-    const lockBtns = document.querySelectorAll(".btn-lock-user");
-    const unlockBtns = document.querySelectorAll(".btn-unlock-user");
-
-    // Xử lý Khóa tài khoản
-    // Lưu ý: Cần gán class .btn-lock-user cho nút khóa trong HTML trước
-    document.addEventListener("click", function(e){
-        // Nút Khóa
-        if(e.target.closest(".btn-lock-user")) {
-            if(confirm("Khóa tài khoản này?")) {
-                const row = e.target.closest("tr");
-                const statusSpan = row.querySelector("td:nth-child(5) span");
-                
-                // Đổi trạng thái hiển thị
-                statusSpan.className = "text-danger";
-                statusSpan.innerHTML = '<i class="fas fa-circle small"></i> Đã khóa';
-                
-                // Đổi nút thành Mở khóa
-                const actionTd = row.querySelector("td:last-child");
-                actionTd.innerHTML = '<button class="btn btn-sm btn-outline-success btn-unlock-user" title="Mở khóa"><i class="fas fa-unlock"></i></button>';
-            }
-        }
-
-        // Nút Mở khóa
-        if(e.target.closest(".btn-unlock-user")) {
-            if(confirm("Mở khóa tài khoản này?")) {
-                const row = e.target.closest("tr");
-                const statusSpan = row.querySelector("td:nth-child(5) span");
-                
-                // Đổi trạng thái hiển thị
-                statusSpan.className = "text-success";
-                statusSpan.innerHTML = '<i class="fas fa-circle small"></i> Hoạt động';
-                
-                // Đổi nút thành Khóa
-                const actionTd = row.querySelector("td:last-child");
-                actionTd.innerHTML = '<button class="btn btn-sm btn-outline-danger btn-lock-user" title="Khóa tài khoản"><i class="fas fa-lock"></i></button>';
-            }
-        }
-    });
-
-    // ==========================================
-    // 4. ĐĂNG XUẤT
-    // ==========================================
-    const logoutBtn = document.querySelector(".nav-link.text-danger");
+    const logoutBtn = document.getElementById("adminLogoutBtn");
     if(logoutBtn) {
-        logoutBtn.addEventListener("click", function(e) {
+        logoutBtn.addEventListener("click", function(e){
             e.preventDefault();
             if(confirm("Đăng xuất khỏi trang quản trị?")) {
+                localStorage.removeItem("currentUser"); // Xóa session
                 window.location.href = "../index.html";
             }
         });
     }
 
+    // ==========================================
+    // 3. QUẢN LÝ USER (ĐỒNG BỘ VỚI MAIN.JS)
+    // ==========================================
+    const userTableBody = document.getElementById("userTableBody");
+    if (userTableBody) {
+        renderUserTable();
+
+        // Hàm vẽ bảng user từ LocalStorage
+        function renderUserTable() {
+            const users = JSON.parse(localStorage.getItem("listUsers")) || [];
+            userTableBody.innerHTML = ""; // Xóa trắng cũ
+
+            users.forEach((user, index) => {
+                const row = document.createElement("tr");
+                // Xác định trạng thái (Mô phỏng: admin luôn active, user có thể bị khóa)
+                // Ở đây mình thêm thuộc tính 'status' vào user nếu chưa có
+                if(!user.status) user.status = "active"; 
+
+                const statusBadge = user.status === "active" 
+                    ? '<span class="text-success"><i class="fas fa-circle small"></i> Hoạt động</span>' 
+                    : '<span class="text-danger"><i class="fas fa-circle small"></i> Đã khóa</span>';
+                
+                const roleBadge = user.role === "admin" 
+                    ? '<span class="badge bg-danger">Admin</span>' 
+                    : '<span class="badge bg-primary">User</span>';
+
+                // Nút thao tác (Admin không được khóa chính mình)
+                let actionBtn = "";
+                if(user.role !== "admin") {
+                    if(user.status === "active") {
+                        actionBtn = `<button class="btn btn-sm btn-outline-danger btn-toggle-status" data-index="${index}" title="Khóa"><i class="fas fa-lock"></i></button>`;
+                    } else {
+                        actionBtn = `<button class="btn btn-sm btn-outline-success btn-toggle-status" data-index="${index}" title="Mở khóa"><i class="fas fa-unlock"></i></button>`;
+                    }
+                }
+
+                row.innerHTML = `
+                    <td>#${index + 1}</td>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>${roleBadge}</td>
+                    <td>${statusBadge}</td>
+                    <td>${actionBtn}</td>
+                `;
+                userTableBody.appendChild(row);
+            });
+        }
+
+        // Xử lý sự kiện click Khóa/Mở khóa
+        userTableBody.addEventListener("click", function(e) {
+            const btn = e.target.closest(".btn-toggle-status");
+            if(btn) {
+                const index = btn.getAttribute("data-index");
+                let users = JSON.parse(localStorage.getItem("listUsers"));
+                
+                // Đổi trạng thái
+                if(users[index].status === "active" || !users[index].status) {
+                    if(confirm(`Khóa tài khoản ${users[index].email}?`)) users[index].status = "locked";
+                } else {
+                    if(confirm(`Mở khóa tài khoản ${users[index].email}?`)) users[index].status = "active";
+                }
+                
+                localStorage.setItem("listUsers", JSON.stringify(users)); // Lưu lại
+                renderUserTable(); // Vẽ lại bảng
+            }
+        });
+    }
+
+    // ==========================================
+    // 4. QUẢN LÝ TOUR (LOCAL STORAGE)
+    // ==========================================
+    const tourTableBody = document.getElementById("tourTableBody");
+    const saveTourBtn = document.getElementById("saveTourBtn");
+
+    // Khởi tạo dữ liệu Tour mẫu nếu chưa có
+    if (!localStorage.getItem("listTours")) {
+        const initialTours = [
+            { id: "T001", name: "Nha Trang 3N2Đ", price: 2300000, type: "Biển", img: "tour1.jpg" },
+            { id: "T002", name: "Đà Lạt Ngàn Hoa", price: 1200000, type: "Núi", img: "tour2.jpg" }
+        ];
+        localStorage.setItem("listTours", JSON.stringify(initialTours));
+    }
+
+    if (tourTableBody) {
+        renderTourTable();
+
+        function renderTourTable() {
+            const tours = JSON.parse(localStorage.getItem("listTours")) || [];
+            tourTableBody.innerHTML = "";
+            
+            tours.forEach((tour, index) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${tour.id}</td>
+                    <td><img src="../assets/img/${tour.img}" onerror="this.src='https://via.placeholder.com/60'" width="60" class="rounded"></td>
+                    <td>${tour.name}</td>
+                    <td>${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(tour.price)}</td>
+                    <td>${tour.type}</td>
+                    <td>
+                        <button class="btn btn-sm btn-danger btn-delete-tour" data-index="${index}"><i class="fas fa-trash"></i></button>
+                    </td>
+                `;
+                tourTableBody.appendChild(row);
+            });
+        }
+
+        // Thêm Tour Mới
+        if(saveTourBtn) {
+            saveTourBtn.addEventListener("click", function() {
+                const name = document.getElementById("tourNameInput").value;
+                const price = document.getElementById("tourPriceInput").value;
+                const type = document.getElementById("tourTypeSelect").value;
+
+                if(!name || !price) { alert("Vui lòng nhập đủ thông tin"); return; }
+
+                const tours = JSON.parse(localStorage.getItem("listTours")) || [];
+                const newTour = {
+                    id: "T" + Math.floor(Math.random() * 10000), // Random ID
+                    name: name,
+                    price: price,
+                    type: type,
+                    img: "tour1.jpg" // Ảnh mặc định
+                };
+
+                tours.push(newTour);
+                localStorage.setItem("listTours", JSON.stringify(tours));
+                
+                alert("Thêm tour thành công!");
+                renderTourTable();
+                
+                // Đóng modal (thủ công)
+                const modalEl = document.querySelector('#addTourModal');
+                const modal = bootstrap.Modal.getInstance(modalEl);
+                modal.hide();
+            });
+        }
+
+        // Xóa Tour
+        tourTableBody.addEventListener("click", function(e){
+            const btn = e.target.closest(".btn-delete-tour");
+            if(btn) {
+                if(confirm("Xóa tour này?")) {
+                    const index = btn.getAttribute("data-index");
+                    let tours = JSON.parse(localStorage.getItem("listTours"));
+                    tours.splice(index, 1);
+                    localStorage.setItem("listTours", JSON.stringify(tours));
+                    renderTourTable();
+                }
+            }
+        });
+    }
+
+    // ==========================================
+    // 5. QUẢN LÝ BOOKING (MÔ PHỎNG)
+    // ==========================================
+    // Phần này xử lý sự kiện click đơn giản cho giao diện
+    const bookingTable = document.querySelector("#bookingTable");
+    if(bookingTable) {
+        bookingTable.addEventListener("click", function(e) {
+            // Nút duyệt
+            if(e.target.closest(".btn-approve")) {
+                const row = e.target.closest("tr");
+                row.querySelector(".badge").className = "badge bg-success";
+                row.querySelector(".badge").innerText = "Đã xác nhận";
+                alert("Đã duyệt đơn hàng!");
+                e.target.closest("td").innerHTML = '<i class="fas fa-check text-success"></i>';
+            }
+            // Nút hủy
+            if(e.target.closest(".btn-reject")) {
+                if(confirm("Hủy đơn này?")) {
+                    const row = e.target.closest("tr");
+                    row.querySelector(".badge").className = "badge bg-danger";
+                    row.querySelector(".badge").innerText = "Đã hủy";
+                    e.target.closest("td").innerHTML = '<i class="fas fa-times text-danger"></i>';
+                }
+            }
+        });
+    }
 });
