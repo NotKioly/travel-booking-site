@@ -1,24 +1,44 @@
 /* =========================================
-   MAIN JAVASCRIPT FILE - TRAVELSITE (FINAL VERSION)
-   Chức năng: Quản lý tài khoản, mật khẩu, đặt tour, tìm kiếm bằng LocalStorage
+   MAIN JAVASCRIPT FILE - TRAVELSITE (FIX LOGIN VERSION)
+   Chức năng: Tự động sửa lỗi đăng nhập Admin, Quản lý tour, booking
    ========================================= */
 
 document.addEventListener("DOMContentLoaded", function () {
 
     // ==========================================
-    // 0. KHỞI TẠO DỮ LIỆU GIẢ (DATABASE)
+    // 0. KHỞI TẠO DỮ LIỆU & SỬA LỖI ĐĂNG NHẬP
     // ==========================================
-    // Chỉ tạo nếu chưa có dữ liệu trong bộ nhớ trình duyệt
-    if (!localStorage.getItem("listUsers")) {
-        const initialUsers = [
-            // TÀI KHOẢN ADMIN MẶC ĐỊNH
-            { name: "Admin System", email: "admin@travel.com", password: "admin123", role: "admin" },
-            // Tài khoản khách mẫu
-            { name: "Khách Demo", email: "khach@gmail.com", password: "123", role: "user" }
-        ];
-        localStorage.setItem("listUsers", JSON.stringify(initialUsers));
-        console.log("Đã khởi tạo dữ liệu người dùng mẫu.");
+    // Lấy danh sách user hiện tại ra (hoặc tạo mảng rỗng nếu chưa có)
+    let users = JSON.parse(localStorage.getItem("listUsers")) || [];
+
+    // Tìm xem đã có tài khoản Admin chưa
+    const adminIndex = users.findIndex(u => u.email === "admin@travel.com");
+
+    if (adminIndex !== -1) {
+        // NẾU ĐÃ CÓ: Cập nhật lại mật khẩu chuẩn để bạn đăng nhập được
+        users[adminIndex].password = "admin123";
+        users[adminIndex].role = "admin"; 
+        console.log("Đã reset mật khẩu Admin về: admin123");
+    } else {
+        // NẾU CHƯA CÓ: Tạo mới luôn
+        users.push({ 
+            name: "Admin System", 
+            email: "admin@travel.com", 
+            password: "admin123", 
+            role: "admin",
+            status: "active"
+        });
+        console.log("Đã tạo tài khoản Admin mới.");
     }
+
+    // Đảm bảo có user khách để test
+    if (!users.find(u => u.email === "khach@gmail.com")) {
+        users.push({ name: "Khách Demo", email: "khach@gmail.com", password: "123", role: "user", status: "active" });
+    }
+
+    // Lưu ngược lại vào bộ nhớ (Ghi đè dữ liệu cũ)
+    localStorage.setItem("listUsers", JSON.stringify(users));
+
 
     // ==========================================
     // 1. BANNER SLIDE
@@ -27,6 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (myCarouselElement) {
         new bootstrap.Carousel(myCarouselElement, { interval: 3000, ride: 'carousel', wrap: true });
     }
+
 
     // ==========================================
     // 2. TÌM KIẾM & LỌC TOUR
@@ -46,12 +67,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const matchesSearch = title.includes(searchText);
             let matchesType = true;
             
-            // Nếu chọn loại tour cụ thể (không phải Tất cả) thì kiểm tra text
             if (filterType !== "Tất cả" && !cardBodyText.includes(filterType)) {
                 matchesType = false;
             }
             
-            // Hiển thị hoặc ẩn
             if (matchesSearch && matchesType) {
                 card.closest(".col-md-4").style.display = "block";
             } else {
@@ -62,6 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (searchInput) searchInput.addEventListener("keyup", filterTours);
     if (filterSelect) filterSelect.addEventListener("change", filterTours);
 
+
     // ==========================================
     // 3. XỬ LÝ ĐẶT TOUR
     // ==========================================
@@ -69,7 +89,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (bookingForm) {
         bookingForm.addEventListener("submit", function (e) {
             e.preventDefault();
-            // Validate đơn giản
             const name = document.getElementById("customerName").value;
             const phone = document.getElementById("customerPhone").value;
             
@@ -81,6 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+
     // ==========================================
     // 4. ĐĂNG KÝ (CHECK TỒN TẠI & LƯU MỚI)
     // ==========================================
@@ -91,33 +111,30 @@ document.addEventListener("DOMContentLoaded", function () {
             const name = registerForm.querySelector('input[type="text"]').value;
             const email = registerForm.querySelector('input[type="email"]').value;
             const password = registerForm.querySelector('input[type="password"]').value;
-            
-            // Kiểm tra checkbox điều khoản
             const terms = document.getElementById("terms");
+
             if (terms && !terms.checked) { alert("Vui lòng đồng ý điều khoản!"); return; }
 
-            // Lấy danh sách user từ LocalStorage
-            let users = JSON.parse(localStorage.getItem("listUsers")) || [];
+            let usersList = JSON.parse(localStorage.getItem("listUsers")) || [];
 
-            // KIỂM TRA TÀI KHOẢN TỒN TẠI
-            const existingUser = users.find(u => u.email === email);
-            if (existingUser) {
-                alert("Email này đã được đăng ký! Vui lòng dùng email khác.");
+            // Kiểm tra trùng email
+            if (usersList.find(u => u.email === email)) {
+                alert("Email này đã được đăng ký!");
                 return;
             }
 
             // Lưu user mới
-            const newUser = { name: name, email: email, password: password, role: "user" };
-            users.push(newUser);
-            localStorage.setItem("listUsers", JSON.stringify(users));
+            usersList.push({ name: name, email: email, password: password, role: "user", status: "active" });
+            localStorage.setItem("listUsers", JSON.stringify(usersList));
 
             alert("Đăng ký thành công! Hãy đăng nhập ngay.");
             window.location.href = "login.html";
         });
     }
 
+
     // ==========================================
-    // 5. ĐĂNG NHẬP (CHECK ĐÚNG SAI TỪ DB)
+    // 5. ĐĂNG NHẬP (QUAN TRỌNG NHẤT)
     // ==========================================
     const loginForm = document.getElementById("loginForm");
     if (loginForm) {
@@ -126,40 +143,43 @@ document.addEventListener("DOMContentLoaded", function () {
             const email = loginForm.querySelector('input[type="email"]').value;
             const password = loginForm.querySelector('input[type="password"]').value;
 
-            // Lấy danh sách user để đối chiếu
-            let users = JSON.parse(localStorage.getItem("listUsers")) || [];
+            // Lấy danh sách mới nhất từ bộ nhớ
+            let currentUsersList = JSON.parse(localStorage.getItem("listUsers")) || [];
 
-            // Tìm user khớp email và pass
-            const user = users.find(u => u.email === email && u.password === password);
+            // Tìm user
+            const user = currentUsersList.find(u => u.email === email && u.password === password);
 
             if (user) {
-                // Đăng nhập thành công -> Lưu session
+                // Kiểm tra xem có bị khóa không
+                if(user.status === "locked") {
+                    alert("Tài khoản này đã bị khóa!");
+                    return;
+                }
+
+                // Đăng nhập thành công
                 localStorage.setItem("currentUser", JSON.stringify(user));
-                
                 alert(`Xin chào ${user.name}!`);
                 
-                // Điều hướng dựa trên quyền (Role)
                 if (user.role === "admin") {
                     window.location.href = "admin/dashboard.html";
                 } else {
                     window.location.href = "index.html";
                 }
             } else {
-                alert("Sai email hoặc mật khẩu! Vui lòng kiểm tra lại.");
+                alert("Sai email hoặc mật khẩu! (Hãy thử admin@travel.com / admin123)");
             }
         });
     }
 
+
     // ==========================================
-    // 6. TRẠNG THÁI ĐĂNG NHẬP & ĐĂNG XUẤT (MENU)
+    // 6. TRẠNG THÁI ĐĂNG NHẬP (MENU)
     // ==========================================
     function checkLoginStatus() {
         const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-        // Tìm vị trí nút Login trên menu
         const authContainer = document.querySelector(".navbar-nav.ms-auto .ms-2");
 
         if (currentUser && authContainer) {
-            // Thay nút Login bằng Dropdown User
             authContainer.innerHTML = `
                 <div class="dropdown">
                     <button class="btn btn-outline-primary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown">
@@ -174,7 +194,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
             `;
 
-            // Xử lý sự kiện Đăng xuất
             document.getElementById("btnLogout").addEventListener("click", function (e) {
                 e.preventDefault();
                 if (confirm("Đăng xuất ngay?")) {
@@ -184,8 +203,8 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     }
-    // Chạy ngay khi load trang
     checkLoginStatus();
+
 
     // ==========================================
     // 7. ĐỔI MẬT KHẨU
@@ -195,42 +214,41 @@ document.addEventListener("DOMContentLoaded", function () {
         const currentUser = JSON.parse(localStorage.getItem("currentUser"));
         
         if (!currentUser) {
-            alert("Bạn cần đăng nhập để thực hiện chức năng này!");
+            alert("Bạn cần đăng nhập!");
             window.location.href = "login.html";
         } else {
             changePassForm.addEventListener("submit", function (e) {
                 e.preventDefault();
                 
-                // Lấy giá trị input (Đảm bảo input HTML có đúng ID)
+                // Lưu ý: Cần thêm id="oldPass" vào input mật khẩu cũ ở file HTML
                 const oldPassInput = document.getElementById("oldPass"); 
                 const newPass = document.getElementById("newPass").value;
                 const confirmPass = document.getElementById("confirmPass").value;
 
-                if(!oldPassInput) { console.error("Thiếu id='oldPass' trong HTML"); return; }
+                // Dự phòng nếu bạn chưa sửa HTML
+                const oldPassValue = oldPassInput ? oldPassInput.value : document.querySelector("input[type='password']").value;
 
-                // 1. Check mật khẩu cũ
-                if (oldPassInput.value !== currentUser.password) {
+                if (oldPassValue !== currentUser.password) {
                     alert("Mật khẩu hiện tại không đúng!");
                     return;
                 }
 
-                // 2. Check mật khẩu mới
                 if (newPass.length < 3) {
-                    alert("Mật khẩu mới quá ngắn!"); return;
+                    alert("Mật khẩu quá ngắn!"); return;
                 }
                 if (newPass !== confirmPass) {
                     alert("Mật khẩu xác nhận không khớp!"); return;
                 }
 
-                // 3. Cập nhật dữ liệu
-                let users = JSON.parse(localStorage.getItem("listUsers")) || [];
-                const index = users.findIndex(u => u.email === currentUser.email);
+                // Cập nhật dữ liệu
+                let listUsers = JSON.parse(localStorage.getItem("listUsers")) || [];
+                const index = listUsers.findIndex(u => u.email === currentUser.email);
                 
                 if (index !== -1) {
-                    users[index].password = newPass; // Cập nhật trong list tổng
-                    localStorage.setItem("listUsers", JSON.stringify(users));
+                    listUsers[index].password = newPass;
+                    localStorage.setItem("listUsers", JSON.stringify(listUsers));
                     
-                    currentUser.password = newPass; // Cập nhật session hiện tại
+                    currentUser.password = newPass;
                     localStorage.setItem("currentUser", JSON.stringify(currentUser));
 
                     alert("Đổi mật khẩu thành công!");
@@ -241,19 +259,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // ==========================================
-    // 8. GÓP Ý / LIÊN HỆ
+    // 8. GÓP Ý
     // ==========================================
     const feedbackForm = document.getElementById("feedbackForm");
     if (feedbackForm) {
         feedbackForm.addEventListener("submit", function(e){
             e.preventDefault();
             alert("Cảm ơn bạn đã gửi góp ý!");
-            feedbackForm.reset();
-        })
-    }
-});edbackForm.addEventListener("submit", function(e){
-            e.preventDefault();
-            alert("Đã gửi góp ý!");
             feedbackForm.reset();
         })
     }
