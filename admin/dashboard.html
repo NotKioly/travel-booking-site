@@ -2,131 +2,39 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - TravelSite</title>
+    <title>Dashboard - Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
-    <style>
-        /* CSS riêng cho Admin Sidebar để hiển thị tốt hơn */
-        .sidebar { min-height: 100vh; background-color: #343a40; color: #fff; }
-        .sidebar a { color: #adb5bd; text-decoration: none; padding: 10px 15px; display: block; }
-        .sidebar a:hover, .sidebar a.active { background-color: #0099FF; color: #fff; }
-        .stat-card { border-left: 4px solid #0099FF; }
-    </style>
+    <style>.sidebar { min-height: 100vh; background-color: #343a40; color: #fff; } .sidebar a { color: #adb5bd; text-decoration: none; padding: 10px 15px; display: block; } .sidebar a:hover, .sidebar a.active { background-color: #0099FF; color: #fff; }</style>
 </head>
 <body>
-
 <div class="container-fluid">
     <div class="row">
         <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse show">
             <div class="position-sticky pt-3">
                 <h4 class="text-center mb-4">Admin Panel</h4>
+                <div class="text-center mb-3 text-muted small">Xin chào, <span class="admin-name fw-bold text-light">Admin</span></div>
                 <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="dashboard.html">
-                            <i class="fas fa-home me-2"></i> Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="manage-tour.html">
-                            <i class="fas fa-plane me-2"></i> Quản lý Tour
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="manage-booking.html">
-                            <i class="fas fa-file-invoice me-2"></i> Quản lý Đơn đặt
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="manage-user.html">
-                            <i class="fas fa-users me-2"></i> Quản lý Người dùng
-                        </a>
-                    </li>
-                    <li class="nav-item mt-4">
-                        <a class="nav-link text-danger" href="../index.html">
-                            <i class="fas fa-sign-out-alt me-2"></i> Đăng xuất
-                        </a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link active" href="dashboard.html"><i class="fas fa-home me-2"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="manage-tour.html"><i class="fas fa-plane me-2"></i> Quản lý Tour</a></li>
+                    <li class="nav-item"><a class="nav-link" href="manage-booking.html"><i class="fas fa-file-invoice me-2"></i> Quản lý Đơn đặt</a></li>
+                    <li class="nav-item"><a class="nav-link" href="manage-user.html"><i class="fas fa-users me-2"></i> Quản lý Người dùng</a></li>
+                    <li class="nav-item mt-4"><a class="nav-link text-danger" href="#" id="adminLogoutBtn"><i class="fas fa-sign-out-alt me-2"></i> Đăng xuất</a></li>
                 </ul>
             </div>
         </nav>
-
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
-            <h2 class="mb-4">Thống kê tổng quan</h2>
-            
+            <h2>Thống kê tổng quan</h2>
             <div class="row g-3 mb-4">
-                <div class="col-md-3">
-                    <div class="card stat-card shadow-sm">
-                        <div class="card-body">
-                            <h6 class="text-muted">Tổng số Tour</h6>
-                            <h3>15</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card stat-card shadow-sm" style="border-left-color: #28a745;">
-                        <div class="card-body">
-                            <h6 class="text-muted">Đơn đặt mới</h6>
-                            <h3>8</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card stat-card shadow-sm" style="border-left-color: #ffc107;">
-                        <div class="card-body">
-                            <h6 class="text-muted">Khách hàng</h6>
-                            <h3>120</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card stat-card shadow-sm" style="border-left-color: #dc3545;">
-                        <div class="card-body">
-                            <h6 class="text-muted">Doanh thu tháng</h6>
-                            <h3>54tr</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card shadow-sm">
-                <div class="card-header bg-white">
-                    <h5 class="mb-0">Hoạt động gần đây</h5>
-                </div>
-                <div class="card-body">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Thời gian</th>
-                                <th>Hành động</th>
-                                <th>Chi tiết</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>10:30 AM</td>
-                                <td><span class="badge bg-success">Booking</span></td>
-                                <td>Nguyễn Văn A vừa đặt Tour Nha Trang</td>
-                            </tr>
-                            <tr>
-                                <td>09:15 AM</td>
-                                <td><span class="badge bg-primary">User</span></td>
-                                <td>Thành viên mới Trần Thị B đăng ký</td>
-                            </tr>
-                            <tr>
-                                <td>Yesterday</td>
-                                <td><span class="badge bg-warning text-dark">System</span></td>
-                                <td>Cập nhật giá Tour Đà Lạt</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <div class="col-md-3"><div class="card p-3 shadow-sm border-start border-4 border-primary"><h5>Tổng Tour</h5><h3>15</h3></div></div>
+                <div class="col-md-3"><div class="card p-3 shadow-sm border-start border-4 border-success"><h5>Đơn mới</h5><h3>8</h3></div></div>
+                <div class="col-md-3"><div class="card p-3 shadow-sm border-start border-4 border-warning"><h5>Khách hàng</h5><h3>120</h3></div></div>
+                <div class="col-md-3"><div class="card p-3 shadow-sm border-start border-4 border-danger"><h5>Doanh thu</h5><h3>54tr</h3></div></div>
             </div>
         </main>
     </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/admin.js"></script>
 </body>
-</html>
+    </html>
