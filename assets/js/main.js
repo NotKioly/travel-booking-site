@@ -204,12 +204,9 @@ document.addEventListener("DOMContentLoaded", function () {
     window.handleChat = function(e) { if(e.key === "Enter") sendUserMessage(); }
     
     window.handleOption = function(txt) { 
-        // Hiển thị lựa chọn người dùng như tin nhắn
         const body = document.getElementById("chatBody");
         body.innerHTML += `<div class="message-user">${txt}</div>`;
         body.scrollTop = body.scrollHeight;
-        
-        // Bot trả lời
         setTimeout(() => { botReply(txt); }, 600);
     }
 
@@ -217,10 +214,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const inp = document.getElementById("chatInput");
         const txt = inp.value.trim();
         if(!txt) return;
-        const body = document.getElementById("chatBody");
-        body.innerHTML += `<div class="message-user">${txt}</div>`;
+        document.getElementById("chatBody").innerHTML += `<div class="message-user">${txt}</div>`;
         inp.value = "";
-        body.scrollTop = body.scrollHeight;
+        document.getElementById("chatBody").scrollTop = document.getElementById("chatBody").scrollHeight;
         setTimeout(() => { botReply(txt); }, 800);
     }
 
@@ -262,22 +258,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // --- 6. ĐĂNG NHẬP (BẢO MẬT) ---
     const loginForm = document.getElementById("loginForm");
-    if(loginForm) {
-        loginForm.addEventListener("submit", (e) => {
+    if (loginForm) {
+        loginForm.addEventListener("submit", function (e) {
             e.preventDefault();
             const email = document.getElementById('loginEmail').value;
             const pass = document.querySelector('input[type="password"]').value;
-            // Admin: admin@travel.com / admin123
-            if (btoa(email) === "YWRtaW5AdHJhdmVsLmNvbQ==" && btoa(pass) === "YWRtaW4xMjM=") {
-                localStorage.setItem("currentUser", JSON.stringify({name:"Admin", role:"admin"}));
+
+            // Mã hóa Admin: admin@travel.com / admin123
+            const SEC_EMAIL = "YWRtaW5AdHJhdmVsLmNvbQ=="; 
+            const SEC_PASS = "YWRtaW4xMjM="; 
+
+            if (btoa(email) === SEC_EMAIL && btoa(pass) === SEC_PASS) {
+                localStorage.setItem("currentUser", JSON.stringify({ name: "Admin GreenTrip", role: "admin" }));
                 window.location.href = "admin/dashboard.html";
             } else {
-                // Check user thường
+                // Kiểm tra user thường
                 let users = JSON.parse(localStorage.getItem("listUsers")) || [];
                 const user = users.find(u => u.email === email && u.password === pass);
-                if(user) {
+                if (user) {
                     if(user.status === 'locked') { alert("Tài khoản bị khóa!"); return; }
                     localStorage.setItem("currentUser", JSON.stringify(user));
+                    alert(`Chào mừng ${user.name}!`);
                     window.location.href = "index.html";
                 } else {
                     alert("Sai thông tin đăng nhập!");
