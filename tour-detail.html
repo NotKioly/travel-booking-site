@@ -13,9 +13,6 @@
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container">
             <a class="navbar-brand" href="index.html"><i class="fas fa-globe-asia"></i> GreenTrip</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
@@ -32,8 +29,8 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 small">
                     <li class="breadcrumb-item"><a href="index.html" class="text-decoration-none text-muted">Trang chủ</a></li>
-                    <li class="breadcrumb-item"><a href="tour.html" class="text-decoration-none text-muted">Tour Biển</a></li>
-                    <li class="breadcrumb-item active text-primary fw-bold" aria-current="page">Nha Trang 3N2Đ</li>
+                    <li class="breadcrumb-item"><a href="tour.html" class="text-decoration-none text-muted">Tour</a></li>
+                    <li class="breadcrumb-item active text-primary fw-bold" aria-current="page" id="breadcrumbName">Đang tải...</li>
                 </ol>
             </nav>
         </div>
@@ -43,31 +40,25 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
-                    <h1 class="fw-bold text-primary mb-3">Nha Trang - Thiên Đường Biển Đảo (3N2Đ)</h1>
+                    <h1 class="fw-bold text-primary mb-3" id="detailTitle">...</h1>
                     <div class="d-flex align-items-center mb-4 text-muted small">
-                        <span class="me-3"><i class="fas fa-map-marker-alt text-danger me-1"></i> Khánh Hòa</span>
-                        <span class="me-3"><i class="fas fa-clock text-success me-1"></i> 3 Ngày 2 Đêm</span>
-                        <span><i class="fas fa-star text-warning me-1"></i> 4.8 (152 đánh giá)</span>
+                        <span class="me-3"><i class="fas fa-map-marker-alt text-danger me-1"></i> <span id="detailLocation">...</span></span>
+                        <span class="me-3"><i class="fas fa-clock text-success me-1"></i> <span id="detailDuration">...</span></span>
+                        <span><i class="fas fa-star text-warning me-1"></i> 4.8</span>
                     </div>
+
                     <div class="rounded-4 overflow-hidden shadow-sm mb-5 position-relative">
-                        <img src="assets/img/tour2.jpg" onerror="this.src='https://via.placeholder.com/800x500'" class="w-100 object-fit-cover" style="height: 450px;" alt="Chi tiết tour">
-                        <div class="position-absolute top-0 end-0 m-3"><span class="badge bg-danger py-2 px-3 fs-6 shadow">Giảm 10%</span></div>
+                        <img src="" id="detailImage" class="w-100 object-fit-cover" style="height: 450px;" onerror="this.src='https://via.placeholder.com/800x500'">
                     </div>
+
                     <div class="bg-white p-4 rounded-4 shadow-sm mb-4 border">
                         <h4 class="fw-bold mb-3"><i class="far fa-lightbulb text-warning me-2"></i>Điểm nổi bật</h4>
-                        <div class="row g-3">
-                            <div class="col-md-6"><i class="fas fa-check-circle text-success me-2"></i> Tham quan Vinwonders</div>
-                            <div class="col-md-6"><i class="fas fa-check-circle text-success me-2"></i> Lặn ngắm san hô Hòn Mun</div>
-                        </div>
+                        <div class="row g-3" id="detailHighlights"></div>
                     </div>
+
                     <div class="mb-5">
                         <h4 class="fw-bold mb-4">Lịch trình chi tiết</h4>
-                        <div class="accordion" id="tourItinerary">
-                            <div class="accordion-item border-0 shadow-sm mb-3 rounded overflow-hidden">
-                                <h2 class="accordion-header"><button class="accordion-button fw-bold bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#day1"><span class="badge bg-primary me-3">Ngày 1</span> Đón Sân Bay - Vinwonders</button></h2>
-                                <div id="day1" class="accordion-collapse collapse show" data-bs-parent="#tourItinerary"><div class="accordion-body text-muted">Xe đón quý khách tại sân bay Cam Ranh...</div></div>
-                            </div>
-                            </div>
+                        <div class="accordion" id="tourItinerary"></div>
                     </div>
                 </div>
 
@@ -75,21 +66,17 @@
                     <div class="card border-0 shadow-lg rounded-4 sticky-top" style="top: 100px; z-index: 10;">
                         <div class="card-body p-4">
                             <div class="mb-4 text-center">
-                                <p class="text-decoration-line-through text-muted mb-0">2,800,000đ</p>
-                                <h2 class="text-danger fw-bold mb-0">2,300,000đ</h2>
-                                <span class="badge bg-success bg-opacity-10 text-success border border-success rounded-pill px-3">Tiết kiệm 500k</span>
+                                <p class="text-decoration-line-through text-muted mb-0">Giá gốc cao hơn</p>
+                                <h2 class="text-danger fw-bold mb-0" id="detailPrice">...</h2>
+                                <span class="badge bg-success bg-opacity-10 text-success border border-success rounded-pill px-3">Đang ưu đãi</span>
                             </div>
-                            
                             <div class="d-grid gap-2">
                                 <a href="booking.html" class="btn btn-primary-custom text-white py-3 shadow-sm fw-bold">ĐẶT TOUR NGAY</a>
-                                
                                 <button type="button" class="btn btn-outline-custom fw-bold" onclick="toggleChat()">
                                     <i class="fas fa-comments me-2"></i> TƯ VẤN MIỄN PHÍ
                                 </button>
                             </div>
-
                             <div class="mt-4 pt-3 border-top text-center small text-muted">
-                                <p class="mb-1"><i class="fas fa-check-circle text-success me-1"></i> Xác nhận tức thì</p>
                                 <p class="mb-0"><i class="fas fa-phone-alt text-primary me-1"></i> Hotline: 0347.348.147</p>
                             </div>
                         </div>
@@ -101,25 +88,179 @@
 
     <div id="chatWidget" class="chat-widget shadow-lg">
         <div class="chat-header bg-primary text-white p-3 d-flex justify-content-between align-items-center">
-            <div class="d-flex align-items-center">
-                <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" width="30" class="me-2 rounded-circle bg-white p-1">
-                <span class="fw-bold">CSKH GreenTrip</span>
-            </div>
+            <div class="d-flex align-items-center"><img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" width="30" class="me-2 rounded-circle bg-white p-1"><span class="fw-bold">CSKH GreenTrip</span></div>
             <button type="button" class="btn-close btn-close-white" onclick="toggleChat()"></button>
         </div>
-        <div class="chat-body p-3" id="chatBody">
-            </div>
-        <div class="chat-footer p-2 border-top">
-            <div class="input-group">
-                <input type="text" id="chatInput" class="form-control border-0" placeholder="Nhập tin nhắn..." onkeypress="handleChat(event)">
-                <button class="btn btn-primary-custom text-white rounded-circle ms-2" onclick="sendUserMessage()"><i class="fas fa-paper-plane"></i></button>
-            </div>
-        </div>
+        <div class="chat-body p-3" id="chatBody"></div>
+        <div class="chat-footer p-2 border-top"><div class="input-group"><input type="text" id="chatInput" class="form-control border-0" placeholder="Nhập tin nhắn..." onkeypress="handleChat(event)"><button class="btn btn-primary-custom text-white rounded-circle ms-2" onclick="sendUserMessage()"><i class="fas fa-paper-plane"></i></button></div></div>
     </div>
 
     <footer class="bg-dark text-white py-4 mt-5 text-center">&copy; 2025 GreenTrip. All rights reserved.</footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script type="module" src="assets/js/main.js"></script>
+
+    <script>
+        const toursData = {
+            "T001": {
+                name: "Đà Lạt - Thành Phố Ngàn Hoa",
+                location: "Lâm Đồng",
+                duration: "3 Ngày 2 Đêm",
+                price: "1,500,000đ",
+                img: "assets/img/tour1.jpg",
+                highlights: ["Săn mây Cầu Đất", "Check-in Quảng trường Lâm Viên", "Vườn hoa Cẩm Tú Cầu", "Thác Datanla"],
+                itinerary: [
+                    { day: "Ngày 1", title: "TP.HCM - Đà Lạt", content: "Đón khách, di chuyển lên Đà Lạt. Tham quan Quảng trường Lâm Viên." },
+                    { day: "Ngày 2", title: "Săn Mây - Đồi Chè", content: "Sáng sớm đi săn mây Cầu Đất. Chiều tham quan vườn hoa." },
+                    { day: "Ngày 3", title: "Thác Datanla - TP.HCM", content: "Trải nghiệm máng trượt thác Datanla. Khởi hành về TP.HCM." }
+                ]
+            },
+            "T002": {
+                name: "Nha Trang - Thiên Đường Biển Đảo",
+                location: "Khánh Hòa",
+                duration: "3 Ngày 2 Đêm",
+                price: "2,300,000đ",
+                img: "assets/img/tour2.jpg",
+                highlights: ["Vinwonders", "Lặn ngắm san hô Hòn Mun", "Tắm bùn khoáng nóng"],
+                itinerary: [
+                    { day: "Ngày 1", title: "Đón Sân Bay - Vinwonders", content: "Xe đón khách. Tham quan Vinwonders." },
+                    { day: "Ngày 2", title: "Du Ngoạn 3 Đảo", content: "Cano đi Hòn Mun, Hòn Một. Tắm biển." },
+                    { day: "Ngày 3", title: "City Tour", content: "Tham quan Tháp Bà Ponagar. Ra sân bay." }
+                ]
+            },
+            "T003": {
+                name: "Phú Quốc - Đảo Ngọc Tình Yêu",
+                location: "Kiên Giang",
+                duration: "4 Ngày 3 Đêm",
+                price: "3,800,000đ",
+                img: "assets/img/tour3.jpg",
+                highlights: ["Cáp treo Hòn Thơm", "Grand World", "Bãi Sao"],
+                itinerary: [
+                    { day: "Ngày 1", title: "Đón Khách - Grand World", content: "Đón sân bay. Tối tham quan Grand World." },
+                    { day: "Ngày 2", title: "Câu Cá - Lặn Ngắm San Hô", content: "Tham quan Nam Đảo, Bãi Sao. Lên tàu câu cá." },
+                    { day: "Ngày 3", title: "Cáp Treo Hòn Thơm", content: "Trải nghiệm cáp treo vượt biển." },
+                    { day: "Ngày 4", title: "Tạm Biệt Phú Quốc", content: "Tự do tắm biển. Tiễn sân bay." }
+                ]
+            },
+            "T004": {
+                name: "Hạ Long - Kỳ Quan Thiên Nhiên",
+                location: "Quảng Ninh",
+                duration: "2 Ngày 1 Đêm",
+                price: "2,500,000đ",
+                img: "assets/img/tour4.jpg",
+                highlights: ["Du thuyền 5 sao", "Hang Sửng Sốt", "Đảo Ti Tốp"],
+                itinerary: [
+                    { day: "Ngày 1", title: "Hà Nội - Vịnh Hạ Long", content: "Lên du thuyền, ăn trưa. Tham quan Hang Sửng Sốt." },
+                    { day: "Ngày 2", title: "Đảo Ti Tốp - Hà Nội", content: "Tắm biển hoặc leo núi tại đảo Ti Tốp." }
+                ]
+            },
+            "T005": {
+                name: "Sapa - Chinh Phục Fansipan",
+                location: "Lào Cai",
+                duration: "3 Ngày 2 Đêm",
+                price: "1,800,000đ",
+                img: "assets/img/tour5.jpg",
+                highlights: ["Đỉnh Fansipan", "Bản Cát Cát", "Nhà thờ Đá"],
+                itinerary: [
+                    { day: "Ngày 1", title: "Hà Nội - Sapa", content: "Xe giường nằm đi Sapa. Chiều leo núi Hàm Rồng." },
+                    { day: "Ngày 2", title: "Fansipan Legend", content: "Đi cáp treo chinh phục Fansipan." },
+                    { day: "Ngày 3", title: "Bản Cát Cát", content: "Tham quan bản làng người H'Mông. Về Hà Nội." }
+                ]
+            },
+            "T006": {
+                name: "Nhật Bản - Cung Đường Vàng",
+                location: "Tokyo - Kyoto",
+                duration: "5 Ngày 4 Đêm",
+                price: "25,000,000đ",
+                img: "assets/img/tour6.jpg",
+                highlights: ["Núi Phú Sĩ", "Chùa Vàng", "Phố cổ Kyoto"],
+                itinerary: [
+                    { day: "Ngày 1", title: "Bay đến Tokyo", content: "Đáp sân bay Narita. Tham quan Chùa Asakusa." },
+                    { day: "Ngày 2", title: "Tokyo - Núi Phú Sĩ", content: "Di chuyển đi Núi Phú Sĩ. Tắm Onsen." },
+                    { day: "Ngày 3", title: "Nagoya - Kyoto", content: "Đi tàu Shinkansen. Tham quan Chùa Vàng." },
+                    { day: "Ngày 4", title: "Osaka", content: "Tham quan Lâu đài Osaka." },
+                    { day: "Ngày 5", title: "Về Việt Nam", content: "Ra sân bay Kansai." }
+                ]
+            },
+            "T007": {
+                name: "Thái Lan - Bangkok & Pattaya",
+                location: "Thái Lan",
+                duration: "4 Ngày 3 Đêm",
+                price: "6,500,000đ",
+                img: "assets/img/tour7.jpg",
+                highlights: ["Đảo Coral", "Chùa Phật Vàng", "Show Alcazar"],
+                itinerary: [
+                    { day: "Ngày 1", title: "TP.HCM - Bangkok", content: "Bay đến Bangkok. Di chuyển đi Pattaya." },
+                    { day: "Ngày 2", title: "Đảo Coral", content: "Cano đi đảo Coral tắm biển." },
+                    { day: "Ngày 3", title: "Pattaya - Bangkok", content: "Về Bangkok ăn Buffet tại tòa nhà 86 tầng Baiyoke Sky." },
+                    { day: "Ngày 4", title: "Chùa Phật Vàng - TP.HCM", content: "Viếng Chùa Phật Vàng. Ra sân bay về nước." }
+                ]
+            },
+            "T008": {
+                name: "Miền Tây - Về Miền Sông Nước",
+                location: "Cần Thơ - Tiền Giang",
+                duration: "2 Ngày 1 Đêm",
+                price: "1,200,000đ",
+                img: "assets/img/tour8.jpg",
+                highlights: ["Chợ nổi Cái Răng", "Vườn trái cây", "Nghe đờn ca tài tử", "Đi xuồng ba lá"],
+                itinerary: [
+                    { day: "Ngày 1", title: "TP.HCM - Mỹ Tho - Bến Tre", content: "Tham quan Cồn Thới Sơn, đi xuồng ba lá, thăm lò kẹo dừa. Nghe đờn ca tài tử." },
+                    { day: "Ngày 2", title: "Cần Thơ - Chợ Nổi", content: "5h sáng đi chợ nổi Cái Răng. Tham quan vườn trái cây. Khởi hành về TP.HCM." }
+                ]
+            },
+            "T009": {
+                name: "Hà Nội - 36 Phố Phường",
+                location: "Hà Nội",
+                duration: "1 Ngày",
+                price: "800,000đ",
+                img: "assets/img/tour9.jpg",
+                highlights: ["Lăng Bác", "Hồ Gươm", "Văn Miếu", "Phố cổ", "Cafe Trứng"],
+                itinerary: [
+                    { day: "Sáng", title: "Lăng Bác - Chùa Một Cột", content: "Viếng Lăng Bác, tham quan Chùa Một Cột, Văn Miếu Quốc Tử Giám." },
+                    { day: "Chiều", title: "Hồ Gươm - Phố Cổ", content: "Dạo quanh Hồ Gươm, Đền Ngọc Sơn. Khám phá ẩm thực phố cổ và thưởng thức Cafe Trứng." }
+                ]
+            }
+        };
+
+        // JS TỰ ĐỘNG ĐIỀN DỮ LIỆU
+        document.addEventListener("DOMContentLoaded", function() {
+            const params = new URLSearchParams(window.location.search);
+            const tourId = params.get('id');
+            const tour = toursData[tourId];
+
+            if (tour) {
+                document.getElementById('breadcrumbName').innerText = tour.name;
+                document.getElementById('detailTitle').innerText = tour.name;
+                document.getElementById('detailLocation').innerText = tour.location;
+                document.getElementById('detailDuration').innerText = tour.duration;
+                document.getElementById('detailPrice').innerText = tour.price;
+                document.getElementById('detailImage').src = tour.img;
+
+                const highlightContainer = document.getElementById('detailHighlights');
+                tour.highlights.forEach(hl => {
+                    highlightContainer.innerHTML += `<div class="col-md-6 d-flex align-items-center"><i class="fas fa-check-circle text-success me-2"></i> ${hl}</div>`;
+                });
+
+                const itineraryContainer = document.getElementById('tourItinerary');
+                tour.itinerary.forEach((item, index) => {
+                    const isShow = index === 0 ? "show" : "";
+                    const isCollapsed = index === 0 ? "" : "collapsed";
+                    itineraryContainer.innerHTML += `
+                        <div class="accordion-item border-0 shadow-sm mb-3 rounded overflow-hidden">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button ${isCollapsed} fw-bold bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#day${index}">
+                                    <span class="badge bg-primary me-3">${item.day}</span> ${item.title}
+                                </button>
+                            </h2>
+                            <div id="day${index}" class="accordion-collapse collapse ${isShow}" data-bs-parent="#tourItinerary">
+                                <div class="accordion-body text-muted">${item.content}</div>
+                            </div>
+                        </div>`;
+                });
+            } else {
+                document.getElementById('detailTitle').innerText = "Không tìm thấy thông tin tour!";
+            }
+        });
+    </script>
 </body>
 </html>
