@@ -1,6 +1,6 @@
 /* =========================================
    MAIN.JS - GREENTRIP (FULL FINAL VERSION)
-   Chức năng: Database Tour, Booking, Chatbot, Auth (Login/Register)
+   Chức năng: Database Tour, Booking, Chatbot, Auth (Login/Register), Feedback
    ========================================= */
 import { db } from "./firebase-config.js";
 import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -252,7 +252,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("chatBody").scrollTop = document.getElementById("chatBody").scrollHeight;
     }
 
-    // --- 6. XỬ LÝ ĐĂNG KÝ (FIXED) ---
+    // --- 6. XỬ LÝ ĐĂNG KÝ (ĐÃ TÍCH HỢP) ---
     const registerForm = document.getElementById("registerForm");
     if(registerForm) {
         registerForm.addEventListener("submit", (e) => {
@@ -264,15 +264,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if(!terms.checked) { alert("Bạn chưa đồng ý điều khoản!"); return; }
 
-            // Lấy danh sách user
             let users = JSON.parse(localStorage.getItem("listUsers")) || [];
             
-            // Check trùng email
             if(users.find(u => u.email === email)) {
                 alert("Email này đã được đăng ký!"); return;
             }
 
-            // Lưu user mới
             users.push({ name: name, email: email, password: pass, role: "user", status: "active" });
             localStorage.setItem("listUsers", JSON.stringify(users));
 
