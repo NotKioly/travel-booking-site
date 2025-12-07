@@ -8,19 +8,28 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <style>
-        /* Tùy chỉnh riêng cho Banner trang chủ */
         .hero-banner {
-            background-image: url('assets/img/banner1.jpg'); /* Đảm bảo file này đúng tên */
+            background-image: url('assets/img/banner1.jpg');
             height: 600px;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             position: relative;
         }
-        /* Mobile responsive */
         @media (max-width: 768px) {
             .hero-banner { height: 500px; }
             .hero-content h1 { font-size: 2rem; }
+        }
+        /* Style cho ảnh thành viên */
+        .team-img {
+            width: 120px; height: 120px;
+            object-fit: cover;
+            border: 4px solid #ecfdf5;
+            transition: transform 0.3s;
+        }
+        .team-card:hover .team-img {
+            transform: scale(1.1);
+            border-color: #059669;
         }
     </style>
 </head>
@@ -51,11 +60,9 @@
         <div class="carousel-inner">
             <div class="carousel-item active hero-banner">
                 <div class="hero-overlay"></div>
-                
                 <div class="hero-content text-center px-3 d-flex flex-column justify-content-center h-100">
                     <h1 class="display-4 fw-bold text-white text-shadow mb-3">Du Lịch Xanh - Trải Nghiệm Vàng</h1>
                     <p class="lead text-white text-shadow mb-5 d-none d-md-block">Hơn 100 tour du lịch hấp dẫn đang chờ bạn khám phá</p>
-                    
                     <div class="bg-white p-4 rounded-4 shadow-lg mx-auto search-box-banner w-100" style="max-width: 900px;">
                         <form class="row g-3" action="tour.html" method="GET">
                             <div class="col-md-5">
@@ -78,9 +85,7 @@
                                 </div>
                             </div>
                             <div class="col-md-3 d-grid">
-                                <button type="submit" class="btn btn-primary-custom text-white fw-bold">
-                                    <i class="fas fa-search me-2"></i> TÌM KIẾM
-                                </button>
+                                <button type="submit" class="btn btn-primary-custom text-white fw-bold"><i class="fas fa-search me-2"></i> TÌM KIẾM</button>
                             </div>
                         </form>
                     </div>
@@ -89,84 +94,209 @@
         </div>
     </header>
 
+    <section class="py-5 bg-success text-white">
+        <div class="container">
+            <div class="row text-center g-4">
+                <div class="col-6 col-md-3 border-end border-white border-opacity-25">
+                    <h2 class="fw-bold display-5 mb-0">10+</h2>
+                    <p class="mb-0 opacity-75">Năm Kinh Nghiệm</p>
+                </div>
+                <div class="col-6 col-md-3 border-end border-white border-opacity-25">
+                    <h2 class="fw-bold display-5 mb-0">500+</h2>
+                    <p class="mb-0 opacity-75">Tour Đã Tổ Chức</p>
+                </div>
+                <div class="col-6 col-md-3 border-end border-white border-opacity-25">
+                    <h2 class="fw-bold display-5 mb-0">12k</h2>
+                    <p class="mb-0 opacity-75">Khách Hàng Hài Lòng</p>
+                </div>
+                <div class="col-6 col-md-3">
+                    <h2 class="fw-bold display-5 mb-0">24/7</h2>
+                    <p class="mb-0 opacity-75">Hỗ Trợ Liên Tục</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-white">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <div class="position-relative">
+                        <img src="https://source.unsplash.com/random/600x400/?team,work" onerror="this.src='https://via.placeholder.com/600x400'" class="img-fluid rounded-4 shadow-lg w-100" alt="Về GreenTrip">
+                        <div class="position-absolute bottom-0 end-0 bg-white p-4 rounded-top-4 shadow me-4 mb-n4 d-none d-md-block text-center border-bottom border-4 border-success">
+                            <i class="fas fa-award fa-2x text-warning mb-2"></i>
+                            <h6 class="fw-bold text-dark mb-0">Top 10 Agency</h6>
+                            <small class="text-muted">Uy tín năm 2025</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h5 class="text-success fw-bold text-uppercase">Về GreenTrip</h5>
+                    <h2 class="fw-bold mb-4">Kết Nối Đam Mê - Chinh Phục Thế Giới</h2>
+                    <p class="text-secondary mb-4">GreenTrip tự hào là đơn vị lữ hành tiên phong trong việc cung cấp các tour du lịch xanh, bền vững. Chúng tôi không chỉ bán tour, chúng tôi mang đến những kỷ niệm vô giá cho mỗi hành trình của bạn.</p>
+                    
+                    <ul class="list-unstyled mb-4">
+                        <li class="mb-3 d-flex align-items-center"><i class="fas fa-check-circle text-success fs-4 me-3"></i> <span>Tổ chức tour đoàn, teambuilding chuyên nghiệp.</span></li>
+                        <li class="mb-3 d-flex align-items-center"><i class="fas fa-check-circle text-success fs-4 me-3"></i> <span>Cam kết giá tốt nhất thị trường du lịch.</span></li>
+                        <li class="mb-3 d-flex align-items-center"><i class="fas fa-check-circle text-success fs-4 me-3"></i> <span>Bảo hiểm du lịch trọn gói lên đến 1 tỷ đồng.</span></li>
+                    </ul>
+                    <a href="contact.html" class="btn btn-outline-success rounded-pill px-4 fw-bold">Tìm hiểu thêm <i class="fas fa-arrow-right ms-2"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="py-5 bg-light">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="fw-bold text-success">Điểm Đến Được Yêu Thích</h2>
-                <p class="text-muted">Những hành trình hấp dẫn nhất mùa này</p>
+                <h5 class="text-success fw-bold text-uppercase">Đội Ngũ Của Chúng Tôi</h5>
+                <h2 class="fw-bold">Gặp Gỡ Những Chuyên Gia</h2>
             </div>
             
             <div class="row g-4">
-                
+                <div class="col-md-6 col-lg-3">
+                    <div class="card team-card border-0 shadow-sm text-center h-100 pt-4">
+                        <div class="card-body">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" class="rounded-circle team-img mb-3 shadow-sm" alt="Member">
+                            <h5 class="fw-bold text-dark mb-1">Trần Văn An</h5>
+                            <p class="text-success small fw-bold mb-3">CEO & Founder</p>
+                            <p class="text-muted small">15 năm kinh nghiệm quản lý lữ hành quốc tế.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card team-card border-0 shadow-sm text-center h-100 pt-4">
+                        <div class="card-body">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" class="rounded-circle team-img mb-3 shadow-sm" alt="Member">
+                            <h5 class="fw-bold text-dark mb-1">Lê Thị Bích</h5>
+                            <p class="text-success small fw-bold mb-3">Trưởng Phòng Điều Hành</p>
+                            <p class="text-muted small">Chuyên gia thiết kế tour độc lạ và trải nghiệm.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card team-card border-0 shadow-sm text-center h-100 pt-4">
+                        <div class="card-body">
+                            <img src="https://randomuser.me/api/portraits/men/85.jpg" class="rounded-circle team-img mb-3 shadow-sm" alt="Member">
+                            <h5 class="fw-bold text-dark mb-1">Phạm Quốc Hưng</h5>
+                            <p class="text-success small fw-bold mb-3">Hướng Dẫn Viên Trưởng</p>
+                            <p class="text-muted small">Am hiểu văn hóa, nhiệt tình và hài hước.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card team-card border-0 shadow-sm text-center h-100 pt-4">
+                        <div class="card-body">
+                            <img src="https://randomuser.me/api/portraits/women/65.jpg" class="rounded-circle team-img mb-3 shadow-sm" alt="Member">
+                            <h5 class="fw-bold text-dark mb-1">Nguyễn Thu Hà</h5>
+                            <p class="text-success small fw-bold mb-3">CSKH & Tư Vấn</p>
+                            <p class="text-muted small">Luôn lắng nghe và hỗ trợ khách hàng 24/7.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-white">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h5 class="text-success fw-bold text-uppercase">Điểm Đến Hot</h5>
+                <h2 class="fw-bold">Tour Được Yêu Thích Nhất</h2>
+            </div>
+            
+            <div class="row g-4">
                 <div class="col-md-6 col-lg-4">
                     <div class="card tour-card h-100 shadow-sm border-0">
                         <div class="tour-img-container position-relative overflow-hidden" style="height: 220px;">
                             <span class="tour-badge bg-success position-absolute top-0 start-0 m-3 py-1 px-3 rounded-pill text-white fw-bold shadow-sm">Nông thôn</span>
-                            <img src="assets/img/tour8.jpg" class="w-100 h-100 object-fit-cover" alt="Miền Tây" onerror="this.src='https://via.placeholder.com/400x250'">
+                            <img src="assets/img/tour8.jpg" class="w-100 h-100 object-fit-cover" alt="Miền Tây">
                         </div>
                         <div class="card-body d-flex flex-column p-4">
                             <h5 class="tour-title fw-bold text-dark mb-2">Miền Tây Sông Nước</h5>
                             <p class="small text-muted mb-3"><i class="fas fa-map-marker-alt me-1 text-danger"></i> Cần Thơ - Tiền Giang</p>
-                            
                             <div class="mt-auto d-flex justify-content-between align-items-center">
-                                <div>
-                                    <small class="text-muted d-block text-decoration-line-through">1,500,000đ</small>
-                                    <span class="tour-price fw-bold text-danger fs-5">1,200,000đ</span>
-                                </div>
+                                <div><small class="text-muted d-block text-decoration-line-through">1,500,000đ</small><span class="tour-price fw-bold text-danger fs-5">1,200,000đ</span></div>
                                 <a href="tour-detail.html?id=T008" class="btn btn-outline-custom btn-sm rounded-pill px-3 fw-bold">Chi tiết</a>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <div class="col-md-6 col-lg-4">
                     <div class="card tour-card h-100 shadow-sm border-0">
                         <div class="tour-img-container position-relative overflow-hidden" style="height: 220px;">
                             <span class="tour-badge bg-danger position-absolute top-0 start-0 m-3 py-1 px-3 rounded-pill text-white fw-bold shadow-sm">Quốc tế</span>
-                            <img src="assets/img/tour6.jpg" class="w-100 h-100 object-fit-cover" alt="Nhật Bản" onerror="this.src='https://via.placeholder.com/400x250'">
+                            <img src="assets/img/tour6.jpg" class="w-100 h-100 object-fit-cover" alt="Nhật Bản">
                         </div>
                         <div class="card-body d-flex flex-column p-4">
                             <h5 class="tour-title fw-bold text-dark mb-2">Nhật Bản Mùa Hoa</h5>
-                            <p class="small text-muted mb-3"><i class="fas fa-plane me-1 text-primary"></i> Tokyo - Kyoto - Osaka</p>
-                            
+                            <p class="small text-muted mb-3"><i class="fas fa-plane me-1 text-primary"></i> Tokyo - Kyoto</p>
                             <div class="mt-auto d-flex justify-content-between align-items-center">
-                                <div>
-                                    <small class="text-muted d-block text-decoration-line-through">28,000,000đ</small>
-                                    <span class="tour-price fw-bold text-danger fs-5">25,000,000đ</span>
-                                </div>
+                                <div><small class="text-muted d-block text-decoration-line-through">28,000,000đ</small><span class="tour-price fw-bold text-danger fs-5">25,000,000đ</span></div>
                                 <a href="tour-detail.html?id=T006" class="btn btn-outline-custom btn-sm rounded-pill px-3 fw-bold">Chi tiết</a>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <div class="col-md-6 col-lg-4">
                     <div class="card tour-card h-100 shadow-sm border-0">
                         <div class="tour-img-container position-relative overflow-hidden" style="height: 220px;">
                             <span class="tour-badge bg-info position-absolute top-0 start-0 m-3 py-1 px-3 rounded-pill text-white fw-bold shadow-sm">Thành thị</span>
-                            <img src="assets/img/tour9.jpg" class="w-100 h-100 object-fit-cover" alt="Hà Nội" onerror="this.src='https://via.placeholder.com/400x250'">
+                            <img src="assets/img/tour9.jpg" class="w-100 h-100 object-fit-cover" alt="Hà Nội">
                         </div>
                         <div class="card-body d-flex flex-column p-4">
                             <h5 class="tour-title fw-bold text-dark mb-2">Hà Nội Phố Cổ</h5>
                             <p class="small text-muted mb-3"><i class="fas fa-building me-1 text-info"></i> Thủ đô Hà Nội</p>
-                            
                             <div class="mt-auto d-flex justify-content-between align-items-center">
-                                <div>
-                                    <small class="text-muted d-block text-decoration-line-through">950,000đ</small>
-                                    <span class="tour-price fw-bold text-danger fs-5">800,000đ</span>
-                                </div>
+                                <div><small class="text-muted d-block text-decoration-line-through">950,000đ</small><span class="tour-price fw-bold text-danger fs-5">800,000đ</span></div>
                                 <a href="tour-detail.html?id=T009" class="btn btn-outline-custom btn-sm rounded-pill px-3 fw-bold">Chi tiết</a>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
             
             <div class="text-center mt-5">
-                <a href="tour.html" class="btn btn-primary-custom text-white px-5 py-3 shadow fw-bold rounded-pill">
-                    Xem Tất Cả 9 Tour <i class="fas fa-arrow-right ms-2"></i>
-                </a>
+                <a href="tour.html" class="btn btn-primary-custom text-white px-5 py-3 shadow fw-bold rounded-pill">Xem Tất Cả 9 Tour <i class="fas fa-arrow-right ms-2"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h5 class="text-success fw-bold text-uppercase">Giá Trị Cốt Lõi</h5>
+                <h2 class="fw-bold">Vì Sao Chọn GreenTrip?</h2>
+            </div>
+            <div class="row g-4 text-center">
+                <div class="col-md-6 col-lg-3">
+                    <div class="p-4 bg-white rounded-4 h-100 shadow-sm">
+                        <div class="icon-box-circle shadow-sm mb-3 mx-auto" style="width:70px;height:70px;background:#ecfdf5;color:#059669;display:flex;align-items:center;justify-content:center;border-radius:50%;"><i class="fas fa-tag fa-2x"></i></div>
+                        <h5 class="fw-bold">Giá Tốt Nhất</h5>
+                        <p class="text-muted small mb-0">Cam kết giá cạnh tranh, không phí ẩn.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="p-4 bg-white rounded-4 h-100 shadow-sm">
+                        <div class="icon-box-circle shadow-sm mb-3 mx-auto" style="width:70px;height:70px;background:#ecfdf5;color:#059669;display:flex;align-items:center;justify-content:center;border-radius:50%;"><i class="fas fa-headset fa-2x"></i></div>
+                        <h5 class="fw-bold">Hỗ Trợ 24/7</h5>
+                        <p class="text-muted small mb-0">Luôn sẵn sàng giải đáp mọi thắc mắc.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="p-4 bg-white rounded-4 h-100 shadow-sm">
+                        <div class="icon-box-circle shadow-sm mb-3 mx-auto" style="width:70px;height:70px;background:#ecfdf5;color:#059669;display:flex;align-items:center;justify-content:center;border-radius:50%;"><i class="fas fa-shield-alt fa-2x"></i></div>
+                        <h5 class="fw-bold">An Toàn</h5>
+                        <p class="text-muted small mb-0">Thanh toán bảo mật tuyệt đối.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="p-4 bg-white rounded-4 h-100 shadow-sm">
+                        <div class="icon-box-circle shadow-sm mb-3 mx-auto" style="width:70px;height:70px;background:#ecfdf5;color:#059669;display:flex;align-items:center;justify-content:center;border-radius:50%;"><i class="fas fa-star fa-2x"></i></div>
+                        <h5 class="fw-bold">Chất Lượng</h5>
+                        <p class="text-muted small mb-0">Hàng ngàn đánh giá 5 sao.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -188,14 +318,11 @@
             </div>
             <button type="button" class="btn-close btn-close-white" onclick="toggleChat()"></button>
         </div>
-        <div class="chat-body p-3" id="chatBody">
-            </div>
+        <div class="chat-body p-3" id="chatBody"></div>
         <div class="chat-footer p-2 border-top">
             <div class="input-group">
                 <input type="text" id="chatInput" class="form-control border-0" placeholder="Nhập tin nhắn..." onkeypress="handleChat(event)">
-                <button class="btn btn-primary-custom text-white rounded-circle ms-2" onclick="sendUserMessage()">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
+                <button class="btn btn-primary-custom text-white rounded-circle ms-2" onclick="sendUserMessage()"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
     </div>
