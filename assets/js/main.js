@@ -3,7 +3,8 @@
    Chức năng: Database Tour, Booking, Chatbot, Auth (Login/Register), Feedback
    ========================================= */
 import { db } from "./firebase-config.js";
-import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+// CẬP NHẬT: Thêm các hàm getDocs, query, where để xử lý User
+import { collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // --- 1. CƠ SỞ DỮ LIỆU 9 TOUR (DATABASE FRONTEND) ---
 const toursData = {
@@ -158,10 +159,32 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('summaryDuration').innerText = tour.duration;
             document.getElementById('summaryPricePerPax').innerText = new Intl.NumberFormat('vi-VN').format(tour.price) + "đ";
 
+            // LOGIC GIẢM GIÁ
+            const elTotal = document.getElementById('summaryTotal');
+            const elDiscount = document.querySelector('.text-success span'); 
+            const elDiscountLabel = document.querySelector('.text-success small');
+
             const calc = () => {
                 const count = parseInt(document.getElementById('numPeople').value) || 1;
-                document.getElementById('summaryTotal').innerText = new Intl.NumberFormat('vi-VN').format(count * tour.price) + "đ";
+                let total = count * tour.price;
+                let discountAmount = 0;
+
+                if (count >= 5) {
+                    discountAmount = total * 0.1;
+                    total = total - discountAmount;
+                    elDiscount.innerText = `-${new Intl.NumberFormat('vi-VN').format(discountAmount)}đ`;
+                    elDiscountLabel.innerText = "GIẢM 10% NHÓM > 5";
+                    elDiscount.parentElement.parentElement.classList.add("bg-success", "bg-opacity-10");
+                } else {
+                    elDiscount.innerText = "-0đ";
+                    elDiscountLabel.innerText = "ƯU ĐÃI HÈ";
+                    elDiscount.parentElement.parentElement.classList.remove("bg-success", "bg-opacity-10");
+                }
+
+                elTotal.innerText = new Intl.NumberFormat('vi-VN').format(total) + "đ";
+                document.getElementById('hiddenTotalPrice').value = total;
             };
+
             document.getElementById('numPeople').addEventListener('input', calc);
             calc();
 
@@ -187,6 +210,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 } catch (err) {
                     alert("Lỗi kết nối! Vui lòng thử lại.");
                     btn.disabled = false;
+                    btn.innerText = "XÁC NHẬN ĐẶT TOUR";
                 }
             });
         }
@@ -252,53 +276,83 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("chatBody").scrollTop = document.getElementById("chatBody").scrollHeight;
     }
 
-    // --- 6. XỬ LÝ ĐĂNG KÝ (ĐÃ TÍCH HỢP) ---
+    // --- 6. XỬ LÝ ĐĂNG KÝ (LIÊN KẾT FIREBASE) ---
     const registerForm = document.getElementById("registerForm");
     if(registerForm) {
-        registerForm.addEventListener("submit", (e) => {
+        registerForm.addEventListener("submit", async (e) => {
             e.preventDefault();
+            const btn = registerForm.querySelector("button[type='submit']");
+            const originalText = btn.innerText;
+            btn.innerText = "Đang xử lý..."; btn.disabled = true;
+
             const name = document.getElementById("regName").value;
             const email = document.getElementById("regEmail").value;
             const pass = document.getElementById("regPass").value;
             const terms = document.getElementById("terms");
 
-            if(!terms.checked) { alert("Bạn chưa đồng ý điều khoản!"); return; }
-
-            let users = JSON.parse(localStorage.getItem("listUsers")) || [];
-            
-            if(users.find(u => u.email === email)) {
-                alert("Email này đã được đăng ký!"); return;
+            if(!terms.checked) { 
+                alert("Bạn chưa đồng ý điều khoản!"); 
+                btn.innerText = originalText; btn.disabled = false;
+                return; 
             }
 
-            users.push({ name: name, email: email, password: pass, role: "user", status: "active" });
-            localStorage.setItem("listUsers", JSON.stringify(users));
+            try {
+                // Kiểm tra trùng email trên Cloud
+                const q = query(collection(db, "users"), where("email", "==", email));
+                const querySnapshot = await getDocs(q);
 
-            alert("Đăng ký thành công! Vui lòng đăng nhập.");
-            window.location.href = "login.html";
+                if (!querySnapshot.empty) {
+                    alert("Email này đã được đăng ký! Vui lòng dùng email khác.");
+                    btn.innerText = originalText; btn.disabled = false;
+                    return;
+                }
+
+                // Gửi lên Cloud
+                await addDoc(collection(db, "users"), {
+                    name: name, email: email, password: pass, 
+                    role: "user", status: "active", createdAt: new Date().toLocaleString()
+                });
+
+                alert("✅ Đăng ký thành công! Vui lòng đăng nhập.");
+                window.location.href = "login.html";
+            } catch (error) {
+                console.error(error);
+                alert("Lỗi kết nối mạng!");
+                btn.innerText = originalText; btn.disabled = false;
+            }
         });
     }
 
-    // --- 7. ĐĂNG NHẬP ---
+    // --- 7. ĐĂNG NHẬP (CẬP NHẬT KIỂM TRA FIREBASE & ADMIN) ---
     const loginForm = document.getElementById("loginForm");
     if(loginForm) {
-        loginForm.addEventListener("submit", (e) => {
+        loginForm.addEventListener("submit", async (e) => {
             e.preventDefault();
             const email = document.getElementById('loginEmail').value;
             const pass = document.querySelector('input[type="password"]').value;
-            // Admin: admin@travel.com / admin123
+            
+            // A. Check Admin (Hardcode để bảo mật quyền quản trị)
             if (btoa(email) === "YWRtaW5AdHJhdmVsLmNvbQ==" && btoa(pass) === "YWRtaW4xMjM=") {
                 localStorage.setItem("currentUser", JSON.stringify({name:"Admin", role:"admin"}));
                 window.location.href = "admin/dashboard.html";
-            } else {
-                let users = JSON.parse(localStorage.getItem("listUsers")) || [];
-                const user = users.find(u => u.email === email && u.password === pass);
-                if(user) {
+                return;
+            }
+
+            // B. Check User (Firebase)
+            try {
+                const q = query(collection(db, "users"), where("email", "==", email), where("password", "==", pass));
+                const snap = await getDocs(q);
+                
+                if (!snap.empty) {
+                    const user = snap.docs[0].data();
                     if(user.status === 'locked') { alert("Tài khoản bị khóa!"); return; }
                     localStorage.setItem("currentUser", JSON.stringify(user));
                     window.location.href = "index.html";
                 } else {
-                    alert("Sai thông tin đăng nhập!");
+                    alert("Sai email hoặc mật khẩu!");
                 }
+            } catch(err) {
+                alert("Lỗi đăng nhập!");
             }
         });
     }
