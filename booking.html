@@ -12,8 +12,10 @@
 
     <nav class="navbar navbar-expand-lg sticky-top bg-white border-bottom">
         <div class="container">
-            <a class="navbar-brand" href="index.html"><i class="fas fa-globe-asia"></i> GreenTrip</a>
-            <span class="ms-auto text-muted small">Bước 2/3: Điền thông tin</span>
+            <a class="navbar-brand fw-bold text-success" href="index.html">
+                <i class="fas fa-leaf me-2"></i> GreenTrip
+            </a>
+            <span class="ms-auto text-muted small"><i class="fas fa-lock me-1"></i> Thanh toán an toàn</span>
         </div>
     </nav>
 
@@ -22,97 +24,97 @@
             <div class="row g-5">
                 
                 <div class="col-lg-7">
-                    <h4 class="mb-4 fw-bold text-primary">Thông tin liên lạc</h4>
+                    <h4 class="mb-4 fw-bold text-dark border-bottom pb-2">Thông tin liên lạc</h4>
                     
                     <div class="row g-3">
                         <div class="col-12">
-                            <label class="form-label fw-bold small">Họ và tên <span class="text-danger">*</span></label>
+                            <label class="form-label fw-bold small text-muted">Họ và tên <span class="text-danger">*</span></label>
                             <input type="text" id="customerName" class="form-control" placeholder="Ví dụ: Nguyễn Văn A" required>
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label fw-bold small">Email <span class="text-danger">*</span></label>
+                            <label class="form-label fw-bold small text-muted">Email <span class="text-danger">*</span></label>
                             <input type="email" id="customerEmail" class="form-control" placeholder="email@example.com" required>
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label fw-bold small">Số điện thoại <span class="text-danger">*</span></label>
+                            <label class="form-label fw-bold small text-muted">Số điện thoại <span class="text-danger">*</span></label>
                             <input type="tel" id="customerPhone" class="form-control" placeholder="09xxxxxxxxx" required>
                         </div>
 
                         <div class="col-12">
-                            <label class="form-label fw-bold small">Địa chỉ (Tùy chọn)</label>
-                            <input type="text" id="customerAddress" class="form-control" placeholder="Số nhà, đường, phường/xã...">
-                        </div>
-
-                        <div class="col-12">
-                            <label class="form-label fw-bold small">Ghi chú</label>
+                            <label class="form-label fw-bold small text-muted">Ghi chú</label>
                             <textarea id="customerNote" class="form-control" rows="3" placeholder="Yêu cầu đặc biệt (Ăn chay, phòng đơn, ghế đầu...)"></textarea>
                         </div>
                     </div>
 
-                    <hr class="my-4">
-
-                    <h4 class="mb-3 fw-bold text-primary">Phương thức thanh toán</h4>
-                    <div class="my-3">
-                        <div class="form-check">
+                    <h4 class="mb-3 mt-5 fw-bold text-dark border-bottom pb-2">Phương thức thanh toán</h4>
+                    <div class="card p-3 border-0 shadow-sm">
+                        <div class="form-check mb-2">
                             <input id="payment1" name="paymentMethod" type="radio" class="form-check-input" checked required>
-                            <label class="form-check-label" for="payment1">Tiền mặt / Chuyển khoản sau</label>
+                            <label class="form-check-label fw-bold" for="payment1">
+                                Tiền mặt / Chuyển khoản sau
+                                <small class="d-block text-muted fw-normal">Thanh toán tại văn phòng hoặc chuyển khoản ngân hàng.</small>
+                            </label>
                         </div>
+                        <hr class="my-2 text-muted opacity-25">
                         <div class="form-check">
                             <input id="payment2" name="paymentMethod" type="radio" class="form-check-input">
-                            <label class="form-check-label" for="payment2">Thẻ tín dụng / Ghi nợ quốc tế</label>
+                            <label class="form-check-label fw-bold" for="payment2">
+                                Thẻ tín dụng quốc tế
+                                <span class="ms-2"><i class="fab fa-cc-visa text-primary fa-lg"></i> <i class="fab fa-cc-mastercard text-danger fa-lg"></i></span>
+                            </label>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-lg-5">
                     <div class="card shadow-lg border-0 rounded-4 sticky-top" style="top: 100px;">
-                        <div class="card-header bg-primary text-white p-3">
+                        <div class="card-header bg-success text-white p-3">
                             <h5 class="mb-0 fw-bold"><i class="fas fa-receipt me-2"></i>Tóm tắt chuyến đi</h5>
                         </div>
                         <div class="card-body p-4">
                             <div class="d-flex mb-4">
-                                <img id="summaryImg" src="" class="rounded-3 me-3 object-fit-cover" width="80" height="80" alt="Tour">
+                                <img id="summaryImg" src="" class="rounded-3 me-3 object-fit-cover shadow-sm" width="90" height="90" alt="Tour" onerror="this.src='https://via.placeholder.com/90'">
                                 <div>
-                                    <h6 class="fw-bold mb-1" id="summaryName">Đang tải thông tin...</h6>
-                                    <small class="text-muted"><i class="far fa-clock me-1"></i> <span id="summaryDuration">...</span></small>
+                                    <h6 class="fw-bold mb-1 text-dark" id="summaryName">Đang tải...</h6>
+                                    <small class="text-muted d-block mb-1"><i class="far fa-clock me-1"></i> <span id="summaryDuration">...</span></small>
+                                    <span class="badge bg-light text-dark border"><i class="fas fa-user me-1"></i> Giá vé lẻ: <span id="summaryPricePerPax" class="fw-bold">...</span></span>
                                 </div>
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label fw-bold small">Số lượng khách</label>
-                                <input type="number" id="numPeople" class="form-control" value="1" min="1">
+                                <label class="form-label fw-bold small text-muted">Số lượng khách</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white"><i class="fas fa-users"></i></span>
+                                    <input type="number" id="numPeople" class="form-control fw-bold" value="1" min="1">
+                                </div>
+                                <div class="form-text text-success small"><i class="fas fa-gift me-1"></i> Mẹo: Đặt >= 5 người giảm 10%, >= 10 người giảm 20%!</div>
                             </div>
 
-                            <ul class="list-group list-group-flush mb-3">
-                                <li class="list-group-item d-flex justify-content-between lh-sm">
-                                    <div>
-                                        <h6 class="my-0">Giá vé người lớn</h6>
-                                        <small class="text-muted">Đơn giá gốc</small>
-                                    </div>
-                                    <span class="text-muted" id="summaryPricePerPax">...</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between bg-light">
+                            <ul class="list-group list-group-flush mb-4 rounded-3 border">
+                                <li class="list-group-item d-flex justify-content-between align-items-center bg-light" id="discountRow">
                                     <div class="text-success">
-                                        <h6 class="my-0">Mã giảm giá</h6>
-                                        <small>ƯU ĐÃI HÈ</small>
+                                        <h6 class="my-0 fw-bold">Ưu đãi</h6>
+                                        <small class="text-muted discount-label">MÃ KHUYẾN MÃI</small>
                                     </div>
-                                    <span class="text-success">-0đ</span>
+                                    <span class="text-success fw-bold discount-amount">-0đ</span>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between fw-bold fs-5">
-                                    <span>Tổng cộng (VND)</span>
-                                    <span class="text-danger" id="summaryTotal">...</span>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold fs-5">Tổng cộng</span>
+                                    <span class="text-danger fw-bold fs-4" id="summaryTotal">...</span>
                                 </li>
                             </ul>
 
                             <input type="hidden" id="hiddenTourName">
                             <input type="hidden" id="hiddenTotalPrice">
 
-                            <button type="submit" class="btn btn-primary-custom text-white w-100 py-3 fw-bold shadow-sm">
-                                XÁC NHẬN ĐẶT TOUR
+                            <button type="submit" class="btn btn-primary-custom text-white w-100 py-3 fw-bold shadow-sm text-uppercase">
+                                Xác Nhận Đặt Tour <i class="fas fa-arrow-right ms-2"></i>
                             </button>
-                            <p class="text-center mt-2 small text-muted">Bấm xác nhận để hoàn tất đơn hàng</p>
+                            <p class="text-center mt-3 small text-muted mb-0">
+                                <i class="fas fa-shield-alt text-success me-1"></i> Thông tin của bạn được bảo mật tuyệt đối.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -122,5 +124,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script type="module" src="assets/js/main.js"></script>
+    
+    <script>
+        // JS của main.js sẽ tìm '.text-success span' và '.text-success small' 
+        // Code HTML trên đã đặt đúng class để khớp với logic đó.
+    </script>
 </body>
 </html>
