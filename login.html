@@ -7,60 +7,89 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* CSS nội bộ để đảm bảo hiển thị nếu file style.css bị lỗi */
+        .login-banner {
+            /* Màu nền dự phòng nếu ảnh lỗi */
+            background-color: #059669; 
+            /* Đường dẫn ảnh */
+            background-image: url('assets/img/banner2.jpg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            min-height: 100vh; /* Full chiều cao màn hình */
+        }
+        .btn-login-custom {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            border: none;
+            transition: transform 0.2s;
+        }
+        .btn-login-custom:hover {
+            transform: translateY(-2px);
+            color: white;
+            background: linear-gradient(135deg, #d97706, #b45309);
+        }
+    </style>
 </head>
-<body class="bg-light d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+<body>
 
-    <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="width: 100%; max-width: 900px;">
+    <div class="container-fluid g-0">
         <div class="row g-0">
-            <div class="col-lg-6 d-none d-lg-block" style="background: url('assets/img/banner2.jpg') no-repeat center center; background-size: cover; min-height: 500px;">
-                <div class="h-100 w-100 bg-dark bg-opacity-40 d-flex align-items-center justify-content-center">
-                    <div class="text-white text-center p-4">
-                        <h2 class="fw-bold mb-3">GreenTrip ID</h2>
-                        <p class="mb-0">Kết nối hàng triệu trái tim yêu du lịch.</p>
-                    </div>
+            
+            <div class="col-lg-6 d-none d-lg-block login-banner position-relative">
+                <div class="position-absolute w-100 h-100 top-0 start-0" style="background: rgba(0,0,0,0.4);"></div> <div class="d-flex flex-column justify-content-center align-items-center h-100 position-relative text-white text-center p-5">
+                    <h1 class="fw-bold display-4 mb-3">GreenTrip ID</h1>
+                    <p class="fs-5">Kết nối hàng triệu trái tim yêu du lịch Việt Nam.</p>
                 </div>
             </div>
 
-            <div class="col-lg-6">
-                <div class="card-body p-5">
-                    <div class="text-center mb-4">
+            <div class="col-lg-6 d-flex align-items-center justify-content-center bg-white" style="min-height: 100vh;">
+                <div class="p-5 w-100" style="max-width: 550px;">
+                    
+                    <div class="text-center mb-5">
                         <a href="index.html" class="text-decoration-none d-inline-block mb-3">
-                            <i class="fas fa-globe-asia fa-3x text-primary"></i>
+                            <i class="fas fa-leaf fa-3x text-success"></i>
                         </a>
-                        <h3 class="fw-bold text-primary">Chào mừng trở lại!</h3>
-                        <p class="text-muted small">Vui lòng đăng nhập để tiếp tục</p>
+                        <h2 class="fw-bold text-dark">Chào mừng trở lại!</h2>
+                        <p class="text-muted">Vui lòng đăng nhập để quản lý chuyến đi</p>
                     </div>
 
                     <form id="loginForm">
-                        <div class="mb-3">
-                            <label class="form-label small fw-bold text-muted">Email</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-white border-end-0"><i class="fas fa-envelope text-primary"></i></span>
-                                <input type="email" id="loginEmail" class="form-control border-start-0" placeholder="email@example.com" required>
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary small">EMAIL CỦA BẠN</label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-envelope text-success"></i></span>
+                                <input type="email" id="loginEmail" class="form-control bg-light border-start-0 fs-6" placeholder="name@example.com" required>
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <label class="form-label small fw-bold text-muted">Mật khẩu</label>
-                                <a href="#" id="forgotPassLink" class="small text-decoration-none text-primary">Quên mật khẩu?</a>
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <label class="form-label fw-bold text-secondary small">MẬT KHẨU</label>
+                                <a href="#" id="forgotPassLink" class="text-decoration-none text-success small fw-bold">Quên mật khẩu?</a>
                             </div>
-                            <div class="input-group">
-                                <span class="input-group-text bg-white border-end-0"><i class="fas fa-lock text-primary"></i></span>
-                                <input type="password" class="form-control border-start-0" placeholder="••••••" required>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-lock text-success"></i></span>
+                                <input type="password" class="form-control bg-light border-start-0 fs-6" placeholder="••••••••" required>
                             </div>
                         </div>
 
-                        <div class="d-grid mb-3">
-                            <button type="submit" class="btn btn-primary-custom text-white py-2">Đăng Nhập</button>
+                        <div class="d-grid mb-4">
+                            <button type="submit" class="btn btn-primary btn-lg btn-login-custom fw-bold py-3 shadow-sm">
+                                ĐĂNG NHẬP NGAY
+                            </button>
                         </div>
 
                         <div class="text-center">
-                            <p class="small text-muted">Chưa có tài khoản? <a href="register.html" class="fw-bold text-primary text-decoration-none">Đăng ký ngay</a></p>
-                            <hr>
-                            <a href="index.html" class="small text-muted text-decoration-none"><i class="fas fa-arrow-left me-1"></i> Về trang chủ</a>
+                            <p class="text-muted">Chưa có tài khoản? <a href="register.html" class="fw-bold text-success text-decoration-none">Đăng ký miễn phí</a></p>
+                            <hr class="my-4">
+                            <a href="index.html" class="text-decoration-none text-secondary small">
+                                <i class="fas fa-arrow-left me-1"></i> Quay lại trang chủ
+                            </a>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>
@@ -74,9 +103,10 @@
             e.preventDefault();
             const email = document.getElementById('loginEmail').value;
             if(email) {
-                window.location.href = `change-password.html?email=${encodeURIComponent(email)}`;
+                // Chuyển sang trang đổi pass
+                window.location.href = "change-password.html";
             } else {
-                alert("Vui lòng nhập Email của bạn trước khi bấm Quên mật khẩu!");
+                alert("Vui lòng nhập Email của bạn vào ô bên trên trước khi bấm Quên mật khẩu!");
                 document.getElementById('loginEmail').focus();
             }
         });
