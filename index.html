@@ -3,16 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GreenTrip - Khám phá Việt Nam</title>
+    <title>GreenTrip - Trang chủ</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* CSS phụ trợ để fix lỗi hiển thị banner nếu ảnh quá nhỏ */
+        .hero-banner {
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover; /* Quan trọng: Phủ kín khung */
+            position: relative;
+        }
+        /* Đảm bảo text trên banner luôn dễ đọc */
+        .hero-content {
+            z-index: 2;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+    </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg sticky-top">
+    <nav class="navbar navbar-expand-lg sticky-top border-bottom">
         <div class="container">
-            <a class="navbar-brand" href="index.html"><i class="fas fa-globe-asia"></i> GreenTrip</a>
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-leaf me-2"></i> GreenTrip
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -21,7 +39,9 @@
                     <li class="nav-item"><a class="nav-link active" href="index.html">Trang chủ</a></li>
                     <li class="nav-item"><a class="nav-link" href="tour.html">Danh sách Tour</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact.html">Liên hệ</a></li>
-                    <li class="nav-item ms-2"><a href="login.html" class="btn btn-primary-custom btn-sm text-white">Đăng nhập</a></li>
+                    <li class="nav-item ms-2">
+                        <a href="login.html" class="btn btn-primary-custom btn-sm text-white px-3 shadow-sm">Đăng nhập</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -29,32 +49,38 @@
 
     <header id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
-            <div class="carousel-item active hero-banner" style="background-image: url('assets/img/banner.jpg');">
+            <div class="carousel-item active hero-banner" style="background-image: url('assets/img/banner.jpg'); height: 600px;">
                 <div class="hero-overlay"></div>
-                <div class="hero-content text-center px-3">
+                
+                <div class="hero-content text-center px-3 d-flex flex-column justify-content-center h-100">
                     <h1 class="display-4 fw-bold text-white text-shadow mb-3">Du Lịch Xanh - Trải Nghiệm Vàng</h1>
-                    <p class="lead text-white text-shadow mb-4">Hơn 100 tour du lịch hấp dẫn đang chờ bạn</p>
+                    <p class="lead text-white text-shadow mb-5">Khám phá vẻ đẹp Việt Nam và Thế giới cùng GreenTrip</p>
                     
-                    <div class="bg-white p-4 rounded shadow-lg mx-auto search-box-banner" style="max-width: 900px;">
+                    <div class="bg-white p-4 rounded-4 shadow-lg mx-auto search-box-banner w-100">
                         <form class="row g-3" action="tour.html">
                             <div class="col-md-5">
                                 <div class="input-group">
-                                    <span class="input-group-text bg-white border-end-0"><i class="fas fa-map-marker-alt text-primary"></i></span>
+                                    <span class="input-group-text bg-white border-end-0"><i class="fas fa-map-marker-alt text-success"></i></span>
                                     <input type="text" class="form-control border-start-0" placeholder="Bạn muốn đi đâu?">
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <select class="form-select">
-                                    <option selected>Tất cả loại hình</option>
-                                    <option value="Biển">Du lịch Biển/Đảo</option>
-                                    <option value="Núi">Du lịch Miền núi</option>
-                                    <option value="Thành thị">Du lịch Thành thị</option>
-                                    <option value="Nông thôn">Du lịch Nông thôn</option>
-                                    <option value="Quốc tế">Du lịch Quốc tế</option>
-                                </select>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white border-end-0"><i class="fas fa-list text-success"></i></span>
+                                    <select class="form-select border-start-0">
+                                        <option selected>Tất cả loại hình</option>
+                                        <option value="Biển">Du lịch Biển/Đảo</option>
+                                        <option value="Núi">Du lịch Miền núi</option>
+                                        <option value="Thành thị">Du lịch Thành thị</option>
+                                        <option value="Nông thôn">Du lịch Nông thôn</option>
+                                        <option value="Quốc tế">Du lịch Quốc tế</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="col-md-3 d-grid">
-                                <button type="submit" class="btn btn-primary-custom text-white fw-bold">TÌM KIẾM</button>
+                                <button type="submit" class="btn btn-primary-custom text-white fw-bold">
+                                    <i class="fas fa-search me-2"></i>TÌM KIẾM
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -67,72 +93,97 @@
         <div class="container">
             <div class="text-center mb-5">
                 <h2 class="fw-bold text-primary">Điểm Đến Được Yêu Thích</h2>
+                <p class="text-muted">Những hành trình hấp dẫn nhất mùa này</p>
             </div>
             
             <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card tour-card h-100">
-                        <div class="tour-img-container">
-                            <span class="tour-badge bg-success">Nông thôn</span>
-                            <img src="assets/img/tour8.jpg" alt="Miền Tây">
+                
+                <div class="col-md-6 col-lg-4">
+                    <div class="card tour-card h-100 shadow-sm border-0">
+                        <div class="tour-img-container position-relative overflow-hidden" style="height: 220px;">
+                            <span class="tour-badge bg-success position-absolute top-0 start-0 m-3 py-1 px-3 rounded-pill text-white fw-bold shadow-sm">Nông thôn</span>
+                            <img src="assets/img/tour8.jpg" class="w-100 h-100 object-fit-cover" alt="Miền Tây" onerror="this.src='https://via.placeholder.com/400x250'">
                         </div>
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="tour-title">Miền Tây Sông Nước</h5>
-                            <p class="small text-muted"><i class="fas fa-map-marker-alt me-1"></i> Cần Thơ</p>
+                        <div class="card-body d-flex flex-column p-4">
+                            <h5 class="tour-title fw-bold text-dark mb-2">Miền Tây Sông Nước</h5>
+                            <p class="small text-muted mb-3"><i class="fas fa-map-marker-alt me-1 text-danger"></i> Cần Thơ - Tiền Giang</p>
+                            
                             <div class="mt-auto d-flex justify-content-between align-items-center">
-                                <span class="tour-price">1,200,000đ</span>
-                                <a href="tour-detail.html?id=T008" class="btn btn-outline-custom btn-sm">Chi tiết</a>
+                                <div>
+                                    <small class="text-muted d-block text-decoration-line-through">1,500,000đ</small>
+                                    <span class="tour-price fw-bold text-danger fs-5">1,200,000đ</span>
+                                </div>
+                                <a href="tour-detail.html?id=T008" class="btn btn-outline-custom btn-sm rounded-pill px-3 fw-bold">Chi tiết</a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card tour-card h-100">
-                        <div class="tour-img-container">
-                            <span class="tour-badge bg-danger">Quốc tế</span>
-                            <img src="assets/img/tour6.jpg" alt="Nhật Bản">
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="card tour-card h-100 shadow-sm border-0">
+                        <div class="tour-img-container position-relative overflow-hidden" style="height: 220px;">
+                            <span class="tour-badge bg-danger position-absolute top-0 start-0 m-3 py-1 px-3 rounded-pill text-white fw-bold shadow-sm">Quốc tế</span>
+                            <img src="assets/img/tour6.jpg" class="w-100 h-100 object-fit-cover" alt="Nhật Bản" onerror="this.src='https://via.placeholder.com/400x250'">
                         </div>
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="tour-title">Nhật Bản Mùa Hoa</h5>
-                            <p class="small text-muted"><i class="fas fa-plane me-1"></i> Tokyo</p>
+                        <div class="card-body d-flex flex-column p-4">
+                            <h5 class="tour-title fw-bold text-dark mb-2">Nhật Bản Mùa Hoa</h5>
+                            <p class="small text-muted mb-3"><i class="fas fa-plane me-1 text-primary"></i> Tokyo - Kyoto - Osaka</p>
+                            
                             <div class="mt-auto d-flex justify-content-between align-items-center">
-                                <span class="tour-price">25,000,000đ</span>
-                                <a href="tour-detail.html?id=T006" class="btn btn-outline-custom btn-sm">Chi tiết</a>
+                                <div>
+                                    <small class="text-muted d-block text-decoration-line-through">28,000,000đ</small>
+                                    <span class="tour-price fw-bold text-danger fs-5">25,000,000đ</span>
+                                </div>
+                                <a href="tour-detail.html?id=T006" class="btn btn-outline-custom btn-sm rounded-pill px-3 fw-bold">Chi tiết</a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card tour-card h-100">
-                        <div class="tour-img-container">
-                            <span class="tour-badge bg-info">Thành thị</span>
-                            <img src="assets/img/tour9.jpg" alt="Hà Nội">
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="card tour-card h-100 shadow-sm border-0">
+                        <div class="tour-img-container position-relative overflow-hidden" style="height: 220px;">
+                            <span class="tour-badge bg-info position-absolute top-0 start-0 m-3 py-1 px-3 rounded-pill text-white fw-bold shadow-sm">Thành thị</span>
+                            <img src="assets/img/tour9.jpg" class="w-100 h-100 object-fit-cover" alt="Hà Nội" onerror="this.src='https://via.placeholder.com/400x250'">
                         </div>
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="tour-title">Hà Nội Phố Cổ</h5>
-                            <p class="small text-muted"><i class="fas fa-map-marker-alt me-1"></i> Hà Nội</p>
+                        <div class="card-body d-flex flex-column p-4">
+                            <h5 class="tour-title fw-bold text-dark mb-2">Hà Nội Phố Cổ</h5>
+                            <p class="small text-muted mb-3"><i class="fas fa-building me-1 text-info"></i> Thủ đô Hà Nội</p>
+                            
                             <div class="mt-auto d-flex justify-content-between align-items-center">
-                                <span class="tour-price">800,000đ</span>
-                                <a href="tour-detail.html?id=T009" class="btn btn-outline-custom btn-sm">Chi tiết</a>
+                                <div>
+                                    <small class="text-muted d-block text-decoration-line-through">950,000đ</small>
+                                    <span class="tour-price fw-bold text-danger fs-5">800,000đ</span>
+                                </div>
+                                <a href="tour-detail.html?id=T009" class="btn btn-outline-custom btn-sm rounded-pill px-3 fw-bold">Chi tiết</a>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
             
             <div class="text-center mt-5">
-                <a href="tour.html" class="btn btn-primary-custom text-white px-5">Xem Tất Cả 9 Tour</a>
+                <a href="tour.html" class="btn btn-primary-custom text-white px-5 py-2 shadow fw-bold rounded-pill">
+                    Xem Tất Cả 9 Tour <i class="fas fa-arrow-right ms-2"></i>
+                </a>
             </div>
         </div>
     </section>
 
     <div class="contact-floating">
-        <a href="#" class="btn-floating zalo-btn"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/1200px-Icon_of_Zalo.svg.png"></a>
-        <a href="#" class="btn-floating call-btn"><i class="fas fa-phone-alt"></i></a>
+        <a href="#" class="btn-floating zalo-btn">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/1200px-Icon_of_Zalo.svg.png" alt="Zalo">
+        </a>
+        <a href="tel:0347348147" class="btn-floating call-btn">
+            <i class="fas fa-phone-alt"></i>
+        </a>
     </div>
 
     <footer class="bg-dark text-white py-4 mt-0 text-center">
-        &copy; 2025 GreenTrip. All rights reserved.
+        <div class="container">
+            <p class="mb-0 opacity-75 small">&copy; 2025 GreenTrip. All rights reserved.</p>
+        </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
