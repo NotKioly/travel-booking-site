@@ -2,16 +2,11 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý Tour - GreenTrip Admin</title>
+    <title>Quản lý Tour - Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
-    <style>
-        .sidebar { min-height: 100vh; background-color: #064e3b; color: #fff; } 
-        .sidebar a { color: #d1fae5; text-decoration: none; padding: 12px 20px; display: block; font-weight: 500; } 
-        .sidebar a:hover, .sidebar a.active { background-color: #059669; color: #fff; border-left: 4px solid #f59e0b; }
-    </style>
+    <style>.sidebar { min-height: 100vh; background-color: #064e3b; color: #fff; } .sidebar a { color: #d1fae5; text-decoration: none; padding: 12px 20px; display: block; font-weight: 500; } .sidebar a:hover, .sidebar a.active { background-color: #059669; color: #fff; border-left: 4px solid #f59e0b; }</style>
 </head>
 <body>
 
@@ -38,9 +33,7 @@
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4 bg-light">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="text-primary fw-bold">Danh sách Tour</h2>
-                <button class="btn btn-primary-custom text-white" id="btnOpenAddModal">
-                    <i class="fas fa-plus me-2"></i> Thêm Tour Mới
-                </button>
+                <button class="btn btn-primary-custom text-white" id="btnOpenAddModal"><i class="fas fa-plus me-2"></i> Thêm Tour</button>
             </div>
 
             <div class="card shadow-sm border-0">
@@ -48,18 +41,10 @@
                     <div class="table-responsive">
                         <table class="table table-bordered align-middle mb-0">
                             <thead class="table-light">
-                                <tr>
-                                    <th>Mã</th>
-                                    <th>Hình ảnh</th>
-                                    <th>Tên Tour</th>
-                                    <th>Giá (VNĐ)</th>
-                                    <th>Loại</th>
-                                    <th>Hành động</th>
-                                </tr>
+                                <tr><th>Mã</th><th>Ảnh</th><th>Tên Tour</th><th>Giá (VNĐ)</th><th>Loại</th><th>Xóa</th></tr>
                             </thead>
                             <tbody id="tourTableBody">
-                                <tr><td colspan="6" class="text-center py-4">Đang tải danh sách...</td></tr>
-                            </tbody>
+                                </tbody>
                         </table>
                     </div>
                 </div>
@@ -77,36 +62,26 @@
             </div>
             <div class="modal-body">
                 <form id="tourForm">
-                    <input type="hidden" id="tourId"> <div class="mb-3">
-                        <label class="form-label fw-bold">Tên Tour</label>
-                        <input type="text" id="tourName" class="form-control" placeholder="Ví dụ: Nha Trang 3N2Đ" required>
-                    </div>
-                    
+                    <div class="mb-3"><label class="form-label fw-bold">Tên Tour</label><input type="text" id="tourName" class="form-control" required></div>
                     <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Giá</label>
-                            <input type="number" id="tourPrice" class="form-control" placeholder="VNĐ" required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Loại Tour</label>
+                        <div class="col-6 mb-3"><label class="form-label fw-bold">Giá</label><input type="number" id="tourPrice" class="form-control" required></div>
+                        <div class="col-6 mb-3">
+                            <label class="form-label fw-bold">Loại</label>
                             <select id="tourType" class="form-select">
                                 <option value="Biển">Du lịch Biển</option>
                                 <option value="Núi">Du lịch Núi</option>
+                                <option value="Thành thị">Du lịch Thành thị</option>
+                                <option value="Nông thôn">Du lịch Nông thôn</option>
                                 <option value="Quốc tế">Quốc tế</option>
                             </select>
                         </div>
                     </div>
-
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Link Hình Ảnh</label>
-                        <input type="text" id="tourImg" class="form-control" placeholder="Dán link ảnh online vào đây">
-                        <div class="form-text">Gợi ý: Copy link ảnh từ Google và dán vào.</div>
-                    </div>
+                    <div class="mb-3"><label class="form-label fw-bold">Link Ảnh</label><input type="text" id="tourImg" class="form-control" placeholder="tour1.jpg hoặc link online"></div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-primary" id="btnSaveTour">Lưu thông tin</button>
+                <button type="button" class="btn btn-primary" id="btnSaveTour">Lưu</button>
             </div>
         </div>
     </div>
