@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const nameEl = document.querySelector(".admin-name");
     if(nameEl) nameEl.innerText = user.name;
 
-    // --- 3. KHỞI TẠO DỮ LIỆU TOUR (Nếu chưa có) ---
+    // --- 3. KHỞI TẠO DỮ LIỆU TOUR (ĐÃ THÊM T010) ---
     if (!localStorage.getItem("listTours")) {
         const initialTours = [
             { id: "T001", name: "Đà Lạt Ngàn Hoa", price: 1500000, type: "Núi", img: "tour1.jpg" },
@@ -46,7 +46,9 @@ document.addEventListener("DOMContentLoaded", function () {
             { id: "T006", name: "Nhật Bản Mùa Hoa", price: 25000000, type: "Quốc tế", img: "tour6.jpg" },
             { id: "T007", name: "Thái Lan Bangkok", price: 6500000, type: "Quốc tế", img: "tour7.jpg" },
             { id: "T008", name: "Miền Tây Sông Nước", price: 1200000, type: "Nông thôn", img: "tour8.jpg" },
-            { id: "T009", name: "Hà Nội Phố Cổ", price: 800000, type: "Thành thị", img: "tour9.jpg" }
+            { id: "T009", name: "Hà Nội Phố Cổ", price: 800000, type: "Thành thị", img: "tour9.jpg" },
+            // TOUR MỚI
+            { id: "T010", name: "Thanh Hóa - Sầm Sơn", price: 1800000, type: "Biển", img: "tour10.jpg" }
         ];
         localStorage.setItem("listTours", JSON.stringify(initialTours));
     }
