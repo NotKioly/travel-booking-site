@@ -1,70 +1,25 @@
 /* =========================================
-   MAIN.JS - GREENTRIP (FULL FINAL VERSION)
+   MAIN.JS - GREENTRIP (FIXED REGISTER)
    ========================================= */
 import { db } from "./firebase-config.js";
 import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// --- 1. CƠ SỞ DỮ LIỆU 9 TOUR (DATABASE FRONTEND) ---
+// --- 1. DỮ LIỆU TOUR ---
 const toursData = {
-    "T001": { 
-        name: "Đà Lạt - Thành Phố Ngàn Hoa", price: 1500000, duration: "3 Ngày 2 Đêm", location: "Lâm Đồng", type: "Núi",
-        img: "assets/img/tour1.jpg", 
-        highlights: ["Săn mây Cầu Đất", "Quảng trường Lâm Viên", "Vườn hoa Cẩm Tú Cầu", "Thác Datanla"],
-        itinerary: [{day:"Ngày 1", title:"TP.HCM - Đà Lạt", content:"Đón khách, di chuyển lên Đà Lạt. Tham quan Quảng trường Lâm Viên."}, {day:"Ngày 2", title:"Săn Mây", content:"Săn mây Cầu Đất. Chiều tham quan vườn hoa, Đường hầm điêu khắc."}, {day:"Ngày 3", title:"Thác Datanla", content:"Trải nghiệm máng trượt thác Datanla. Mua sắm đặc sản. Về TP.HCM."}]
-    },
-    "T002": { 
-        name: "Nha Trang - Biển Gọi", price: 2300000, duration: "3 Ngày 2 Đêm", location: "Khánh Hòa", type: "Biển",
-        img: "assets/img/tour2.jpg", 
-        highlights: ["Vinwonders", "Lặn ngắm san hô", "Tắm bùn khoáng", "Bar nổi"],
-        itinerary: [{day:"Ngày 1", title:"Vinwonders", content:"Tham quan Vinwonders, xem biểu diễn cá heo."}, {day:"Ngày 2", title:"3 Đảo", content:"Hòn Mun, Hòn Một. Tắm biển, lặn ngắm san hô."}, {day:"Ngày 3", title:"City Tour", content:"Tháp Bà Ponagar, Nhà thờ Núi. Mua sắm Chợ Đầm."}]
-    },
-    "T003": { 
-        name: "Phú Quốc - Đảo Ngọc", price: 3800000, duration: "4 Ngày 3 Đêm", location: "Kiên Giang", type: "Biển",
-        img: "assets/img/tour3.jpg", 
-        highlights: ["Cáp treo Hòn Thơm", "Grand World", "Bãi Sao", "Sunset Sanato"],
-        itinerary: [{day:"Ngày 1", title:"Grand World", content:"Đón sân bay. Tối tham quan Thành phố không ngủ."}, {day:"Ngày 2", title:"Nam Đảo", content:"Câu cá, lặn ngắm san hô tại Nam Đảo."}, {day:"Ngày 3", title:"Hòn Thơm", content:"Cáp treo vượt biển dài nhất thế giới. Công viên nước Aquatopia."}, {day:"Ngày 4", title:"Tạm biệt", content:"Tự do tắm biển, mua sắm. Tiễn sân bay."}]
-    },
-    "T004": { 
-        name: "Hạ Long - Kỳ Quan", price: 2500000, duration: "2 Ngày 1 Đêm", location: "Quảng Ninh", type: "Biển",
-        img: "assets/img/tour4.jpg", 
-        highlights: ["Du thuyền 5 sao", "Hang Sửng Sốt", "Đảo Ti Tốp", "Chèo Kayak"],
-        itinerary: [{day:"Ngày 1", title:"Vịnh Hạ Long", content:"Lên du thuyền, ăn trưa. Tham quan Hang Sửng Sốt."}, {day:"Ngày 2", title:"Ti Tốp", content:"Leo núi Ti Tốp ngắm toàn cảnh, tắm biển. Chèo Kayak."}]
-    },
-    "T005": { 
-        name: "Sapa - Fansipan Legend", price: 1800000, duration: "3 Ngày 2 Đêm", location: "Lào Cai", type: "Núi",
-        img: "assets/img/tour5.jpg", 
-        highlights: ["Đỉnh Fansipan", "Bản Cát Cát", "Nhà thờ Đá", "Thung lũng Mường Hoa"],
-        itinerary: [{day:"Ngày 1", title:"Hàm Rồng", content:"Xe giường nằm đi Sapa. Chiều leo núi Hàm Rồng."}, {day:"Ngày 2", title:"Fansipan", content:"Cáp treo chinh phục nóc nhà Đông Dương. Săn mây."}, {day:"Ngày 3", title:"Cát Cát", content:"Thăm bản làng người H'Mông. Tìm hiểu văn hóa bản địa."}]
-    },
-    "T006": { 
-        name: "Nhật Bản - Mùa Hoa", price: 25000000, duration: "5 Ngày 4 Đêm", location: "Nhật Bản", type: "Quốc tế",
-        img: "assets/img/tour6.jpg", 
-        highlights: ["Núi Phú Sĩ", "Chùa Vàng", "Phố cổ Kyoto", "Shopping Ginza"],
-        itinerary: [{day:"Ngày 1", title:"Tokyo", content:"Chùa Asakusa, tháp Tokyo Skytree."}, {day:"Ngày 2", title:"Núi Phú Sĩ", content:"Làng cổ Oshino Hakkai, tắm Onsen."}, {day:"Ngày 3", title:"Kyoto", content:"Chùa Vàng Kinkakuji, Rừng tre Arashiyama."}, {day:"Ngày 4", title:"Osaka", content:"Lâu đài Osaka. Mua sắm Shinsaibashi."}, {day:"Ngày 5", title:"Về VN", content:"Ra sân bay Kansai. Kết thúc chuyến đi."}]
-    },
-    "T007": { 
-        name: "Thái Lan - Bangkok Pattaya", price: 6500000, duration: "4 Ngày 3 Đêm", location: "Thái Lan", type: "Quốc tế",
-        img: "assets/img/tour7.jpg", 
-        highlights: ["Đảo Coral", "Chùa Phật Vàng", "Show Alcazar", "Buffet 86 tầng"],
-        itinerary: [{day:"Ngày 1", title:"Bangkok", content:"Bay đến Bangkok. Di chuyển đi Pattaya. Chợ Nổi."}, {day:"Ngày 2", title:"Đảo Coral", content:"Cano đi đảo Coral tắm biển. Massage Thái cổ truyền."}, {day:"Ngày 3", title:"Pattaya", content:"Trân Bảo Phật Sơn. Ăn Buffet Baiyoke Sky."}, {day:"Ngày 4", title:"Về VN", content:"Viếng Chùa Phật Vàng. Ra sân bay."}]
-    },
-    "T008": { 
-        name: "Miền Tây Sông Nước", price: 1200000, duration: "2 Ngày 1 Đêm", location: "Cần Thơ", type: "Nông thôn",
-        img: "assets/img/tour8.jpg", 
-        highlights: ["Chợ nổi Cái Răng", "Vườn trái cây", "Lò kẹo dừa", "Đờn ca tài tử"],
-        itinerary: [{day:"Ngày 1", title:"Mỹ Tho - Bến Tre", content:"Cồn Thới Sơn, đi xuồng ba lá, thăm lò kẹo dừa. Nghe đờn ca tài tử."}, {day:"Ngày 2", title:"Cần Thơ", content:"5h sáng đi chợ nổi Cái Răng. Tham quan vườn trái cây. Về TP.HCM."}]
-    },
-    "T009": { 
-        name: "Hà Nội - Phố Cổ", price: 800000, duration: "1 Ngày", location: "Hà Nội", type: "Thành thị",
-        img: "assets/img/tour9.jpg", 
-        highlights: ["Lăng Bác", "Hồ Gươm", "Văn Miếu", "Phố cổ", "Cafe Trứng"],
-        itinerary: [{day:"Sáng", title:"Lăng Bác", content:"Viếng Lăng Bác, Chùa Một Cột, Văn Miếu Quốc Tử Giám."}, {day:"Chiều", title:"Phố Cổ", content:"Dạo quanh Hồ Gươm, Đền Ngọc Sơn. Khám phá ẩm thực phố cổ."}]
-    }
+    "T001": { name: "Đà Lạt - Thành Phố Ngàn Hoa", price: 1500000, duration: "3N2Đ", location: "Lâm Đồng", type: "Núi", img: "assets/img/tour1.jpg", highlights: ["Săn mây Cầu Đất", "Quảng trường Lâm Viên", "Vườn hoa Cẩm Tú Cầu", "Thác Datanla"], itinerary: [{day:"Ngày 1", title:"TP.HCM - Đà Lạt", content:"Đón khách, di chuyển lên Đà Lạt."}, {day:"Ngày 2", title:"Săn Mây", content:"Săn mây Cầu Đất. Chiều tham quan vườn hoa."}, {day:"Ngày 3", title:"Thác Datanla", content:"Trải nghiệm máng trượt thác Datanla. Về TP.HCM."}] },
+    "T002": { name: "Nha Trang - Biển Gọi", price: 2300000, duration: "3N2Đ", location: "Khánh Hòa", type: "Biển", img: "assets/img/tour2.jpg", highlights: ["Vinwonders", "Lặn ngắm san hô", "Tắm bùn khoáng"], itinerary: [{day:"Ngày 1", title:"Vinwonders", content:"Tham quan Vinwonders."}, {day:"Ngày 2", title:"3 Đảo", content:"Hòn Mun, Hòn Một. Tắm biển."}, {day:"Ngày 3", title:"City Tour", content:"Tháp Bà Ponagar. Ra sân bay."}] },
+    "T003": { name: "Phú Quốc - Đảo Ngọc", price: 3800000, duration: "4N3Đ", location: "Kiên Giang", type: "Biển", img: "assets/img/tour3.jpg", highlights: ["Cáp treo Hòn Thơm", "Grand World", "Bãi Sao"], itinerary: [{day:"Ngày 1", title:"Grand World", content:"Đón sân bay. Tham quan Grand World."}, {day:"Ngày 2", title:"Nam Đảo", content:"Câu cá, lặn ngắm san hô."}, {day:"Ngày 3", title:"Hòn Thơm", content:"Cáp treo vượt biển."}, {day:"Ngày 4", title:"Tạm biệt", content:"Mua sắm ngọc trai. Tiễn sân bay."}] },
+    "T004": { name: "Hạ Long - Kỳ Quan", price: 2500000, duration: "2N1Đ", location: "Quảng Ninh", type: "Biển", img: "assets/img/tour4.jpg", highlights: ["Du thuyền 5 sao", "Hang Sửng Sốt", "Đảo Ti Tốp"], itinerary: [{day:"Ngày 1", title:"Vịnh Hạ Long", content:"Lên du thuyền, thăm hang động."}, {day:"Ngày 2", title:"Ti Tốp", content:"Leo núi, tắm biển, chèo Kayak."}] },
+    "T005": { name: "Sapa - Fansipan Legend", price: 1800000, duration: "3N2Đ", location: "Lào Cai", type: "Núi", img: "assets/img/tour5.jpg", highlights: ["Đỉnh Fansipan", "Bản Cát Cát", "Nhà thờ Đá"], itinerary: [{day:"Ngày 1", title:"Hàm Rồng", content:"Xe giường nằm đi Sapa. Leo núi Hàm Rồng."}, {day:"Ngày 2", title:"Fansipan", content:"Cáp treo chinh phục nóc nhà Đông Dương."}, {day:"Ngày 3", title:"Cát Cát", content:"Thăm bản làng H'Mông."}] },
+    "T006": { name: "Nhật Bản - Mùa Hoa", price: 25000000, duration: "5N4Đ", location: "Nhật Bản", type: "Quốc tế", img: "assets/img/tour6.jpg", highlights: ["Núi Phú Sĩ", "Chùa Vàng", "Phố cổ Kyoto"], itinerary: [{day:"Ngày 1", title:"Tokyo", content:"Đáp sân bay Narita. Tham quan Chùa Asakusa."}, {day:"Ngày 2", title:"Núi Phú Sĩ", content:"Làng cổ Oshino Hakkai, tắm Onsen."}, {day:"Ngày 3", title:"Kyoto", content:"Chùa Vàng, Rừng tre."}, {day:"Ngày 4", title:"Osaka", content:"Lâu đài Osaka."}, {day:"Ngày 5", title:"Về VN", content:"Ra sân bay Kansai."}] },
+    "T007": { name: "Thái Lan - Bangkok Pattaya", price: 6500000, duration: "4N3Đ", location: "Thái Lan", type: "Quốc tế", img: "assets/img/tour7.jpg", highlights: ["Đảo Coral", "Chùa Phật Vàng", "Show Alcazar"], itinerary: [{day:"Ngày 1", title:"Bangkok", content:"Bay đến Bangkok. Đi Pattaya."}, {day:"Ngày 2", title:"Đảo Coral", content:"Cano đi đảo Coral tắm biển."}, {day:"Ngày 3", title:"Pattaya", content:"Trân Bảo Phật Sơn. Buffet Baiyoke."}, {day:"Ngày 4", title:"Về VN", content:"Viếng Chùa Phật Vàng."}] },
+    "T008": { name: "Miền Tây Sông Nước", price: 1200000, duration: "2N1Đ", location: "Cần Thơ", type: "Nông thôn", img: "assets/img/tour8.jpg", highlights: ["Chợ nổi Cái Răng", "Vườn trái cây", "Lò kẹo dừa"], itinerary: [{day:"Ngày 1", title:"Mỹ Tho", content:"Cồn Thới Sơn, xuồng ba lá."}, {day:"Ngày 2", title:"Cần Thơ", content:"Chợ nổi Cái Răng, vườn trái cây."}] },
+    "T009": { name: "Hà Nội - Phố Cổ", price: 800000, duration: "1 Ngày", location: "Hà Nội", type: "Thành thị", img: "assets/img/tour9.jpg", highlights: ["Lăng Bác", "Hồ Gươm", "Văn Miếu", "Phố cổ"], itinerary: [{day:"Sáng", title:"Lăng Bác", content:"Viếng Lăng Bác, Chùa Một Cột."}, {day:"Chiều", title:"Phố Cổ", content:"Dạo quanh Hồ Gươm. Khám phá ẩm thực."}] }
 };
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    // --- 2. BANNER & BỘ LỌC THÔNG MINH ---
+    // --- 2. BANNER & TÌM KIẾM ---
     const myCarouselElement = document.querySelector('#heroCarousel');
     if (myCarouselElement) new bootstrap.Carousel(myCarouselElement, { interval: 3000, ride: 'carousel', wrap: true });
 
@@ -73,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const filterType = document.getElementById("filterType").value;
         const filterPrice = document.getElementById("filterPrice") ? document.getElementById("filterPrice").value : "all";
         
-        const items = document.querySelectorAll(".tour-item"); 
+        const items = document.querySelectorAll(".tour-item");
         let count = 0;
 
         items.forEach(item => {
@@ -98,7 +53,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-        // Hiện thông báo nếu không có kết quả
         const noRes = document.getElementById("noResults");
         if(noRes) noRes.style.display = count === 0 ? "block" : "none";
     }
@@ -106,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const searchInp = document.getElementById("searchTourInput");
     if(searchInp) searchInp.addEventListener("keyup", applyFilter);
 
-    // --- 3. TRANG CHI TIẾT (tour-detail.html) ---
+    // --- 3. TRANG CHI TIẾT ---
     const detailTitle = document.getElementById('detailTitle');
     if (detailTitle) {
         const params = new URLSearchParams(window.location.search);
@@ -126,15 +80,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const itinerary = document.getElementById('tourItinerary');
             tour.itinerary.forEach((it, i) => {
+                const show = i===0 ? "show" : "";
+                const collapsed = i===0 ? "" : "collapsed";
                 itinerary.innerHTML += `
-                <div class="accordion-item border-0 shadow-sm mb-3 rounded overflow-hidden">
-                    <h2 class="accordion-header"><button class="accordion-button ${i!==0?'collapsed':''} fw-bold bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#day${i}">
-                        <span class="badge bg-primary me-3">${it.day}</span> ${it.title}
-                    </button></h2>
-                    <div id="day${i}" class="accordion-collapse collapse ${i===0?'show':''}" data-bs-parent="#tourItinerary">
-                        <div class="accordion-body text-muted">${it.content}</div>
-                    </div>
-                </div>`;
+                    <div class="accordion-item border-0 shadow-sm mb-3 rounded overflow-hidden">
+                        <h2 class="accordion-header"><button class="accordion-button ${collapsed} fw-bold bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#day${i}">
+                            <span class="badge bg-primary me-3">${it.day}</span> ${it.title}
+                        </button></h2>
+                        <div id="day${i}" class="accordion-collapse collapse ${show}" data-bs-parent="#tourItinerary">
+                            <div class="accordion-body text-muted">${it.content}</div>
+                        </div>
+                    </div>`;
             });
 
             const btnBook = document.getElementById('btnBookNow');
@@ -144,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // --- 4. TRANG ĐẶT TOUR (booking.html - Gửi Firebase) ---
+    // --- 4. BOOKING ---
     const bookingForm = document.getElementById('bookingForm');
     if (bookingForm) {
         const tourId = new URLSearchParams(window.location.search).get('id');
@@ -183,15 +139,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     alert("✅ Đặt tour thành công! Admin sẽ liên hệ sớm.");
                     window.location.href = "index.html";
                 } catch (err) {
-                    alert("Lỗi kết nối! Vui lòng thử lại.");
+                    alert("Lỗi kết nối!");
                     btn.disabled = false;
-                    btn.innerText = "XÁC NHẬN ĐẶT TOUR";
                 }
             });
         }
     }
 
-    // --- 5. CHATBOT TỰ ĐỘNG ---
+    // --- 5. CHATBOT ---
     window.toggleChat = function() {
         const w = document.getElementById("chatWidget");
         w.style.display = (w.style.display === "none" || w.style.display === "") ? "block" : "none";
@@ -200,16 +155,12 @@ document.addEventListener("DOMContentLoaded", function () {
             showOptions(["💰 Giá tour", "📅 Lịch trình", "📞 Tư vấn viên"]);
         }
     }
-    
     window.handleChat = function(e) { if(e.key === "Enter") sendUserMessage(); }
-    
     window.handleOption = function(txt) { 
-        const body = document.getElementById("chatBody");
-        body.innerHTML += `<div class="message-user">${txt}</div>`;
-        body.scrollTop = body.scrollHeight;
+        document.getElementById("chatBody").innerHTML += `<div class="message-user">${txt}</div>`;
+        document.getElementById("chatBody").scrollTop = document.getElementById("chatBody").scrollHeight;
         setTimeout(() => { botReply(txt); }, 600);
     }
-
     window.sendUserMessage = function() {
         const inp = document.getElementById("chatInput");
         const txt = inp.value.trim();
@@ -219,11 +170,9 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("chatBody").scrollTop = document.getElementById("chatBody").scrollHeight;
         setTimeout(() => { botReply(txt); }, 800);
     }
-
     function botReply(txt) {
         const lower = txt.toLowerCase();
         let reply = "Để được hỗ trợ chi tiết, vui lòng liên hệ Hotline miễn phí bên dưới nhé!";
-        
         if(lower.includes("giá") || lower.includes("ưu đãi")) {
             reply = "GreenTrip đang giảm 10% cho nhóm trên 5 khách ạ! 🎁";
             addBotMsg(reply);
@@ -232,22 +181,16 @@ document.addEventListener("DOMContentLoaded", function () {
             reply = "Bạn muốn xem lịch trình vùng nào?";
             addBotMsg(reply);
             showOptions(["Miền Bắc", "Miền Tây", "Biển Đảo"]);
-        } else if(lower.includes("tư vấn") || lower.includes("gặp") || lower.includes("hotline")) {
-            reply = "Dạ, mời bạn liên hệ qua số điện thoại bên dưới ạ:";
-            addBotMsg(reply);
-            setTimeout(() => addBotMsg(`📞 <strong>0347.348.147</strong>`), 500);
         } else {
             addBotMsg(reply);
             setTimeout(() => addBotMsg(`📞 <strong>0347.348.147</strong>`), 500);
         }
     }
-
     function addBotMsg(html) {
         const b = document.getElementById("chatBody");
         b.innerHTML += `<div class="message-bot">${html}</div>`;
         b.scrollTop = b.scrollHeight;
     }
-    
     function showOptions(opts) {
         let html = `<div class="chat-options">`;
         opts.forEach(o => html += `<span class="chat-chip" onclick="handleOption('${o}')">${o}</span>`);
@@ -256,29 +199,52 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("chatBody").scrollTop = document.getElementById("chatBody").scrollHeight;
     }
 
-    // --- 6. ĐĂNG NHẬP (BẢO MẬT) ---
+    // --- 6. XỬ LÝ ĐĂNG KÝ (MỚI THÊM VÀO) ---
+    const registerForm = document.getElementById("registerForm");
+    if(registerForm) {
+        registerForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const name = document.getElementById("regName").value;
+            const email = document.getElementById("regEmail").value;
+            const pass = document.getElementById("regPass").value;
+            const terms = document.getElementById("terms");
+
+            if(!terms.checked) { alert("Bạn chưa đồng ý điều khoản!"); return; }
+
+            // Lấy danh sách user
+            let users = JSON.parse(localStorage.getItem("listUsers")) || [];
+            
+            // Check trùng email
+            if(users.find(u => u.email === email)) {
+                alert("Email này đã được đăng ký!"); return;
+            }
+
+            // Lưu user mới
+            users.push({ name: name, email: email, password: pass, role: "user", status: "active" });
+            localStorage.setItem("listUsers", JSON.stringify(users));
+
+            alert("Đăng ký thành công! Vui lòng đăng nhập.");
+            window.location.href = "login.html";
+        });
+    }
+
+    // --- 7. ĐĂNG NHẬP ---
     const loginForm = document.getElementById("loginForm");
-    if (loginForm) {
-        loginForm.addEventListener("submit", function (e) {
+    if(loginForm) {
+        loginForm.addEventListener("submit", (e) => {
             e.preventDefault();
             const email = document.getElementById('loginEmail').value;
             const pass = document.querySelector('input[type="password"]').value;
-
-            // Mã hóa Admin: admin@travel.com / admin123
-            const SEC_EMAIL = "YWRtaW5AdHJhdmVsLmNvbQ=="; 
-            const SEC_PASS = "YWRtaW4xMjM="; 
-
-            if (btoa(email) === SEC_EMAIL && btoa(pass) === SEC_PASS) {
-                localStorage.setItem("currentUser", JSON.stringify({ name: "Admin GreenTrip", role: "admin" }));
+            // Admin: admin@travel.com / admin123
+            if (btoa(email) === "YWRtaW5AdHJhdmVsLmNvbQ==" && btoa(pass) === "YWRtaW4xMjM=") {
+                localStorage.setItem("currentUser", JSON.stringify({name:"Admin", role:"admin"}));
                 window.location.href = "admin/dashboard.html";
             } else {
-                // Kiểm tra user thường
                 let users = JSON.parse(localStorage.getItem("listUsers")) || [];
                 const user = users.find(u => u.email === email && u.password === pass);
-                if (user) {
+                if(user) {
                     if(user.status === 'locked') { alert("Tài khoản bị khóa!"); return; }
                     localStorage.setItem("currentUser", JSON.stringify(user));
-                    alert(`Chào mừng ${user.name}!`);
                     window.location.href = "index.html";
                 } else {
                     alert("Sai thông tin đăng nhập!");
@@ -287,7 +253,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // --- 7. CHECK LOGIN MENU ---
+    // --- 8. CHECK LOGIN MENU ---
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     const authNav = document.querySelector(".navbar-nav .ms-2");
     if (currentUser && authNav) {
@@ -309,7 +275,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // --- 8. GÓP Ý (GỬI FIREBASE) ---
+    // --- 9. GÓP Ý ---
     const feedbackForm = document.getElementById("feedbackForm");
     if (feedbackForm) {
         feedbackForm.addEventListener("submit", async function(e){
