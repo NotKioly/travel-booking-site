@@ -1,5 +1,6 @@
 /* =========================================
    MAIN.JS - GREENTRIP (FULL FINAL VERSION)
+   Chức năng: Database Tour, Booking, Chatbot, Auth (Login/Register/Logout), Feedback
    ========================================= */
 import { db } from "./firebase-config.js";
 import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -98,7 +99,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-        // Hiện thông báo nếu không có kết quả
         const noRes = document.getElementById("noResults");
         if(noRes) noRes.style.display = count === 0 ? "block" : "none";
     }
@@ -126,15 +126,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const itinerary = document.getElementById('tourItinerary');
             tour.itinerary.forEach((it, i) => {
+                const show = i===0 ? "show" : "";
+                const collapsed = i===0 ? "" : "collapsed";
                 itinerary.innerHTML += `
-                <div class="accordion-item border-0 shadow-sm mb-3 rounded overflow-hidden">
-                    <h2 class="accordion-header"><button class="accordion-button ${i!==0?'collapsed':''} fw-bold bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#day${i}">
-                        <span class="badge bg-primary me-3">${it.day}</span> ${it.title}
-                    </button></h2>
-                    <div id="day${i}" class="accordion-collapse collapse ${i===0?'show':''}" data-bs-parent="#tourItinerary">
-                        <div class="accordion-body text-muted">${it.content}</div>
-                    </div>
-                </div>`;
+                    <div class="accordion-item border-0 shadow-sm mb-3 rounded overflow-hidden">
+                        <h2 class="accordion-header"><button class="accordion-button ${collapsed} fw-bold bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#day${i}">
+                            <span class="badge bg-primary me-3">${it.day}</span> ${it.title}
+                        </button></h2>
+                        <div id="day${i}" class="accordion-collapse collapse ${show}" data-bs-parent="#tourItinerary">
+                            <div class="accordion-body text-muted">${it.content}</div>
+                        </div>
+                    </div>`;
             });
 
             const btnBook = document.getElementById('btnBookNow');
@@ -251,7 +253,36 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("chatBody").scrollTop = document.getElementById("chatBody").scrollHeight;
     }
 
-    // --- 6. ĐĂNG NHẬP (BẢO MẬT) ---
+    // --- 6. XỬ LÝ ĐĂNG KÝ ---
+    const registerForm = document.getElementById("registerForm");
+    if(registerForm) {
+        registerForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const name = document.getElementById("regName").value;
+            const email = document.getElementById("regEmail").value;
+            const pass = document.getElementById("regPass").value;
+            const terms = document.getElementById("terms");
+
+            if(!terms.checked) { alert("Bạn chưa đồng ý điều khoản!"); return; }
+
+            // Lấy danh sách user
+            let users = JSON.parse(localStorage.getItem("listUsers")) || [];
+            
+            // Check trùng email
+            if(users.find(u => u.email === email)) {
+                alert("Email này đã được đăng ký!"); return;
+            }
+
+            // Lưu user mới
+            users.push({ name: name, email: email, password: pass, role: "user", status: "active" });
+            localStorage.setItem("listUsers", JSON.stringify(users));
+
+            alert("Đăng ký thành công! Vui lòng đăng nhập.");
+            window.location.href = "login.html";
+        });
+    }
+
+    // --- 7. ĐĂNG NHẬP (BẢO MẬT ADMIN) ---
     const loginForm = document.getElementById("loginForm");
     if(loginForm) {
         loginForm.addEventListener("submit", (e) => {
@@ -277,7 +308,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // --- 7. CHECK LOGIN MENU ---
+    // --- 8. CHECK TRẠNG THÁI ĐĂNG NHẬP & ĐĂNG XUẤT ---
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     const authNav = document.querySelector(".navbar-nav .ms-2");
     if (currentUser && authNav) {
@@ -293,13 +324,23 @@ document.addEventListener("DOMContentLoaded", function () {
                     <li><a class="dropdown-item text-danger" href="#" id="btnLogout">Đăng xuất</a></li>
                 </ul>
             </div>`;
-        document.getElementById("btnLogout").addEventListener("click", () => {
-            localStorage.removeItem("currentUser");
-            window.location.href = "index.html";
-        });
+            
+        // Gán sự kiện cho nút Đăng xuất vừa tạo
+        setTimeout(() => {
+            const btnLogout = document.getElementById("btnLogout");
+            if(btnLogout) {
+                btnLogout.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    if(confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+                        localStorage.removeItem("currentUser");
+                        window.location.href = "index.html";
+                    }
+                });
+            }
+        }, 500);
     }
 
-    // --- 8. GÓP Ý (GỬI FIREBASE) ---
+    // --- 9. GÓP Ý (GỬI FIREBASE) ---
     const feedbackForm = document.getElementById("feedbackForm");
     if (feedbackForm) {
         feedbackForm.addEventListener("submit", async function(e){
