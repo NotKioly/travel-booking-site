@@ -28,7 +28,7 @@
 
     <div class="bg-light py-5 text-center">
         <h2 class="fw-bold text-primary">Khám Phá Thế Giới Cùng GreenTrip</h2>
-        <p class="text-muted">Tuyển chọn 8 điểm đến hấp dẫn nhất 2025</p>
+        <p class="text-muted">Tuyển chọn 9 điểm đến hấp dẫn nhất 2025</p>
     </div>
 
     <div class="container py-5">
@@ -40,19 +40,21 @@
                         <label class="form-label small fw-bold text-muted">Tìm tên tour</label>
                         <div class="input-group">
                             <span class="input-group-text bg-white"><i class="fas fa-search text-primary"></i></span>
-                            <input type="text" id="searchTourInput" class="form-control border-start-0" placeholder="Ví dụ: Trung Quốc...">
+                            <input type="text" id="searchTourInput" class="form-control border-start-0" placeholder="Ví dụ: Miền Tây...">
                         </div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label small fw-bold text-muted">Loại hình</label>
-                        <select class="form-select">
+                        <select class="form-select" id="filterType">
                             <option value="Tất cả">Tất cả</option>
-                            <option value="Biển">Du lịch Biển</option>
-                            <option value="Núi">Du lịch Núi</option>
-                            <option value="Quốc tế">Quốc tế</option>
+                            <option value="Biển">Du lịch Biển/Đảo</option>
+                            <option value="Núi">Du lịch Miền núi</option>
+                            <option value="Thành thị">Du lịch Thành thị</option>
+                            <option value="Nông thôn">Du lịch Nông thôn</option>
+                            <option value="Quốc tế">Du lịch Quốc tế</option>
                         </select>
                     </div>
-                    <button class="btn btn-primary-custom text-white w-100 mt-2">Áp dụng</button>
+                    <button class="btn btn-primary-custom text-white w-100 mt-2" onclick="applyFilter()">Áp dụng</button>
                 </div>
             </div>
 
@@ -63,14 +65,14 @@
                         <div class="card tour-card h-100 shadow-sm">
                             <div class="tour-img-container">
                                 <span class="tour-badge bg-success">Núi</span>
-                                <img src="assets/img/tour1.jpg" alt="Đà Lạt">
+                                <img src="assets/img/tour1.jpg" onerror="this.src='https://via.placeholder.com/400x250'" alt="Đà Lạt">
                             </div>
                             <div class="card-body d-flex flex-column">
                                 <h5 class="tour-title">Đà Lạt Ngàn Hoa</h5>
                                 <p class="small text-muted mb-2"><i class="fas fa-map-marker-alt me-1"></i> Lâm Đồng (3N2Đ)</p>
                                 <div class="mt-auto d-flex justify-content-between align-items-center">
                                     <span class="tour-price">1,500,000đ</span>
-                                    <a href="tour-detail.html" class="btn btn-outline-custom btn-sm">Xem ngay</a>
+                                    <a href="tour-detail.html?id=T001" class="btn btn-outline-custom btn-sm">Xem ngay</a>
                                 </div>
                             </div>
                         </div>
@@ -80,14 +82,14 @@
                         <div class="card tour-card h-100 shadow-sm">
                             <div class="tour-img-container">
                                 <span class="tour-badge">Biển</span>
-                                <img src="assets/img/tour2.jpg" alt="Nha Trang">
+                                <img src="assets/img/tour2.jpg" onerror="this.src='https://via.placeholder.com/400x250'" alt="Nha Trang">
                             </div>
                             <div class="card-body d-flex flex-column">
                                 <h5 class="tour-title">Nha Trang Biển Gọi</h5>
                                 <p class="small text-muted mb-2"><i class="fas fa-map-marker-alt me-1"></i> Khánh Hòa (3N2Đ)</p>
                                 <div class="mt-auto d-flex justify-content-between align-items-center">
                                     <span class="tour-price">2,300,000đ</span>
-                                    <a href="tour-detail.html" class="btn btn-outline-custom btn-sm">Xem ngay</a>
+                                    <a href="tour-detail.html?id=T002" class="btn btn-outline-custom btn-sm">Xem ngay</a>
                                 </div>
                             </div>
                         </div>
@@ -96,15 +98,15 @@
                     <div class="col-md-6 col-lg-4">
                         <div class="card tour-card h-100 shadow-sm">
                             <div class="tour-img-container">
-                                <span class="tour-badge bg-warning">Cao cấp</span>
-                                <img src="assets/img/tour3.jpg" alt="Phú Quốc">
+                                <span class="tour-badge bg-warning">Biển</span>
+                                <img src="assets/img/tour3.jpg" onerror="this.src='https://via.placeholder.com/400x250'" alt="Phú Quốc">
                             </div>
                             <div class="card-body d-flex flex-column">
                                 <h5 class="tour-title">Phú Quốc Đảo Ngọc</h5>
                                 <p class="small text-muted mb-2"><i class="fas fa-map-marker-alt me-1"></i> Kiên Giang (4N3Đ)</p>
                                 <div class="mt-auto d-flex justify-content-between align-items-center">
                                     <span class="tour-price">3,800,000đ</span>
-                                    <a href="tour-detail.html" class="btn btn-outline-custom btn-sm">Xem ngay</a>
+                                    <a href="tour-detail.html?id=T003" class="btn btn-outline-custom btn-sm">Xem ngay</a>
                                 </div>
                             </div>
                         </div>
@@ -114,14 +116,14 @@
                         <div class="card tour-card h-100 shadow-sm">
                             <div class="tour-img-container">
                                 <span class="tour-badge">Biển</span>
-                                <img src="assets/img/tour4.jpg" alt="Hạ Long">
+                                <img src="assets/img/tour4.jpg" onerror="this.src='https://via.placeholder.com/400x250'" alt="Hạ Long">
                             </div>
                             <div class="card-body d-flex flex-column">
                                 <h5 class="tour-title">Du Thuyền Hạ Long</h5>
                                 <p class="small text-muted mb-2"><i class="fas fa-map-marker-alt me-1"></i> Quảng Ninh (2N1Đ)</p>
                                 <div class="mt-auto d-flex justify-content-between align-items-center">
                                     <span class="tour-price">2,500,000đ</span>
-                                    <a href="tour-detail.html" class="btn btn-outline-custom btn-sm">Xem ngay</a>
+                                    <a href="tour-detail.html?id=T004" class="btn btn-outline-custom btn-sm">Xem ngay</a>
                                 </div>
                             </div>
                         </div>
@@ -131,14 +133,14 @@
                         <div class="card tour-card h-100 shadow-sm">
                             <div class="tour-img-container">
                                 <span class="tour-badge bg-success">Núi</span>
-                                <img src="assets/img/tour5.jpg" alt="Sapa">
+                                <img src="assets/img/tour5.jpg" onerror="this.src='https://via.placeholder.com/400x250'" alt="Sapa">
                             </div>
                             <div class="card-body d-flex flex-column">
                                 <h5 class="tour-title">Sapa Fansipan</h5>
                                 <p class="small text-muted mb-2"><i class="fas fa-map-marker-alt me-1"></i> Lào Cai (3N2Đ)</p>
                                 <div class="mt-auto d-flex justify-content-between align-items-center">
                                     <span class="tour-price">1,800,000đ</span>
-                                    <a href="tour-detail.html" class="btn btn-outline-custom btn-sm">Xem ngay</a>
+                                    <a href="tour-detail.html?id=T005" class="btn btn-outline-custom btn-sm">Xem ngay</a>
                                 </div>
                             </div>
                         </div>
@@ -148,14 +150,14 @@
                         <div class="card tour-card h-100 shadow-sm">
                             <div class="tour-img-container">
                                 <span class="tour-badge bg-danger">Quốc tế</span>
-                                <img src="assets/img/tour6.jpg" alt="Nhật Bản">
+                                <img src="assets/img/tour6.jpg" onerror="this.src='https://via.placeholder.com/400x250'" alt="Nhật Bản">
                             </div>
                             <div class="card-body d-flex flex-column">
                                 <h5 class="tour-title">Nhật Bản Mùa Hoa</h5>
-                                <p class="small text-muted mb-2"><i class="fas fa-plane me-1"></i> Tokyo - Kyoto (5N4Đ)</p>
+                                <p class="small text-muted mb-2"><i class="fas fa-plane me-1"></i> Tokyo (5N4Đ)</p>
                                 <div class="mt-auto d-flex justify-content-between align-items-center">
                                     <span class="tour-price">25,000,000đ</span>
-                                    <a href="tour-detail.html" class="btn btn-outline-custom btn-sm">Xem ngay</a>
+                                    <a href="tour-detail.html?id=T006" class="btn btn-outline-custom btn-sm">Xem ngay</a>
                                 </div>
                             </div>
                         </div>
@@ -165,14 +167,14 @@
                         <div class="card tour-card h-100 shadow-sm">
                             <div class="tour-img-container">
                                 <span class="tour-badge bg-danger">Quốc tế</span>
-                                <img src="assets/img/tour7.jpg" alt="Thái Lan">
+                                <img src="assets/img/tour7.jpg" onerror="this.src='https://via.placeholder.com/400x250'" alt="Thái Lan">
                             </div>
                             <div class="card-body d-flex flex-column">
-                                <h5 class="tour-title">Thái Lan Bangkok</h5>
-                                <p class="small text-muted mb-2"><i class="fas fa-plane me-1"></i> Bangkok - Pattaya (4N3Đ)</p>
+                                <h5 class="tour-title">Thái Lan: Bangkok - Pattaya</h5>
+                                <p class="small text-muted mb-2"><i class="fas fa-plane me-1"></i> Thái Lan (4N3Đ)</p>
                                 <div class="mt-auto d-flex justify-content-between align-items-center">
                                     <span class="tour-price">6,500,000đ</span>
-                                    <a href="tour-detail.html" class="btn btn-outline-custom btn-sm">Xem ngay</a>
+                                    <a href="tour-detail.html?id=T007" class="btn btn-outline-custom btn-sm">Xem ngay</a>
                                 </div>
                             </div>
                         </div>
@@ -181,15 +183,32 @@
                     <div class="col-md-6 col-lg-4">
                         <div class="card tour-card h-100 shadow-sm">
                             <div class="tour-img-container">
-                                <span class="tour-badge bg-danger">Quốc tế</span>
-                                <img src="assets/img/tour8.jpg" onerror="this.src='https://via.placeholder.com/400x250'" alt="Trung Quốc">
+                                <span class="tour-badge bg-success" style="background-color: #8bc34a;">Nông thôn</span>
+                                <img src="assets/img/tour8.jpg" onerror="this.src='https://via.placeholder.com/400x250'" alt="Miền Tây">
                             </div>
                             <div class="card-body d-flex flex-column">
-                                <h5 class="tour-title">Trung Quốc: Bắc Kinh - Thượng Hải</h5>
-                                <p class="small text-muted mb-2"><i class="fas fa-plane me-1"></i> Trung Quốc (5N4Đ)</p>
+                                <h5 class="tour-title">Miền Tây Sông Nước</h5>
+                                <p class="small text-muted mb-2"><i class="fas fa-map-marker-alt me-1"></i> Cần Thơ - Tiền Giang (2N1Đ)</p>
                                 <div class="mt-auto d-flex justify-content-between align-items-center">
-                                    <span class="tour-price">18,900,000đ</span>
-                                    <a href="tour-detail.html" class="btn btn-outline-custom btn-sm">Xem ngay</a>
+                                    <span class="tour-price">1,200,000đ</span>
+                                    <a href="tour-detail.html?id=T008" class="btn btn-outline-custom btn-sm">Xem ngay</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card tour-card h-100 shadow-sm">
+                            <div class="tour-img-container">
+                                <span class="tour-badge bg-info">Thành thị</span>
+                                <img src="assets/img/tour9.jpg" onerror="this.src='https://via.placeholder.com/400x250'" alt="Hà Nội">
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="tour-title">Hà Nội - 36 Phố Phường</h5>
+                                <p class="small text-muted mb-2"><i class="fas fa-map-marker-alt me-1"></i> Hà Nội (1 Ngày)</p>
+                                <div class="mt-auto d-flex justify-content-between align-items-center">
+                                    <span class="tour-price">800,000đ</span>
+                                    <a href="tour-detail.html?id=T009" class="btn btn-outline-custom btn-sm">Xem ngay</a>
                                 </div>
                             </div>
                         </div>
