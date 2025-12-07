@@ -12,11 +12,11 @@
 
     <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="width: 100%; max-width: 900px;">
         <div class="row g-0">
-            <div class="col-lg-6 d-none d-lg-block" style="background: url('assets/img/banner.jpg') no-repeat center center; background-size: cover; min-height: 500px;">
-                <div class="h-100 w-100 bg-dark bg-opacity-25 d-flex align-items-center justify-content-center">
+            <div class="col-lg-6 d-none d-lg-block" style="background: url('assets/img/banner2.jpg') no-repeat center center; background-size: cover; min-height: 500px;">
+                <div class="h-100 w-100 bg-dark bg-opacity-40 d-flex align-items-center justify-content-center">
                     <div class="text-white text-center p-4">
-                        <h2 class="fw-bold">GreenTrip</h2>
-                        <p>Khám phá vẻ đẹp Việt Nam cùng chúng tôi.</p>
+                        <h2 class="fw-bold mb-3">GreenTrip ID</h2>
+                        <p class="mb-0">Kết nối hàng triệu trái tim yêu du lịch.</p>
                     </div>
                 </div>
             </div>
@@ -74,7 +74,6 @@
             e.preventDefault();
             const email = document.getElementById('loginEmail').value;
             if(email) {
-                // Chuyển sang trang đổi pass (Thực tế cần quy trình reset qua email, nhưng ở đây mô phỏng link)
                 window.location.href = `change-password.html?email=${encodeURIComponent(email)}`;
             } else {
                 alert("Vui lòng nhập Email của bạn trước khi bấm Quên mật khẩu!");
