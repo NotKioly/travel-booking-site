@@ -1,25 +1,25 @@
 /* =========================================
-   MAIN.JS - GREENTRIP (DISCOUNT LOGIC: 5->10%, 10->20%)
+   MAIN.JS - GREENTRIP (FULL FINAL FIXED)
    ========================================= */
 import { db } from "./firebase-config.js";
 import { collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // --- 1. DỮ LIỆU TOUR ---
 const toursData = {
-    "T001": { name: "Đà Lạt - Thành Phố Ngàn Hoa", price: 1500000, duration: "3N2Đ", location: "Lâm Đồng", type: "Núi", img: "assets/img/tour1.jpg", highlights: ["Săn mây Cầu Đất", "Quảng trường Lâm Viên", "Vườn hoa Cẩm Tú Cầu", "Thác Datanla"], itinerary: [{day:"Ngày 1", title:"TP.HCM - Đà Lạt", content:"Đón khách, di chuyển lên Đà Lạt. Tham quan Quảng trường Lâm Viên."}, {day:"Ngày 2", title:"Săn Mây", content:"Săn mây Cầu Đất. Chiều tham quan vườn hoa, Đường hầm điêu khắc."}, {day:"Ngày 3", title:"Thác Datanla", content:"Trải nghiệm máng trượt thác Datanla. Mua sắm đặc sản. Về TP.HCM."}] },
-    "T002": { name: "Nha Trang - Biển Gọi", price: 2300000, duration: "3N2Đ", location: "Khánh Hòa", type: "Biển", img: "assets/img/tour2.jpg", highlights: ["Vinwonders", "Lặn ngắm san hô", "Tắm bùn khoáng", "Bar nổi"], itinerary: [{day:"Ngày 1", title:"Vinwonders", content:"Tham quan Vinwonders, xem biểu diễn cá heo."}, {day:"Ngày 2", title:"3 Đảo", content:"Hòn Mun, Hòn Một. Tắm biển, lặn ngắm san hô."}, {day:"Ngày 3", title:"City Tour", content:"Tháp Bà Ponagar, Nhà thờ Núi. Mua sắm Chợ Đầm."}] },
-    "T003": { name: "Phú Quốc - Đảo Ngọc", price: 3800000, duration: "4N3Đ", location: "Kiên Giang", type: "Biển", img: "assets/img/tour3.jpg", highlights: ["Cáp treo Hòn Thơm", "Grand World", "Bãi Sao", "Sunset Sanato"], itinerary: [{day:"Ngày 1", title:"Grand World", content:"Đón sân bay. Tối tham quan Thành phố không ngủ."}, {day:"Ngày 2", title:"Nam Đảo", content:"Câu cá, lặn ngắm san hô tại Nam Đảo."}, {day:"Ngày 3", title:"Hòn Thơm", content:"Cáp treo vượt biển dài nhất thế giới. Công viên nước Aquatopia."}, {day:"Ngày 4", title:"Tạm biệt", content:"Tự do tắm biển, mua sắm. Tiễn sân bay."}] },
-    "T004": { name: "Hạ Long - Kỳ Quan", price: 2500000, duration: "2N1Đ", location: "Quảng Ninh", type: "Biển", img: "assets/img/tour4.jpg", highlights: ["Du thuyền 5 sao", "Hang Sửng Sốt", "Đảo Ti Tốp", "Chèo Kayak"], itinerary: [{day:"Ngày 1", title:"Vịnh Hạ Long", content:"Lên du thuyền, ăn trưa. Tham quan Hang Sửng Sốt."}, {day:"Ngày 2", title:"Ti Tốp", content:"Leo núi, tắm biển, chèo Kayak."}] },
-    "T005": { name: "Sapa - Fansipan Legend", price: 1800000, duration: "3N2Đ", location: "Lào Cai", type: "Núi", img: "assets/img/tour5.jpg", highlights: ["Đỉnh Fansipan", "Bản Cát Cát", "Nhà thờ Đá", "Thung lũng Mường Hoa"], itinerary: [{day:"Ngày 1", title:"Hàm Rồng", content:"Xe giường nằm đi Sapa. Chiều leo núi Hàm Rồng."}, {day:"Ngày 2", title:"Fansipan", content:"Cáp treo chinh phục nóc nhà Đông Dương. Săn mây."}, {day:"Ngày 3", title:"Cát Cát", content:"Thăm bản làng người H'Mông. Tìm hiểu văn hóa bản địa."}] },
-    "T006": { name: "Nhật Bản - Mùa Hoa", price: 25000000, duration: "5N4Đ", location: "Nhật Bản", type: "Quốc tế", img: "assets/img/tour6.jpg", highlights: ["Núi Phú Sĩ", "Chùa Vàng", "Phố cổ Kyoto", "Shopping Ginza"], itinerary: [{day:"Ngày 1", title:"Tokyo", content:"Đáp sân bay Narita. Tham quan Chùa Asakusa."}, {day:"Ngày 2", title:"Núi Phú Sĩ", content:"Làng cổ Oshino Hakkai, tắm Onsen."}, {day:"Ngày 3", title:"Kyoto", content:"Chùa Vàng Kinkakuji, Rừng tre Arashiyama."}, {day:"Ngày 4", title:"Osaka", content:"Lâu đài Osaka. Mua sắm Shinsaibashi."}, {day:"Ngày 5", title:"Về VN", content:"Ra sân bay Kansai. Kết thúc chuyến đi."}] },
-    "T007": { name: "Thái Lan - Bangkok Pattaya", price: 6500000, duration: "4 Ngày 3 Đêm", location: "Thái Lan", type: "Quốc tế", img: "assets/img/tour7.jpg", highlights: ["Đảo Coral", "Chùa Phật Vàng", "Show Alcazar", "Buffet 86 tầng"], itinerary: [{day:"Ngày 1", title:"Bangkok", content:"Bay đến Bangkok. Di chuyển đi Pattaya. Chợ Nổi."}, {day:"Ngày 2", title:"Đảo Coral", content:"Cano đi đảo Coral tắm biển. Massage Thái cổ truyền."}, {day:"Ngày 3", title:"Pattaya", content:"Trân Bảo Phật Sơn. Ăn Buffet Baiyoke Sky."}, {day:"Ngày 4", title:"Về VN", content:"Viếng Chùa Phật Vàng. Ra sân bay."}] },
-    "T008": { name: "Miền Tây Sông Nước", price: 1200000, duration: "2N1Đ", location: "Cần Thơ", type: "Nông thôn", img: "assets/img/tour8.jpg", highlights: ["Chợ nổi Cái Răng", "Vườn trái cây", "Lò kẹo dừa", "Đờn ca tài tử"], itinerary: [{day:"Ngày 1", title:"Mỹ Tho - Bến Tre", content:"Cồn Thới Sơn, đi xuồng ba lá, thăm lò kẹo dừa. Nghe đờn ca tài tử."}, {day:"Ngày 2", title:"Cần Thơ", content:"5h sáng đi chợ nổi Cái Răng. Tham quan vườn trái cây. Về TP.HCM."}] },
-    "T009": { name: "Hà Nội - Phố Cổ", price: 800000, duration: "1 Ngày", location: "Hà Nội", type: "Thành thị", img: "assets/img/tour9.jpg", highlights: ["Lăng Bác", "Hồ Gươm", "Văn Miếu", "Phố cổ", "Cafe Trứng"], itinerary: [{day:"Sáng", title:"Lăng Bác", content:"Viếng Lăng Bác, Chùa Một Cột, Văn Miếu Quốc Tử Giám."}, {day:"Chiều", title:"Phố Cổ", content:"Dạo quanh Hồ Gươm, Đền Ngọc Sơn. Khám phá ẩm thực phố cổ."}] }
+    "T001": { name: "Đà Lạt - Thành Phố Ngàn Hoa", price: 1500000, duration: "3 Ngày 2 Đêm", location: "Lâm Đồng", type: "Núi", img: "assets/img/tour1.jpg", highlights: ["Săn mây Cầu Đất", "Quảng trường Lâm Viên"], itinerary: [{day:"Ngày 1", title:"TP.HCM - Đà Lạt", content:"Đón khách, di chuyển lên Đà Lạt."}] },
+    "T002": { name: "Nha Trang - Biển Gọi", price: 2300000, duration: "3 Ngày 2 Đêm", location: "Khánh Hòa", type: "Biển", img: "assets/img/tour2.jpg", highlights: ["Vinwonders", "Lặn ngắm san hô"], itinerary: [{day:"Ngày 1", title:"Vinwonders", content:"Tham quan Vinwonders."}] },
+    "T003": { name: "Phú Quốc - Đảo Ngọc", price: 3800000, duration: "4 Ngày 3 Đêm", location: "Kiên Giang", type: "Biển", img: "assets/img/tour3.jpg", highlights: ["Cáp treo Hòn Thơm", "Grand World"], itinerary: [{day:"Ngày 1", title:"Grand World", content:"Đón sân bay."}] },
+    "T004": { name: "Hạ Long - Kỳ Quan", price: 2500000, duration: "2 Ngày 1 Đêm", location: "Quảng Ninh", type: "Biển", img: "assets/img/tour4.jpg", highlights: ["Du thuyền 5 sao", "Hang Sửng Sốt"], itinerary: [{day:"Ngày 1", title:"Hà Nội - Vịnh Hạ Long", content:"Lên du thuyền, ăn trưa."}] },
+    "T005": { name: "Sapa - Fansipan Legend", price: 1800000, duration: "3 Ngày 2 Đêm", location: "Lào Cai", type: "Núi", img: "assets/img/tour5.jpg", highlights: ["Đỉnh Fansipan", "Bản Cát Cát"], itinerary: [{day:"Ngày 1", title:"Hàm Rồng", content:"Xe giường nằm đi Sapa."}] },
+    "T006": { name: "Nhật Bản - Mùa Hoa", price: 25000000, duration: "5 Ngày 4 Đêm", location: "Nhật Bản", type: "Quốc tế", img: "assets/img/tour6.jpg", highlights: ["Núi Phú Sĩ", "Chùa Vàng"], itinerary: [{day:"Ngày 1", title:"Tokyo", content:"Đáp sân bay Narita."}] },
+    "T007": { name: "Thái Lan - Bangkok Pattaya", price: 6500000, duration: "4 Ngày 3 Đêm", location: "Thái Lan", type: "Quốc tế", img: "assets/img/tour7.jpg", highlights: ["Đảo Coral", "Chùa Phật Vàng"], itinerary: [{day:"Ngày 1", title:"Bangkok", content:"Bay đến Bangkok."}] },
+    "T008": { name: "Miền Tây Sông Nước", price: 1200000, duration: "2 Ngày 1 Đêm", location: "Cần Thơ", type: "Nông thôn", img: "assets/img/tour8.jpg", highlights: ["Chợ nổi Cái Răng", "Vườn trái cây"], itinerary: [{day:"Ngày 1", title:"Mỹ Tho", content:"Cồn Thới Sơn."}] },
+    "T009": { name: "Hà Nội - Phố Cổ", price: 800000, duration: "1 Ngày", location: "Hà Nội", type: "Thành thị", img: "assets/img/tour9.jpg", highlights: ["Lăng Bác", "Hồ Gươm"], itinerary: [{day:"Sáng", title:"Lăng Bác", content:"Viếng Lăng Bác."}] }
 };
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    // --- 2. BANNER & BỘ LỌC THÔNG MINH ---
+    // --- 2. BANNER & SEARCH ---
     const myCarouselElement = document.querySelector('#heroCarousel');
     if (myCarouselElement) new bootstrap.Carousel(myCarouselElement, { interval: 3000, ride: 'carousel', wrap: true });
 
@@ -28,9 +28,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const filterType = document.getElementById("filterType").value;
         const filterPrice = document.getElementById("filterPrice") ? document.getElementById("filterPrice").value : "all";
         
-        const items = document.querySelectorAll(".tour-item"); 
+        const items = document.querySelectorAll(".tour-item");
         let count = 0;
-
         items.forEach(item => {
             const title = item.querySelector(".tour-title").innerText.toLowerCase();
             const type = item.getAttribute("data-type");
@@ -45,28 +44,20 @@ document.addEventListener("DOMContentLoaded", function () {
             else if(filterPrice === "5-10") matchPrice = price > 5000000 && price <= 10000000;
             else if(filterPrice === "over-10") matchPrice = price > 10000000;
 
-            if (matchName && matchType && matchPrice) {
-                item.style.display = "block";
-                count++;
-            } else {
-                item.style.display = "none";
-            }
+            if (matchName && matchType && matchPrice) { item.style.display = "block"; count++; } 
+            else { item.style.display = "none"; }
         });
-
         const noRes = document.getElementById("noResults");
         if(noRes) noRes.style.display = count === 0 ? "block" : "none";
     }
-    
     const searchInp = document.getElementById("searchTourInput");
     if(searchInp) searchInp.addEventListener("keyup", applyFilter);
 
     // --- 3. TRANG CHI TIẾT ---
     const detailTitle = document.getElementById('detailTitle');
     if (detailTitle) {
-        const params = new URLSearchParams(window.location.search);
-        const tourId = params.get('id');
+        const tourId = new URLSearchParams(window.location.search).get('id');
         const tour = toursData[tourId];
-
         if (tour) {
             document.getElementById('breadcrumbName').innerText = tour.name;
             detailTitle.innerText = tour.name;
@@ -74,33 +65,23 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('detailDuration').innerText = tour.duration;
             document.getElementById('detailPrice').innerText = new Intl.NumberFormat('vi-VN').format(tour.price) + "đ";
             document.getElementById('detailImage').src = tour.img;
-
-            const highlights = document.getElementById('detailHighlights');
-            tour.highlights.forEach(h => highlights.innerHTML += `<div class="col-md-6 d-flex align-items-center mb-2"><i class="fas fa-check-circle text-success me-2"></i> ${h}</div>`);
-
-            const itinerary = document.getElementById('tourItinerary');
-            tour.itinerary.forEach((it, i) => {
-                const show = i===0 ? "show" : "";
-                const collapsed = i===0 ? "" : "collapsed";
-                itinerary.innerHTML += `
-                    <div class="accordion-item border-0 shadow-sm mb-3 rounded overflow-hidden">
-                        <h2 class="accordion-header"><button class="accordion-button ${collapsed} fw-bold bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#day${i}">
-                            <span class="badge bg-primary me-3">${it.day}</span> ${it.title}
-                        </button></h2>
-                        <div id="day${i}" class="accordion-collapse collapse ${show}" data-bs-parent="#tourItinerary">
-                            <div class="accordion-body text-muted">${it.content}</div>
-                        </div>
-                    </div>`;
+            
+            const hl = document.getElementById('detailHighlights');
+            tour.highlights.forEach(h => hl.innerHTML += `<div class="col-md-6 d-flex align-items-center mb-2"><i class="fas fa-check-circle text-success me-2"></i> ${h}</div>`);
+            
+            const it = document.getElementById('tourItinerary');
+            tour.itinerary.forEach((item, i) => {
+                it.innerHTML += `<div class="accordion-item border-0 shadow-sm mb-3 rounded overflow-hidden">
+                    <h2 class="accordion-header"><button class="accordion-button ${i!==0?'collapsed':''} fw-bold bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#day${i}">
+                    <span class="badge bg-primary me-3">${item.day}</span> ${item.title}</button></h2>
+                    <div id="day${i}" class="accordion-collapse collapse ${i===0?'show':''}" data-bs-parent="#tourItinerary"><div class="accordion-body text-muted">${item.content}</div></div>
+                </div>`;
             });
-
-            const btnBook = document.getElementById('btnBookNow');
-            if(btnBook) btnBook.href = `booking.html?id=${tourId}`;
-        } else {
-            detailTitle.innerText = "Không tìm thấy thông tin tour!";
+            document.getElementById('btnBookNow').href = `booking.html?id=${tourId}`;
         }
     }
 
-// --- 4. BOOKING & DISCOUNT LOGIC (CẬP NHẬT MỚI) ---
+    // --- 4. BOOKING & DISCOUNT LOGIC (ĐÃ SỬA LỖI & TỐI ƯU) ---
     const bookingForm = document.getElementById('bookingForm');
     if (bookingForm) {
         const tourId = new URLSearchParams(window.location.search).get('id');
@@ -112,35 +93,31 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('summaryDuration').innerText = tour.duration;
             document.getElementById('summaryPricePerPax').innerText = new Intl.NumberFormat('vi-VN').format(tour.price) + "đ";
 
-            // Elements
             const elTotal = document.getElementById('summaryTotal');
             const elDiscount = document.querySelector('.text-success span');
             const elDiscountLabel = document.querySelector('.text-success small');
 
-            // HÀM TÍNH TIỀN
             const calc = () => {
                 const count = parseInt(document.getElementById('numPeople').value) || 1;
                 let total = count * tour.price;
                 let discountAmount = 0;
-                let label = "ƯU ĐÃI HÈ";
 
-                // LOGIC GIẢM GIÁ
                 if (count >= 10) {
                     discountAmount = total * 0.2; // Giảm 20%
-                    label = "GIẢM 20% (NHÓM > 10)";
+                    elDiscountLabel.innerText = "GIẢM 20% (NHÓM > 10)";
                 } else if (count >= 5) {
                     discountAmount = total * 0.1; // Giảm 10%
-                    label = "GIẢM 10% (NHÓM > 5)";
+                    elDiscountLabel.innerText = "GIẢM 10% (NHÓM > 5)";
+                } else {
+                    elDiscountLabel.innerText = "ƯU ĐÃI HÈ";
                 }
 
                 if (discountAmount > 0) {
                     total = total - discountAmount;
                     elDiscount.innerText = `-${new Intl.NumberFormat('vi-VN').format(discountAmount)}đ`;
-                    elDiscountLabel.innerText = label;
                     elDiscount.parentElement.parentElement.classList.add("bg-success", "bg-opacity-10");
                 } else {
                     elDiscount.innerText = "-0đ";
-                    elDiscountLabel.innerText = "ƯU ĐÃI HÈ";
                     elDiscount.parentElement.parentElement.classList.remove("bg-success", "bg-opacity-10");
                 }
 
@@ -177,6 +154,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     }
+
     // --- 5. CHATBOT TỰ ĐỘNG ---
     window.toggleChat = function() {
         const w = document.getElementById("chatWidget");
@@ -229,6 +207,7 @@ document.addEventListener("DOMContentLoaded", function () {
         b.scrollTop = b.scrollHeight;
     }
     
+    // Đã thêm hàm showOptions bị thiếu ở code cũ
     function showOptions(opts) {
         let html = `<div class="chat-options">`;
         opts.forEach(o => html += `<span class="chat-chip" onclick="handleOption('${o}')">${o}</span>`);
@@ -237,13 +216,12 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("chatBody").scrollTop = document.getElementById("chatBody").scrollHeight;
     }
 
-    // --- 6. XỬ LÝ ĐĂNG KÝ (LIÊN KẾT FIREBASE) ---
+    // --- 6. XỬ LÝ ĐĂNG KÝ ---
     const registerForm = document.getElementById("registerForm");
     if(registerForm) {
         registerForm.addEventListener("submit", async (e) => {
             e.preventDefault();
             const btn = registerForm.querySelector("button[type='submit']");
-            const originalText = btn.innerText;
             btn.innerText = "Đang xử lý..."; btn.disabled = true;
 
             const name = document.getElementById("regName").value;
@@ -251,19 +229,15 @@ document.addEventListener("DOMContentLoaded", function () {
             const pass = document.getElementById("regPass").value;
             const terms = document.getElementById("terms");
 
-            if(!terms.checked) { 
-                alert("Bạn chưa đồng ý điều khoản!"); 
-                btn.innerText = originalText; btn.disabled = false;
-                return; 
-            }
+            if(!terms.checked) { alert("Bạn chưa đồng ý điều khoản!"); btn.disabled = false; return; }
 
             try {
                 const q = query(collection(db, "users"), where("email", "==", email));
                 const querySnapshot = await getDocs(q);
 
                 if (!querySnapshot.empty) {
-                    alert("Email này đã được đăng ký! Vui lòng dùng email khác.");
-                    btn.innerText = originalText; btn.disabled = false;
+                    alert("Email này đã được đăng ký!");
+                    btn.disabled = false; btn.innerText = "ĐĂNG KÝ NGAY";
                     return;
                 }
 
@@ -277,7 +251,7 @@ document.addEventListener("DOMContentLoaded", function () {
             } catch (error) {
                 console.error(error);
                 alert("Lỗi kết nối mạng!");
-                btn.innerText = originalText; btn.disabled = false;
+                btn.disabled = false;
             }
         });
     }
@@ -290,12 +264,14 @@ document.addEventListener("DOMContentLoaded", function () {
             const email = document.getElementById('loginEmail').value;
             const pass = document.querySelector('input[type="password"]').value;
             
+            // Admin Hardcode
             if (btoa(email) === "YWRtaW5AdHJhdmVsLmNvbQ==" && btoa(pass) === "YWRtaW4xMjM=") {
                 localStorage.setItem("currentUser", JSON.stringify({name:"Admin", role:"admin"}));
                 window.location.href = "admin/dashboard.html";
                 return;
             }
 
+            // User Firebase
             try {
                 const q = query(collection(db, "users"), where("email", "==", email), where("password", "==", pass));
                 const snap = await getDocs(q);
