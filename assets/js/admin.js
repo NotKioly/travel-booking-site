@@ -1,216 +1,287 @@
 /* =========================================
-   ADMIN JAVASCRIPT FILE - TRAVELSITE
-   Chức năng: Quản lý Tour, Booking, User & Bảo mật
+   ADMIN.JS - GREENTRIP (FULL DYNAMIC)
+   Chức năng: Dashboard, Tour, Booking, User, Feedback
+   Kết nối: Firebase Firestore
    ========================================= */
+
+import { db } from "./firebase-config.js";
+import { collection, onSnapshot, doc, deleteDoc, updateDoc, addDoc, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 document.addEventListener("DOMContentLoaded", function () {
     
-    // ==========================================
-    // 1. KIỂM TRA QUYỀN ADMIN (BẢO MẬT)
-    // ==========================================
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    
-    // Nếu chưa đăng nhập hoặc không phải admin -> Đá về trang login
-    if (!currentUser || currentUser.role !== "admin") {
-        alert("Bạn không có quyền truy cập trang này!");
+    // --- 0. BẢO MẬT: CHECK QUYỀN ADMIN ---
+    const user = JSON.parse(localStorage.getItem("currentUser"));
+    if (!user || user.role !== "admin") {
+        alert("Bạn không có quyền truy cập trang quản trị!");
         window.location.href = "../login.html";
-        return; // Dừng code
+        return;
     }
 
-    // Hiển thị tên Admin trên Sidebar (nếu có element)
-    const adminNameEl = document.querySelector(".admin-name");
-    if(adminNameEl) adminNameEl.innerText = currentUser.name;
+    // Hiển thị tên Admin
+    const nameEl = document.querySelector(".admin-name");
+    if(nameEl) nameEl.innerText = user.name;
 
-
-    // ==========================================
-    // 2. XỬ LÝ ĐĂNG XUẤT
-    // ==========================================
-    const logoutBtn = document.getElementById("adminLogoutBtn");
-    if(logoutBtn) {
-        logoutBtn.addEventListener("click", function(e){
-            e.preventDefault();
-            if(confirm("Đăng xuất khỏi trang quản trị?")) {
-                localStorage.removeItem("currentUser"); // Xóa session
-                window.location.href = "../index.html";
-            }
-        });
-    }
-
-    // ==========================================
-    // 3. QUẢN LÝ USER (ĐỒNG BỘ VỚI MAIN.JS)
-    // ==========================================
-    const userTableBody = document.getElementById("userTableBody");
-    if (userTableBody) {
-        renderUserTable();
-
-        // Hàm vẽ bảng user từ LocalStorage
-        function renderUserTable() {
-            const users = JSON.parse(localStorage.getItem("listUsers")) || [];
-            userTableBody.innerHTML = ""; // Xóa trắng cũ
-
-            users.forEach((user, index) => {
-                const row = document.createElement("tr");
-                // Xác định trạng thái (Mô phỏng: admin luôn active, user có thể bị khóa)
-                // Ở đây mình thêm thuộc tính 'status' vào user nếu chưa có
-                if(!user.status) user.status = "active"; 
-
-                const statusBadge = user.status === "active" 
-                    ? '<span class="text-success"><i class="fas fa-circle small"></i> Hoạt động</span>' 
-                    : '<span class="text-danger"><i class="fas fa-circle small"></i> Đã khóa</span>';
-                
-                const roleBadge = user.role === "admin" 
-                    ? '<span class="badge bg-danger">Admin</span>' 
-                    : '<span class="badge bg-primary">User</span>';
-
-                // Nút thao tác (Admin không được khóa chính mình)
-                let actionBtn = "";
-                if(user.role !== "admin") {
-                    if(user.status === "active") {
-                        actionBtn = `<button class="btn btn-sm btn-outline-danger btn-toggle-status" data-index="${index}" title="Khóa"><i class="fas fa-lock"></i></button>`;
-                    } else {
-                        actionBtn = `<button class="btn btn-sm btn-outline-success btn-toggle-status" data-index="${index}" title="Mở khóa"><i class="fas fa-unlock"></i></button>`;
-                    }
-                }
-
-                row.innerHTML = `
-                    <td>#${index + 1}</td>
-                    <td>${user.name}</td>
-                    <td>${user.email}</td>
-                    <td>${roleBadge}</td>
-                    <td>${statusBadge}</td>
-                    <td>${actionBtn}</td>
-                `;
-                userTableBody.appendChild(row);
-            });
+    // Đăng xuất
+    const logBtn = document.getElementById("adminLogoutBtn");
+    if(logBtn) logBtn.addEventListener("click", (e) => { 
+        e.preventDefault();
+        if(confirm("Đăng xuất khỏi hệ thống?")) {
+            localStorage.removeItem("currentUser"); 
+            window.location.href="../index.html"; 
         }
+    });
 
-        // Xử lý sự kiện click Khóa/Mở khóa
-        userTableBody.addEventListener("click", function(e) {
-            const btn = e.target.closest(".btn-toggle-status");
-            if(btn) {
-                const index = btn.getAttribute("data-index");
-                let users = JSON.parse(localStorage.getItem("listUsers"));
-                
-                // Đổi trạng thái
-                if(users[index].status === "active" || !users[index].status) {
-                    if(confirm(`Khóa tài khoản ${users[index].email}?`)) users[index].status = "locked";
-                } else {
-                    if(confirm(`Mở khóa tài khoản ${users[index].email}?`)) users[index].status = "active";
-                }
-                
-                localStorage.setItem("listUsers", JSON.stringify(users)); // Lưu lại
-                renderUserTable(); // Vẽ lại bảng
+    // ============================================================
+    // 1. DASHBOARD LOGIC (THỐNG KÊ REALTIME)
+    // ============================================================
+    const statTours = document.getElementById("stat-tours");
+    const statBookings = document.getElementById("stat-bookings");
+    const statFeedbacks = document.getElementById("stat-feedbacks");
+    const statCustomers = document.getElementById("stat-customers"); // Dùng đếm khách
+    const recentTable = document.getElementById("recentActivityTable");
+
+    if (statTours) { // Chỉ chạy nếu đang ở trang dashboard.html
+        
+        // A. Đếm Tour
+        onSnapshot(collection(db, "tours"), (snap) => {
+            statTours.innerText = snap.size;
+        });
+
+        // B. Đếm Feedback
+        onSnapshot(collection(db, "feedbacks"), (snap) => {
+            statFeedbacks.innerText = snap.size;
+        });
+
+        // C. Đếm Booking & Tính toán
+        // Query: Lấy đơn hàng mới nhất để hiện bảng Recent
+        const qRecent = query(collection(db, "bookings"), orderBy("createdAt", "desc"), limit(5));
+
+        onSnapshot(collection(db, "bookings"), (snap) => {
+            let pendingCount = 0;
+            let totalCustomers = snap.size; // Tạm tính tổng đơn là tổng khách
+
+            snap.forEach(doc => {
+                const data = doc.data();
+                if (data.status === 'pending') pendingCount++;
+            });
+
+            // Cập nhật số liệu lên Dashboard
+            statBookings.innerText = pendingCount;
+            statCustomers.innerText = totalCustomers;
+        });
+
+        // D. Bảng Hoạt động gần đây (Recent Activity)
+        onSnapshot(qRecent, (snap) => {
+            recentTable.innerHTML = "";
+            if (snap.empty) {
+                recentTable.innerHTML = `<tr><td colspan="4" class="text-center text-muted">Chưa có hoạt động nào</td></tr>`;
+            } else {
+                snap.forEach(doc => {
+                    const b = doc.data();
+                    const badge = b.status === 'confirmed' ? '<span class="badge bg-success">Đã duyệt</span>' : '<span class="badge bg-warning text-dark">Chờ duyệt</span>';
+                    
+                    recentTable.innerHTML += `
+                        <tr>
+                            <td><small class="text-muted">${b.createdAt}</small></td>
+                            <td><strong>${b.name}</strong></td>
+                            <td>${b.tourName}</td>
+                            <td>${badge}</td>
+                        </tr>
+                    `;
+                });
             }
         });
     }
 
-    // ==========================================
-    // 4. QUẢN LÝ TOUR (LOCAL STORAGE)
-    // ==========================================
+    // ============================================================
+    // 2. QUẢN LÝ TOUR (MANAGE-TOUR.HTML)
+    // ============================================================
     const tourTableBody = document.getElementById("tourTableBody");
-    const saveTourBtn = document.getElementById("saveTourBtn");
-
-    // Khởi tạo dữ liệu Tour mẫu nếu chưa có
-    if (!localStorage.getItem("listTours")) {
-        const initialTours = [
-            { id: "T001", name: "Nha Trang 3N2Đ", price: 2300000, type: "Biển", img: "tour1.jpg" },
-            { id: "T002", name: "Đà Lạt Ngàn Hoa", price: 1200000, type: "Núi", img: "tour2.jpg" }
-        ];
-        localStorage.setItem("listTours", JSON.stringify(initialTours));
-    }
+    const btnSaveTour = document.getElementById("btnSaveTour");
+    const btnOpenAddModal = document.getElementById("btnOpenAddModal");
+    let tourModal;
+    if(document.getElementById('tourModal')) tourModal = new bootstrap.Modal(document.getElementById('tourModal'));
 
     if (tourTableBody) {
-        renderTourTable();
-
-        function renderTourTable() {
-            const tours = JSON.parse(localStorage.getItem("listTours")) || [];
+        // Tải danh sách Tour từ Cloud
+        onSnapshot(collection(db, "tours"), (snap) => {
             tourTableBody.innerHTML = "";
-            
-            tours.forEach((tour, index) => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${tour.id}</td>
-                    <td><img src="../assets/img/${tour.img}" onerror="this.src='https://via.placeholder.com/60'" width="60" class="rounded"></td>
-                    <td>${tour.name}</td>
-                    <td>${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(tour.price)}</td>
-                    <td>${tour.type}</td>
+            snap.forEach((docSnap) => {
+                const t = docSnap.data();
+                tourTableBody.innerHTML += `
+                <tr>
+                    <td>${t.code || '...'}</td>
+                    <td><img src="${t.img}" width="60" class="rounded" onerror="this.src='https://via.placeholder.com/60'"></td>
+                    <td>${t.name}</td>
+                    <td>${new Intl.NumberFormat('vi-VN').format(t.price)} đ</td>
+                    <td>${t.type}</td>
                     <td>
-                        <button class="btn btn-sm btn-danger btn-delete-tour" data-index="${index}"><i class="fas fa-trash"></i></button>
+                        <button class="btn btn-sm btn-danger btn-del-tour" data-id="${docSnap.id}"><i class="fas fa-trash"></i></button>
                     </td>
-                `;
-                tourTableBody.appendChild(row);
+                </tr>`;
             });
-        }
-
-        // Thêm Tour Mới
-        if(saveTourBtn) {
-            saveTourBtn.addEventListener("click", function() {
-                const name = document.getElementById("tourNameInput").value;
-                const price = document.getElementById("tourPriceInput").value;
-                const type = document.getElementById("tourTypeSelect").value;
-
-                if(!name || !price) { alert("Vui lòng nhập đủ thông tin"); return; }
-
-                const tours = JSON.parse(localStorage.getItem("listTours")) || [];
-                const newTour = {
-                    id: "T" + Math.floor(Math.random() * 10000), // Random ID
-                    name: name,
-                    price: price,
-                    type: type,
-                    img: "tour1.jpg" // Ảnh mặc định
-                };
-
-                tours.push(newTour);
-                localStorage.setItem("listTours", JSON.stringify(tours));
-                
-                alert("Thêm tour thành công!");
-                renderTourTable();
-                
-                // Đóng modal (thủ công)
-                const modalEl = document.querySelector('#addTourModal');
-                const modal = bootstrap.Modal.getInstance(modalEl);
-                modal.hide();
-            });
-        }
+        });
 
         // Xóa Tour
-        tourTableBody.addEventListener("click", function(e){
-            const btn = e.target.closest(".btn-delete-tour");
-            if(btn) {
-                if(confirm("Xóa tour này?")) {
-                    const index = btn.getAttribute("data-index");
-                    let tours = JSON.parse(localStorage.getItem("listTours"));
-                    tours.splice(index, 1);
-                    localStorage.setItem("listTours", JSON.stringify(tours));
-                    renderTourTable();
+        tourTableBody.addEventListener("click", async (e) => {
+            if(e.target.closest(".btn-del-tour")) {
+                if(confirm("Bạn chắc chắn muốn xóa tour này vĩnh viễn?")) {
+                    const id = e.target.closest(".btn-del-tour").dataset.id;
+                    await deleteDoc(doc(db, "tours", id));
+                }
+            }
+        });
+
+        // Mở Modal Thêm mới
+        if(btnOpenAddModal) btnOpenAddModal.addEventListener("click", () => {
+            document.getElementById("tourForm").reset();
+            document.getElementById("modalTitle").innerText = "Thêm Tour Mới";
+            tourModal.show();
+        });
+
+        // Lưu Tour lên Cloud
+        if(btnSaveTour) btnSaveTour.addEventListener("click", async () => {
+            const name = document.getElementById("tourName").value;
+            const price = document.getElementById("tourPrice").value;
+            const type = document.getElementById("tourType").value;
+            let img = document.getElementById("tourImg").value || "https://via.placeholder.com/400x250";
+
+            if(!name || !price) { alert("Vui lòng nhập tên và giá!"); return; }
+
+            const btnText = btnSaveTour.innerText;
+            btnSaveTour.innerText = "Đang lưu...";
+            btnSaveTour.disabled = true;
+
+            try {
+                await addDoc(collection(db, "tours"), {
+                    code: "T" + Math.floor(Math.random() * 10000),
+                    name, price, type, img
+                });
+                alert("Thêm tour thành công!");
+                tourModal.hide();
+            } catch (err) {
+                alert("Lỗi lưu tour!");
+                console.error(err);
+            } finally {
+                btnSaveTour.innerText = btnText;
+                btnSaveTour.disabled = false;
+            }
+        });
+    }
+
+    // ============================================================
+    // 3. QUẢN LÝ BOOKING (MANAGE-BOOKING.HTML)
+    // ============================================================
+    const bookingTableBody = document.querySelector("#bookingTable tbody"); 
+    if (bookingTableBody) {
+        // Lấy danh sách booking, sắp xếp mới nhất lên đầu
+        const qBookings = query(collection(db, "bookings"), orderBy("createdAt", "desc"));
+
+        onSnapshot(qBookings, (snap) => {
+            bookingTableBody.innerHTML = "";
+            snap.forEach((docSnap) => {
+                const b = docSnap.data();
+                const isConfirmed = b.status === 'confirmed';
+                const badge = isConfirmed ? '<span class="badge bg-success">Đã xác nhận</span>' : '<span class="badge bg-warning text-dark">Chờ xác nhận</span>';
+                
+                // Nút thao tác: Nếu đã duyệt thì ẩn nút Check, hiện nút Xóa
+                const actions = `
+                    ${!isConfirmed ? `<button class="btn btn-sm btn-success btn-approve me-1" data-id="${docSnap.id}" title="Duyệt"><i class="fas fa-check"></i></button>` : ''}
+                    <button class="btn btn-sm btn-danger btn-del-booking" data-id="${docSnap.id}" title="Xóa"><i class="fas fa-trash"></i></button>
+                `;
+
+                bookingTableBody.innerHTML += `
+                <tr>
+                    <td>${b.createdAt}</td>
+                    <td><strong>${b.name}</strong><br><small class="text-muted">${b.phone}</small></td>
+                    <td>${b.tourName}<br><small>${b.people} khách</small></td>
+                    <td>${badge}</td>
+                    <td>${actions}</td>
+                </tr>`;
+            });
+        });
+
+        bookingTableBody.addEventListener("click", async (e) => {
+            const id = e.target.closest("button")?.dataset.id;
+            
+            // Duyệt đơn
+            if (e.target.closest(".btn-approve")) {
+                if(confirm("Xác nhận đơn đặt tour này?")) {
+                    await updateDoc(doc(db, "bookings", id), { status: "confirmed" });
+                }
+            }
+            // Xóa đơn
+            if (e.target.closest(".btn-del-booking")) {
+                if(confirm("Xóa vĩnh viễn đơn này?")) {
+                    await deleteDoc(doc(db, "bookings", id));
                 }
             }
         });
     }
 
-    // ==========================================
-    // 5. QUẢN LÝ BOOKING (MÔ PHỎNG)
-    // ==========================================
-    // Phần này xử lý sự kiện click đơn giản cho giao diện
-    const bookingTable = document.querySelector("#bookingTable");
-    if(bookingTable) {
-        bookingTable.addEventListener("click", function(e) {
-            // Nút duyệt
-            if(e.target.closest(".btn-approve")) {
-                const row = e.target.closest("tr");
-                row.querySelector(".badge").className = "badge bg-success";
-                row.querySelector(".badge").innerText = "Đã xác nhận";
-                alert("Đã duyệt đơn hàng!");
-                e.target.closest("td").innerHTML = '<i class="fas fa-check text-success"></i>';
+    // ============================================================
+    // 4. QUẢN LÝ GÓP Ý (MANAGE-FEEDBACK.HTML)
+    // ============================================================
+    const feedbackTableBody = document.getElementById("feedbackTableBody");
+    if (feedbackTableBody) {
+        onSnapshot(collection(db, "feedbacks"), (snap) => {
+            feedbackTableBody.innerHTML = "";
+            if(snap.empty) {
+                document.getElementById("noDataMsg").style.display = "block";
+                return;
+            } else {
+                document.getElementById("noDataMsg").style.display = "none";
             }
-            // Nút hủy
-            if(e.target.closest(".btn-reject")) {
-                if(confirm("Hủy đơn này?")) {
-                    const row = e.target.closest("tr");
-                    row.querySelector(".badge").className = "badge bg-danger";
-                    row.querySelector(".badge").innerText = "Đã hủy";
-                    e.target.closest("td").innerHTML = '<i class="fas fa-times text-danger"></i>';
-                }
+
+            snap.forEach((docSnap) => {
+                const f = docSnap.data();
+                feedbackTableBody.innerHTML += `
+                <tr>
+                    <td>${f.createdAt}</td>
+                    <td><strong>${f.name}</strong><br><small>${f.email}</small></td>
+                    <td>${f.subject}</td>
+                    <td>${f.message}</td>
+                    <td><button class="btn btn-sm btn-danger btn-del-fb" data-id="${docSnap.id}"><i class="fas fa-trash"></i></button></td>
+                </tr>`;
+            });
+        });
+        
+        feedbackTableBody.addEventListener("click", async (e) => {
+            if(e.target.closest(".btn-del-fb")) {
+                const id = e.target.closest(".btn-del-fb").dataset.id;
+                if(confirm("Xóa tin nhắn này?")) await deleteDoc(doc(db, "feedbacks", id));
+            }
+        });
+    }
+
+    // ============================================================
+    // 5. QUẢN LÝ USER (MANAGE-USER.HTML)
+    // Lưu ý: User vẫn dùng LocalStorage vì chưa tích hợp Firebase Auth
+    // ============================================================
+    const userTableBody = document.getElementById("userTableBody");
+    if (userTableBody) {
+        function renderUsers() {
+            const list = JSON.parse(localStorage.getItem("listUsers")) || [];
+            userTableBody.innerHTML = list.map((u, i) => `
+                <tr>
+                    <td>#${i+1}</td>
+                    <td>${u.name}</td>
+                    <td>${u.email}</td>
+                    <td>${u.role==='admin'?'<span class="badge bg-danger">Admin</span>':'<span class="badge bg-primary">User</span>'}</td>
+                    <td>${u.status==='active'?'<span class="text-success fw-bold">Active</span>':'<span class="text-danger fw-bold">Locked</span>'}</td>
+                    <td>${u.role!=='admin' ? `<button class="btn btn-sm ${u.status==='active'?'btn-outline-danger':'btn-outline-success'} btn-status" data-i="${i}"><i class="fas ${u.status==='active'?'fa-lock':'fa-unlock'}"></i></button>` : '-'}</td>
+                </tr>`).join('');
+        }
+        renderUsers();
+        
+        userTableBody.addEventListener("click", e => {
+            const btn = e.target.closest(".btn-status");
+            if(btn) {
+                const i = btn.dataset.i;
+                let list = JSON.parse(localStorage.getItem("listUsers"));
+                list[i].status = list[i].status === 'active' ? 'locked' : 'active';
+                localStorage.setItem("listUsers", JSON.stringify(list));
+                renderUsers();
             }
         });
     }
