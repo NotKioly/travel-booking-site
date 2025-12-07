@@ -8,32 +8,28 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <style>
-        /* Tùy chỉnh riêng cho Banner trang chủ để hiển thị tốt nhất */
+        /* Tùy chỉnh riêng cho Banner trang chủ */
         .hero-banner {
-            background-image: url('assets/img/banner1.jpg'); /* Đảm bảo file này tồn tại */
+            background-image: url('assets/img/banner1.jpg'); /* Đảm bảo file này đúng tên */
             height: 600px;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             position: relative;
         }
-        /* Trên điện thoại, giảm chiều cao banner cho gọn */
+        /* Mobile responsive */
         @media (max-width: 768px) {
-            .hero-banner {
-                height: 500px;
-            }
-            .hero-content h1 {
-                font-size: 2rem; /* Chữ nhỏ lại */
-            }
+            .hero-banner { height: 500px; }
+            .hero-content h1 { font-size: 2rem; }
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg sticky-top border-bottom">
+    <nav class="navbar navbar-expand-lg sticky-top border-bottom bg-white">
         <div class="container">
-            <a class="navbar-brand" href="index.html">
-                <i class="fas fa-globe-asia"></i> GreenTrip
+            <a class="navbar-brand fw-bold text-success" href="index.html">
+                <i class="fas fa-leaf me-2"></i> GreenTrip
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -44,7 +40,7 @@
                     <li class="nav-item"><a class="nav-link" href="tour.html">Danh sách Tour</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact.html">Liên hệ</a></li>
                     <li class="nav-item ms-2">
-                        <a href="login.html" class="btn btn-primary-custom btn-sm text-white px-3 shadow-sm">Đăng nhập</a>
+                        <a href="login.html" class="btn btn-outline-success btn-sm px-4 rounded-pill fw-bold">Đăng nhập</a>
                     </li>
                 </ul>
             </div>
@@ -61,18 +57,18 @@
                     <p class="lead text-white text-shadow mb-5 d-none d-md-block">Hơn 100 tour du lịch hấp dẫn đang chờ bạn khám phá</p>
                     
                     <div class="bg-white p-4 rounded-4 shadow-lg mx-auto search-box-banner w-100" style="max-width: 900px;">
-                        <form class="row g-3" action="tour.html">
+                        <form class="row g-3" action="tour.html" method="GET">
                             <div class="col-md-5">
                                 <div class="input-group">
                                     <span class="input-group-text bg-white border-end-0"><i class="fas fa-map-marker-alt text-success"></i></span>
-                                    <input type="text" class="form-control border-start-0" placeholder="Bạn muốn đi đâu?">
+                                    <input type="text" name="q" class="form-control border-start-0" placeholder="Bạn muốn đi đâu?">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="input-group">
                                     <span class="input-group-text bg-white border-end-0"><i class="fas fa-list text-success"></i></span>
-                                    <select class="form-select border-start-0">
-                                        <option selected>Tất cả loại hình</option>
+                                    <select name="type" class="form-select border-start-0">
+                                        <option value="Tất cả" selected>Tất cả loại hình</option>
                                         <option value="Biển">Du lịch Biển/Đảo</option>
                                         <option value="Núi">Du lịch Miền núi</option>
                                         <option value="Thành thị">Du lịch Thành thị</option>
@@ -83,7 +79,7 @@
                             </div>
                             <div class="col-md-3 d-grid">
                                 <button type="submit" class="btn btn-primary-custom text-white fw-bold">
-                                    <i class="fas fa-search me-2"></i>TÌM KIẾM
+                                    <i class="fas fa-search me-2"></i> TÌM KIẾM
                                 </button>
                             </div>
                         </form>
@@ -96,7 +92,7 @@
     <section class="py-5 bg-light">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="fw-bold text-primary">Điểm Đến Được Yêu Thích</h2>
+                <h2 class="fw-bold text-success">Điểm Đến Được Yêu Thích</h2>
                 <p class="text-muted">Những hành trình hấp dẫn nhất mùa này</p>
             </div>
             
@@ -179,9 +175,29 @@
         <a href="https://zalo.me/0347348147" target="_blank" class="btn-floating zalo-btn">
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/1200px-Icon_of_Zalo.svg.png" alt="Zalo">
         </a>
-        <a href="tel:0347348147" class="btn-floating call-btn">
+        <a href="#" class="btn-floating call-btn" onclick="toggleChat(); return false;">
             <i class="fas fa-phone-alt"></i>
         </a>
+    </div>
+
+    <div id="chatWidget" class="chat-widget shadow-lg">
+        <div class="chat-header text-white p-3 d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" width="30" class="me-2 rounded-circle bg-white p-1">
+                <span class="fw-bold ms-2">CSKH GreenTrip</span>
+            </div>
+            <button type="button" class="btn-close btn-close-white" onclick="toggleChat()"></button>
+        </div>
+        <div class="chat-body p-3" id="chatBody">
+            </div>
+        <div class="chat-footer p-2 border-top">
+            <div class="input-group">
+                <input type="text" id="chatInput" class="form-control border-0" placeholder="Nhập tin nhắn..." onkeypress="handleChat(event)">
+                <button class="btn btn-primary-custom text-white rounded-circle ms-2" onclick="sendUserMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
     </div>
 
     <footer class="bg-dark text-white py-4 mt-0 text-center">
