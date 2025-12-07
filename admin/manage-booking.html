@@ -8,10 +8,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
     <style>
-        /* Admin Sidebar Style */
-        .sidebar { min-height: 100vh; background-color: #064e3b; color: #fff; } 
-        .sidebar a { color: #d1fae5; text-decoration: none; padding: 12px 20px; display: block; font-weight: 500; } 
-        .sidebar a:hover, .sidebar a.active { background-color: #059669; color: #fff; border-left: 4px solid #f59e0b; }
+        :root { --sidebar-bg: #0f172a; --sidebar-hover: #1e293b; --card-radius: 16px; }
+        body { background-color: #f8fafc; }
+
+        /* Sidebar Style (Đồng bộ Dashboard) */
+        .sidebar { min-height: 100vh; background-color: var(--sidebar-bg); color: #94a3b8; box-shadow: 4px 0 20px rgba(0,0,0,0.05); }
+        .sidebar .nav-link { color: #cbd5e1; padding: 14px 24px; font-weight: 500; transition: all 0.2s ease; border-right: 3px solid transparent; }
+        .sidebar .nav-link:hover { color: #fff; background-color: var(--sidebar-hover); }
+        .sidebar .nav-link.active { color: #10b981; background-color: #1e293b; border-right-color: #10b981; font-weight: 600; }
+        
+        /* Table Style */
+        .table-card { border-radius: var(--card-radius); border: none; overflow: hidden; }
+        .table thead th { background-color: #f1f5f9; color: #475569; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; padding: 16px 24px; border-bottom: none; }
+        .table tbody td { padding: 16px 24px; vertical-align: middle; border-bottom-color: #f1f5f9; color: #334155; }
+        .table-hover tbody tr:hover { background-color: #f8fafc; }
     </style>
 </head>
 <body>
@@ -19,46 +29,70 @@
 <div class="container-fluid">
     <div class="row">
         <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse show p-0">
-            <div class="py-4 text-center border-bottom border-secondary">
-                <h4 class="fw-bold text-uppercase mb-0">GreenTrip</h4>
-                <small class="text-white-50">Admin Panel</small>
+            <div class="py-4 px-4 mb-2 border-bottom border-secondary border-opacity-25">
+                <h4 class="fw-bold text-white mb-0 d-flex align-items-center">
+                    <i class="fas fa-leaf text-success me-2"></i> GreenTrip
+                </h4>
+                <small class="d-block mt-1 text-xs">Admin Dashboard</small>
             </div>
-            <div class="position-sticky pt-3">
-                <div class="px-3 mb-3 text-white small">Xin chào, <span class="admin-name fw-bold text-warning">Admin</span></div>
+            
+            <div class="pt-3">
+                <div class="px-4 mb-4">
+                    <div class="d-flex align-items-center p-3 rounded-3" style="background: rgba(255,255,255,0.05);">
+                        <div class="bg-success rounded-circle d-flex align-items-center justify-content-center text-white fw-bold me-3" style="width: 36px; height: 36px;">A</div>
+                        <div><div class="text-white fw-bold small">Admin System</div><div class="text-xs text-success"><i class="fas fa-circle fa-xs me-1"></i> Online</div></div>
+                    </div>
+                </div>
+
                 <ul class="nav flex-column">
-                    <li class="nav-item"><a class="nav-link" href="dashboard.html"><i class="fas fa-chart-line me-2"></i> Tổng quan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="manage-tour.html"><i class="fas fa-plane me-2"></i> Quản lý Tour</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="manage-booking.html"><i class="fas fa-file-invoice me-2"></i> Đơn đặt tour</a></li>
-                    <li class="nav-item"><a class="nav-link" href="manage-user.html"><i class="fas fa-users me-2"></i> Người dùng</a></li>
-                    <li class="nav-item"><a class="nav-link" href="manage-feedback.html"><i class="fas fa-comments me-2"></i> Góp ý</a></li>
-                    <li class="nav-item mt-4"><a class="nav-link text-danger bg-dark bg-opacity-25" href="#" id="adminLogoutBtn"><i class="fas fa-sign-out-alt me-2"></i> Đăng xuất</a></li>
+                    <li class="nav-item"><a class="nav-link" href="dashboard.html"><i class="fas fa-th-large w-25"></i> Tổng quan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="manage-tour.html"><i class="fas fa-map w-25"></i> Quản lý Tour</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="manage-booking.html"><i class="fas fa-receipt w-25"></i> Đơn đặt tour</a></li>
+                    <li class="nav-item"><a class="nav-link" href="manage-user.html"><i class="fas fa-users w-25"></i> Khách hàng</a></li>
+                    <li class="nav-item"><a class="nav-link" href="manage-feedback.html"><i class="fas fa-comment-alt w-25"></i> Phản hồi</a></li>
+                    <li class="nav-item mt-5 px-4"><a href="#" id="adminLogoutBtn" class="btn btn-danger w-100 d-flex align-items-center justify-content-center gap-2 py-2"><i class="fas fa-power-off"></i> <span>Đăng xuất</span></a></li>
                 </ul>
             </div>
         </nav>
 
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4 bg-light">
-            <h2 class="text-primary fw-bold mb-4">Danh sách Đơn đặt tour</h2>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+            
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-4 mb-4">
+                <div>
+                    <h2 class="fw-bold text-dark mb-1">Quản Lý Đơn Hàng</h2>
+                    <p class="text-muted mb-0">Xem và xử lý các yêu cầu đặt tour mới nhất.</p>
+                </div>
+                <button class="btn btn-sm btn-success shadow-sm">
+                    <i class="fas fa-file-export me-1"></i> Xuất Excel
+                </button>
+            </div>
 
-            <div class="card shadow-sm border-0">
+            <div class="card table-card shadow-sm">
                 <div class="card-body p-0">
                     <div class="table-responsive">
                         <table class="table table-hover align-middle mb-0" id="bookingTable">
-                            <thead class="bg-success text-white">
+                            <thead>
                                 <tr>
-                                    <th>Thời gian</th>
+                                    <th class="ps-4">Thời gian</th>
                                     <th>Khách hàng</th>
                                     <th>Thông tin Tour</th>
                                     <th>Trạng thái</th>
-                                    <th>Hành động</th>
+                                    <th class="text-end pe-4">Hành động</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr><td colspan="5" class="text-center py-4 text-muted">Đang tải dữ liệu...</td></tr>
+                                <tr>
+                                    <td colspan="5" class="text-center py-5 text-muted">
+                                        <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
+                                        Đang tải dữ liệu đơn hàng...
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+
         </main>
     </div>
 </div>
