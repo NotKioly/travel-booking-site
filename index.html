@@ -20,12 +20,16 @@
             .hero-banner { height: 500px; }
             .hero-content h1 { font-size: 2rem; }
         }
-        /* Style cho ảnh thành viên */
+        
+        /* Style cho ảnh thành viên (Căn chỉnh chuẩn) */
         .team-img {
-            width: 120px; height: 120px;
-            object-fit: cover;
+            width: 120px; 
+            height: 120px;
+            object-fit: cover; /* Đảm bảo ảnh không bị méo */
             border: 4px solid #ecfdf5;
             transition: transform 0.3s;
+            display: block;
+            margin: 0 auto 15px auto; /* Căn giữa ảnh */
         }
         .team-card:hover .team-img {
             transform: scale(1.1);
@@ -126,7 +130,7 @@
                         <div class="position-absolute bottom-0 end-0 bg-white p-4 rounded-top-4 shadow me-4 mb-n4 d-none d-md-block text-center border-bottom border-4 border-success">
                             <i class="fas fa-award fa-2x text-warning mb-2"></i>
                             <h6 class="fw-bold text-dark mb-0">Top 10 Agency</h6>
-                            <small class="text-muted">Uy tín năm 2025</small>
+                            <small class="text-muted">Uy tín năm 2024</small>
                         </div>
                     </div>
                 </div>
@@ -157,7 +161,7 @@
                 <div class="col-md-6 col-lg-3">
                     <div class="card team-card border-0 shadow-sm text-center h-100 pt-4">
                         <div class="card-body">
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" class="rounded-circle team-img mb-3 shadow-sm" alt="Member">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" class="rounded-circle team-img mb-3 shadow-sm mx-auto" alt="Member">
                             <h5 class="fw-bold text-dark mb-1">Trần Văn An</h5>
                             <p class="text-success small fw-bold mb-3">CEO & Founder</p>
                             <p class="text-muted small">15 năm kinh nghiệm quản lý lữ hành quốc tế.</p>
@@ -167,7 +171,7 @@
                 <div class="col-md-6 col-lg-3">
                     <div class="card team-card border-0 shadow-sm text-center h-100 pt-4">
                         <div class="card-body">
-                            <img src="https://randomuser.me/api/portraits/women/44.jpg" class="rounded-circle team-img mb-3 shadow-sm" alt="Member">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" class="rounded-circle team-img mb-3 shadow-sm mx-auto" alt="Member">
                             <h5 class="fw-bold text-dark mb-1">Lê Thị Bích</h5>
                             <p class="text-success small fw-bold mb-3">Trưởng Phòng Điều Hành</p>
                             <p class="text-muted small">Chuyên gia thiết kế tour độc lạ và trải nghiệm.</p>
@@ -177,7 +181,7 @@
                 <div class="col-md-6 col-lg-3">
                     <div class="card team-card border-0 shadow-sm text-center h-100 pt-4">
                         <div class="card-body">
-                            <img src="https://randomuser.me/api/portraits/men/85.jpg" class="rounded-circle team-img mb-3 shadow-sm" alt="Member">
+                            <img src="https://randomuser.me/api/portraits/men/85.jpg" class="rounded-circle team-img mb-3 shadow-sm mx-auto" alt="Member">
                             <h5 class="fw-bold text-dark mb-1">Phạm Quốc Hưng</h5>
                             <p class="text-success small fw-bold mb-3">Hướng Dẫn Viên Trưởng</p>
                             <p class="text-muted small">Am hiểu văn hóa, nhiệt tình và hài hước.</p>
@@ -187,7 +191,7 @@
                 <div class="col-md-6 col-lg-3">
                     <div class="card team-card border-0 shadow-sm text-center h-100 pt-4">
                         <div class="card-body">
-                            <img src="https://randomuser.me/api/portraits/women/65.jpg" class="rounded-circle team-img mb-3 shadow-sm" alt="Member">
+                            <img src="https://randomuser.me/api/portraits/women/65.jpg" class="rounded-circle team-img mb-3 shadow-sm mx-auto" alt="Member">
                             <h5 class="fw-bold text-dark mb-1">Nguyễn Thu Hà</h5>
                             <p class="text-success small fw-bold mb-3">CSKH & Tư Vấn</p>
                             <p class="text-muted small">Luôn lắng nghe và hỗ trợ khách hàng 24/7.</p>
