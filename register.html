@@ -13,37 +13,54 @@
     <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="width: 100%; max-width: 500px;">
         <div class="card-body p-5">
             <div class="text-center mb-4">
-                <h3 class="fw-bold text-primary">Tạo Tài Khoản</h3>
+                <a href="index.html" class="text-decoration-none mb-3 d-block">
+                    <i class="fas fa-globe-asia fa-3x text-success"></i>
+                </a>
+                <h3 class="fw-bold text-success">Tạo Tài Khoản</h3>
                 <p class="text-muted small">Bắt đầu hành trình của bạn với GreenTrip</p>
             </div>
 
             <form id="registerForm">
                 <div class="mb-3">
                     <label class="form-label small fw-bold text-muted">Họ và tên</label>
-                    <input type="text" class="form-control" placeholder="Nguyễn Văn A" required>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0"><i class="fas fa-user text-success"></i></span>
+                        <input type="text" id="regName" class="form-control border-start-0" placeholder="Nguyễn Văn A" required>
+                    </div>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label small fw-bold text-muted">Email</label>
-                    <input type="email" class="form-control" placeholder="email@example.com" required>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0"><i class="fas fa-envelope text-success"></i></span>
+                        <input type="email" id="regEmail" class="form-control border-start-0" placeholder="name@example.com" required>
+                    </div>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label small fw-bold text-muted">Mật khẩu</label>
-                    <input type="password" class="form-control" placeholder="Tối thiểu 6 ký tự" required>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0"><i class="fas fa-lock text-success"></i></span>
+                        <input type="password" id="regPass" class="form-control border-start-0" placeholder="Tối thiểu 6 ký tự" required>
+                    </div>
                 </div>
 
                 <div class="mb-3 form-check">
                     <input type="checkbox" class="form-check-input" id="terms" required>
-                    <label class="form-check-label small text-muted" for="terms">Tôi đồng ý với <a href="#">Điều khoản sử dụng</a></label>
+                    <label class="form-check-label small text-muted" for="terms">
+                        Tôi đồng ý với <a href="#" class="text-success text-decoration-none">Điều khoản sử dụng</a>
+                    </label>
                 </div>
 
                 <div class="d-grid mb-3">
-                    <button type="submit" class="btn btn-primary-custom text-white py-2">Đăng Ký</button>
+                    <button type="submit" class="btn btn-primary-custom text-white py-2 fw-bold shadow-sm">
+                        ĐĂNG KÝ NGAY
+                    </button>
                 </div>
 
                 <div class="text-center">
-                    <p class="small text-muted">Đã có tài khoản? <a href="login.html" class="fw-bold text-primary text-decoration-none">Đăng nhập</a></p>
+                    <p class="small text-muted">Đã có tài khoản? <a href="login.html" class="fw-bold text-success text-decoration-none">Đăng nhập</a></p>
+                    <hr>
                     <a href="index.html" class="small text-muted text-decoration-none"><i class="fas fa-arrow-left me-1"></i> Về trang chủ</a>
                 </div>
             </form>
