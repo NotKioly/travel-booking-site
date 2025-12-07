@@ -5,7 +5,7 @@
 import { db } from "./firebase-config.js";
 import { collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// --- 1. CƠ SỞ DỮ LIỆU 9 TOUR ---
+// --- 1. CƠ SỞ DỮ LIỆU 10 TOUR (ĐÃ THÊM T010) ---
 const toursData = {
     "T001": { 
         name: "Đà Lạt - Thành Phố Ngàn Hoa", price: 1500000, duration: "3 Ngày 2 Đêm", location: "Lâm Đồng", type: "Núi",
@@ -60,12 +60,20 @@ const toursData = {
         img: "assets/img/tour9.jpg", 
         highlights: ["Lăng Bác", "Hồ Gươm", "Văn Miếu", "Phố cổ", "Cafe Trứng"],
         itinerary: [{day:"Sáng", title:"Lăng Bác", content:"Viếng Lăng Bác, Chùa Một Cột, Văn Miếu Quốc Tử Giám."}, {day:"Chiều", title:"Phố Cổ", content:"Dạo quanh Hồ Gươm, Đền Ngọc Sơn. Khám phá ẩm thực phố cổ."}]
+    },
+    // <--- TOUR MỚI ĐƯỢC THÊM VÀO ---
+    "T010": { 
+        name: "Thanh Hóa - Biển Sầm Sơn", price: 1800000, duration: "3 Ngày 2 Đêm", location: "Thanh Hóa", type: "Biển",
+        img: "assets/img/tour10.jpg", 
+        highlights: ["Biển Sầm Sơn", "Hòn Trống Mái", "Đền Độc Cước", "Hải sản tươi"],
+        itinerary: [{day:"Ngày 1", title:"Hà Nội - Sầm Sơn", content:"Đón khách, di chuyển đến Sầm Sơn. Tắm biển và ăn hải sản."}, {day:"Ngày 2", title:"Núi Trường Lệ", content:"Tham quan Hòn Trống Mái, viếng Đền Độc Cước trên núi. Tối dạo biển."}, {day:"Ngày 3", title:"Tạm biệt", content:"Mua sắm đặc sản địa phương (Nem chua, bánh gai). Trở về."}]
     }
 };
+// ------------------------------------
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    // --- 2. BANNER & BỘ LỌC THÔNG MINH ---
+    // --- 2. BANNER & BỘ LỌC THÔNG MINH (Đã có FIX cho filterPrice) ---
     const myCarouselElement = document.querySelector('#heroCarousel');
     if (myCarouselElement) new bootstrap.Carousel(myCarouselElement, { interval: 3000, ride: 'carousel', wrap: true });
 
@@ -80,7 +88,8 @@ document.addEventListener("DOMContentLoaded", function () {
         items.forEach(item => {
             const title = item.querySelector(".tour-title").innerText.toLowerCase();
             const type = item.getAttribute("data-type");
-            const price = parseInt(item.getAttribute("data-price"));
+            // Cần đảm bảo tour-item có data-price="[giá]"
+            const price = parseInt(item.getAttribute("data-price")); 
 
             const matchName = title.includes(searchText);
             const matchType = filterType === "Tất cả" || filterType === "all" || type === filterType;
@@ -102,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const searchInp = document.getElementById("searchTourInput");
     if(searchInp) searchInp.addEventListener("keyup", applyFilter);
     
-    // [FIX LỖI] Gán sự kiện cho bộ lọc mức giá và loại hình
+    // FIX: Gán sự kiện cho bộ lọc mức giá và loại hình
     const filterPriceSelect = document.getElementById("filterPrice");
     if (filterPriceSelect) {
         filterPriceSelect.addEventListener("change", window.applyFilter);
@@ -153,7 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // --- 4. BOOKING & GIẢM GIÁ (CẬP NHẬT) ---
+    // --- 4. BOOKING & GIẢM GIÁ (ĐÃ CÓ FIX TỔNG CỘNG) ---
     const bookingForm = document.getElementById('bookingForm');
     if (bookingForm) {
         const tourId = new URLSearchParams(window.location.search).get('id');
