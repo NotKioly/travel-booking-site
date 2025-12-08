@@ -7,7 +7,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// 2. Cấu hình của bạn (Đã điền sẵn)
 const firebaseConfig = {
   apiKey: "AIzaSyBJUUgPSrWJhvh22gZ5-5X-EDm6fEwoFj4",
   authDomain: "greentrip-web.firebaseapp.com",
