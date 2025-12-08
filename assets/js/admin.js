@@ -1,12 +1,11 @@
 /* =========================================
-   ADMIN.JS - GREENTRIP (FIXED LOGOUT)
+   ADMIN.JS - GREENTRIP
    ========================================= */
 import { db } from "./firebase-config.js";
 import { collection, onSnapshot, doc, deleteDoc, updateDoc, query, orderBy, limit, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 document.addEventListener("DOMContentLoaded", function () {
     
-    // --- 1. XỬ LÝ ĐĂNG XUẤT (Ưu tiên chạy trước) ---
     const logBtn = document.getElementById("adminLogoutBtn");
     if(logBtn) {
         logBtn.addEventListener("click", function(e) {
